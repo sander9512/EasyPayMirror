@@ -1,4 +1,17 @@
 <resources>
-    <string name="app_name">EasyPay</string>
+    <string name="app_name">Ea$yPay</string>
     <string name="Order">Bestel</string>
+    <string name="balance">Saldo</string>
+
+    <string name="balance_wallet">Saldo: </string>
+    <string name="balance_increase">Saldo opwaarderen</string>
+    <string name="balance_refund">Salde terugvragen</string>
+
+    <string name="balance_wallet_increase">Huidig saldo: </string>
+    <string name="balance_wallet_aincrease">Saldo na opwaardering: </string>
+    <string name="balance_increase_10">€10,-</string>
+    <string name="balance_increase_25">€25,-</string>
+    <string name="balance_increase_50">€50,-</string>
+    <string name="balance_increase_100">€100,-</string>
+    <string name="balance_increase_confirm">Bevestigen</string>
 </resources>

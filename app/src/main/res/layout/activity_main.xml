@@ -56,6 +56,7 @@
             android:layout_height="match_parent">
 
             <Button
+                android:text="@string/balance"
                 android:layout_marginTop="@dimen/button"
                 android:layout_marginRight="@dimen/button"
                 android:id="@+id/button"
