@@ -35,6 +35,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="270dp"
         android:layout_height="90dp"
+        android:id="@+id/balance_wallet_torefund"
         android:textSize="17dp"
         android:text="@string/balance_refund"
         android:background="@drawable/button" />

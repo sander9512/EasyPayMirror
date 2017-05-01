@@ -14,4 +14,8 @@
     <string name="balance_increase_50">€50,-</string>
     <string name="balance_increase_100">€100,-</string>
     <string name="balance_increase_confirm">Bevestigen</string>
+
+    <string name="balance_refund_question">Weet u zeker dat u uw saldo wil terugboeken?</string>
+    <string name="balance_refund_confirm">Bevestigen</string>
+    <string name="balance_refund_cancel">Annuleren</string>
 </resources>
