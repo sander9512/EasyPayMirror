@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">EasyPay</string>
-    <string name="Order">Bestel</string>
+    <string name="order">Bestel</string>
+    <string name="overview">Overzicht</string>
+    <string name="balance">Saldo</string>
+    <string name="account">Account</string>
 </resources>
