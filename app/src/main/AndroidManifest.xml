@@ -16,10 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DrinksAndFoodActivity"></activity>
-        <activity android:name=".BalanceActivity"></activity>
-        <activity android:name=".IncreaseBalanceActivity"></activity>
-        <activity android:name=".RefundBalanceActivity"></activity>
+        <activity android:name=".DrinksAndFoodActivity" />
+        <activity android:name=".BalanceActivity" />
+        <activity android:name=".IncreaseBalanceActivity" />
+        <activity android:name=".RefundBalanceActivity" />
+        <activity android:name=".UserDataActivity"></activity>
     </application>
 
 </manifest>

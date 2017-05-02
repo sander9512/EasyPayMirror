@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DrinksAndFoodActivity.class);
         startActivity(intent);
     }
+
+    public void accountButton(View v) {
+        Intent intent = new Intent(this, UserDataActivity.class);
+        startActivity(intent);
+    }
 }
