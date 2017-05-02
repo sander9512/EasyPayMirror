@@ -20,7 +20,7 @@ public class RefundBalanceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RefundBalanceActivity.this, BalanceActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -29,7 +29,7 @@ public class RefundBalanceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RefundBalanceActivity.this, BalanceActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }
