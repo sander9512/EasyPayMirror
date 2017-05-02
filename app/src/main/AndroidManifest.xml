@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".DrinksAndFoodActivity"></activity>
+        <activity android:name=".BalanceActivity"></activity>
+        <activity android:name=".IncreaseBalanceActivity"></activity>
+        <activity android:name=".RefundBalanceActivity"></activity>
     </application>
 
 </manifest>
