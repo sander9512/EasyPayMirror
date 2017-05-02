@@ -20,4 +20,7 @@
     <string name="balance_refund_question">Weet u zeker dat u uw saldo wil terugboeken?</string>
     <string name="balance_refund_confirm">Bevestigen</string>
     <string name="balance_refund_cancel">Annuleren</string>
+    <string name="title_activity_tabbed">TabbedActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
