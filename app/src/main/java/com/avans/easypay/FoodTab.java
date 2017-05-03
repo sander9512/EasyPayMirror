@@ -12,6 +12,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,10 +26,12 @@ public class FoodTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab_food, container, false);
+        FrameLayout footerLayout = (FrameLayout) inflater.inflate(R.layout.footer_tabs,null);
         products = new ArrayList<>();
         createTestProducts();
         ProductAdapter adapter = new ProductAdapter(this.getActivity(), inflater, products);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);
+        listview_food.addFooterView(footerLayout);
         listview_food.setAdapter(adapter);
 
         return rootView;
