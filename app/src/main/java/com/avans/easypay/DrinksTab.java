@@ -28,12 +28,12 @@ public class DrinksTab extends Fragment {
         ProductAdapter adapter = new ProductAdapter(this.getActivity(),inflater,products);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
         listview_drinks.setAdapter(adapter);
-        listview_drinks.addFooterView(footerLayout);
+        //listview_drinks.addFooterView(footerLayout);
         createTestProducts();
         return rootView;
     }
     private void createTestProducts() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             Product product = new Product("","",1);
             products.add(product);
         }

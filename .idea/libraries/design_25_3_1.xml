@@ -1,8 +1,11 @@
 <component name="libraryTable">
   <library name="design-25.3.1">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/annotations.zip!/" />
+    </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/49e0790f4a317487311000ab9ce2a1228edf5966/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/49e0790f4a317487311000ab9ce2a1228edf5966/output/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/design/25.3.1/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

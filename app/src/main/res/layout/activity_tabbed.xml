@@ -31,12 +31,56 @@
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout2"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:orientation="horizontal" >
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="50dp"
+    android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+    android:id="@+id/products_amount_textview"
+    android:text="Amount of items: 0"
+    android:textStyle="bold"
+    android:textSize="15dp"/>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/products_amount_textview"
+    android:layout_marginRight="50dp"
+    android:layout_marginTop="15dp"
+    android:id="@+id/subtotal"
+    android:text="Subtotal: €0,00"
+    android:textStyle="bold"
+    android:textSize="15dp"/>
+
+    <ImageButton
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_toRightOf="@+id/subtotal"
+    android:id="@+id/orderbutton"
+    android:background="@drawable/ic_shopping_cart_black_24dp"
+    />
+    </LinearLayout>
+</RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

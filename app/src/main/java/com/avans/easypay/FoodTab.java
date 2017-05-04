@@ -31,13 +31,13 @@ public class FoodTab extends Fragment {
         createTestProducts();
         ProductAdapter adapter = new ProductAdapter(this.getActivity(), inflater, products);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);
-        listview_food.addFooterView(footerLayout);
+        //listview_food.addFooterView(footerLayout);
         listview_food.setAdapter(adapter);
 
         return rootView;
     }
     private void createTestProducts() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             Product product = new Product("","",1);
             products.add(product);
         }
