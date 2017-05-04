@@ -13,9 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="40dp"
-        android:layout_weight="1"
-        android:divider="#BE6D79"
-        android:dividerHeight="3dp" />
+        android:layout_weight="1" />
 
 
 
