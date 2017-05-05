@@ -33,7 +33,7 @@
                 android:layout_weight="10"
                 android:text="Gebruikersnaam:"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -41,7 +41,7 @@
                 android:layout_weight="16"
                 android:text="Jojopay"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
                 android:layout_weight="10"
                 android:text="Wachtwoord:"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -71,7 +71,7 @@
                 android:layout_weight="16"
                 android:text="**********"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -86,12 +86,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/user_data_row_size"
                 android:layout_weight="10"
                 android:text="Email:"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="0dp"
@@ -99,7 +100,7 @@
                 android:layout_weight="16"
                 android:text="jojopay@easypay.cash"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -120,7 +121,7 @@
                 android:layout_weight="10"
                 android:text="Bankrekeningnr:"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:layout_width="0dp"
@@ -128,7 +129,7 @@
                 android:layout_weight="16"
                 android:text="NL99 RABO 0123 4455 67"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
