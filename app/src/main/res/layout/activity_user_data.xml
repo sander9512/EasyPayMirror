@@ -14,7 +14,7 @@
         android:layout_marginBottom="24dp"
         android:text="Accountgegevens"
         android:textColor="#000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,6 +33,7 @@
                 android:layout_weight="10"
                 android:text="Gebruikersnaam:"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <TextView
@@ -63,6 +64,7 @@
                 android:layout_weight="10"
                 android:text="Wachtwoord:"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <TextView
@@ -92,6 +94,7 @@
                 android:layout_weight="10"
                 android:text="Email:"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <EditText
@@ -121,6 +124,7 @@
                 android:layout_weight="10"
                 android:text="Bankrekeningnr:"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <EditText
