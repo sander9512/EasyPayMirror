@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/header_margin"
-        android:text="Registreren"
+        android:text="@string/register_signup"
         android:textColor="#000"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -22,126 +22,118 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/fab_margin">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/firstname_required_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="* Voornaam"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/lastname_required_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="* Achternaam"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/username_required_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="* Gebruikersnaam"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/password_required_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="* Wachtwoord"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/email_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="Email"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="@string/banknumber_signup"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/leftRightMain"
-                    android:text="Bankrekeningnummer"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:background="@drawable/edittext"
+                android:padding="4dp"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:background="@drawable/edittext"
-                    android:padding="4dp"
-                    android:textSize="14sp" />
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                android:onClick="signupBtn"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:text="@string/signup_login" />
 
-
-                <Button
-                    android:id="@+id/login_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/button"
-                    android:onClick="signupBtn"
-                    android:paddingEnd="20dp"
-                    android:paddingStart="20dp"
-                    android:text="Aanmelden" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 

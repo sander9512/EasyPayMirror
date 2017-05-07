@@ -131,14 +131,14 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                 if (!emailEditable) {
                     emailInput.setEnabled(true);
                     emailInput.requestFocus();
-                    emailEditBtn.setBackgroundResource(R.drawable.ic_check_24dp);
+                    emailEditBtn.setBackgroundResource(R.drawable.ic_check);
                     emailEditable = true;
 
                     //confirm changes, set email uneditable
                 } else {
                     emailInput.setEnabled(false);
                     emailInput.clearFocus();
-                    emailEditBtn.setBackgroundResource(R.drawable.ic_mode_editable_24dp);
+                    emailEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     emailEditable = false;
                     if (!currentEmail.equals(emailInput.getText().toString().trim())) {
                         Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
@@ -152,14 +152,14 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                 if (!bankNumberEditable) {
                     bankNumberInput.setEnabled(true);
                     bankNumberInput.requestFocus();
-                    bankNumberEditBtn.setBackgroundResource(R.drawable.ic_check_24dp);
+                    bankNumberEditBtn.setBackgroundResource(R.drawable.ic_check);
                     bankNumberEditable = true;
 
                     //confirm changes, set banknumber uneditable
                 } else {
                     bankNumberInput.setEnabled(false);
                     bankNumberInput.clearFocus();
-                    bankNumberEditBtn.setBackgroundResource(R.drawable.ic_mode_editable_24dp);
+                    bankNumberEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     bankNumberEditable = false;
                     if (!currentBankNumber.equals(bankNumberInput.getText().toString().trim())) {
                         Toast.makeText(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();

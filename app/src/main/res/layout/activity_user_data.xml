@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/header_margin"
-        android:text="Accountgegevens"
+        android:text="@string/userdata_userdata"
         android:textColor="#000"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -34,7 +34,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="10"
-                    android:text="Voornaam:"
+                    android:text="@string/firstname_userdata"
                     android:textColor="#000"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_data_editable_24dp"
+                    android:background="@drawable/ic_data_editable"
                     android:visibility="invisible" />
 
             </LinearLayout>
@@ -70,7 +70,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="10"
-                        android:text="Achternaam:"
+                        android:text="@string/lastname_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -87,7 +87,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_data_editable_24dp"
+                        android:background="@drawable/ic_data_editable"
                         android:visibility="invisible" />
 
                 </LinearLayout>
@@ -101,7 +101,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="10"
-                        android:text="Gebruikersnaam:"
+                        android:text="@string/username_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -118,7 +118,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_data_editable_24dp"
+                        android:background="@drawable/ic_data_editable"
                         android:visibility="invisible" />
 
                 </LinearLayout>
@@ -133,7 +133,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="10"
-                        android:text="Wachtwoord:"
+                        android:text="@string/password_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -151,7 +151,7 @@
                         android:id="@+id/password_edit_btn"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/ic_mode_editable_24dp" />
+                        android:background="@drawable/ic_data_editable" />
 
                 </LinearLayout>
 
@@ -164,7 +164,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:text="Email:"
+                        android:text="@string/email_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -174,7 +174,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="16"
-                        android:background="@drawable/uneditable_edittext"
+                        android:background="@drawable/edittext_uneditable"
                         android:inputType="textEmailAddress"
                         android:padding="4dp"
                         android:text="jojopay@easypay.cash"
@@ -186,7 +186,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/ic_mode_editable_24dp" />
+                        android:background="@drawable/ic_data_editable" />
 
                 </LinearLayout>
 
@@ -199,7 +199,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:text="Bankrekeningnr:"
+                        android:text="@string/banknumber_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -209,7 +209,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="16"
-                        android:background="@drawable/uneditable_edittext"
+                        android:background="@drawable/edittext_uneditable"
                         android:padding="4dp"
                         android:text="NL99 RABO 0123 4455 67"
                         android:textColor="#000"
@@ -220,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/ic_mode_editable_24dp" />
+                        android:background="@drawable/ic_data_editable" />
 
                 </LinearLayout>
 
@@ -243,7 +243,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:text="Nieuw wachtwoord:"
+                        android:text="@string/new_password_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -271,7 +271,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="10"
-                        android:text="Wachtwoord herh:"
+                        android:text="@string/wachtwoord_herh_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -302,7 +302,7 @@
                         android:layout_marginTop="@dimen/leftRightMain"
                         android:layout_weight="10"
                         android:background="@drawable/button"
-                        android:text="Wachtwoord bevestigen" />
+                        android:text="@string/confirm_password_userdata" />
 
                     <Button
                         android:id="@+id/cancel_password_btn"
@@ -312,7 +312,7 @@
                         android:layout_marginTop="@dimen/leftRightMain"
                         android:layout_weight="1"
                         android:background="@drawable/button"
-                        android:text="Annuleren" />
+                        android:text="@string/cancel" />
 
                 </LinearLayout>
 
