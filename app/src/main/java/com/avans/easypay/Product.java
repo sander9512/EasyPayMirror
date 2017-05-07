@@ -15,6 +15,9 @@ public class Product {
         this.imageUrl = imageUrl;
         this.productPrice = productPrice;
     }
+    //Default constructor
+    public Product() {
+    }
 
     public String getProductName() {
         return productName;

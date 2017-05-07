@@ -28,6 +28,7 @@ public class FoodTab extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tab_food, container, false);
         products = new ArrayList<>();
         createTestProducts();
+        //ProductAdapter adapter = TabbedActivity.adapter
         ProductAdapter adapter = new ProductAdapter(this.getActivity(), inflater, products);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);
         listview_food.setAdapter(adapter);

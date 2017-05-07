@@ -21,11 +21,32 @@ public class ProductAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Product> productsList;
+    private ArrayList<ArrayList<Product>> products = new ArrayList<>();
 
+    private ProductsTotal.OnTotalChanged listener;
+
+    private ProductsTotal total;
+
+    public ProductAdapter(ProductsTotal.OnTotalChanged listener,Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
+        this.context = context;
+        this.layoutInflater = layoutInflater;
+        this.productsList = productsList;
+        this.listener = listener;
+
+        for (int i = 0; i < productsList.size(); i++) {
+
+            products.add(new ArrayList<Product>());
+        }
+
+        this.total = new ProductsTotal(context, products);
+
+
+    }
     public ProductAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.productsList = productsList;
+
     }
 
     @Override
@@ -62,6 +83,7 @@ public class ProductAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        //placeholder code
         Product p = (Product) productsList.get(position);
         viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
         viewHolder.productName.setText("Product Name");
@@ -78,12 +100,15 @@ public class ProductAdapter extends BaseAdapter {
 
 
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
-
+                ArrayList<Product> chosenProducts = new ArrayList<Product>();
+                Product product;
 
                 for (int i = 0; i < spinnerValue; i++) {
+                    product = new Product();
 
+                    chosenProducts.add(product);
                 }
-
+//                products.set(position, chosenProducts);
 
             }
 

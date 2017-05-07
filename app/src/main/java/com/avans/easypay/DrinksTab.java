@@ -23,6 +23,7 @@ public class DrinksTab extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab_drinks, container, false);
         products = new ArrayList<>();
+        //ProductAdapter adapter = TabbedActivity.adapter;
         ProductAdapter adapter = new ProductAdapter(this.getActivity(),inflater,products);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
         listview_drinks.setAdapter(adapter);

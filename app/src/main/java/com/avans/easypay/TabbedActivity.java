@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbedActivity extends AppCompatActivity {
+public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,6 +38,9 @@ public class TabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private TextView totalProductsView, totalPriceView;
+    private ArrayList<ArrayList<Product>> products;
+    protected static ProductAdapter adapter;
 
 
     @Override
@@ -55,6 +58,11 @@ public class TabbedActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        //adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), products);
+
+        totalPriceView = (TextView) findViewById(R.id.subtotal);
+        totalProductsView = (TextView) findViewById(R.id.products_amount_textview);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -87,6 +95,15 @@ public class TabbedActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> products) {
+        totalProductsView.setText(total);
+        totalPriceView.setText(priceTotal);
+
+        this.products = products;
+
     }
 
 
