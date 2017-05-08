@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avans.easypay.DomainModel.Balance;
@@ -18,6 +19,7 @@ import java.util.Date;
 public class RefundBalanceActivity extends AppCompatActivity {
 
     private TextView currentBalance;
+    private ImageView home;
 
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
@@ -37,6 +39,16 @@ public class RefundBalanceActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(RefundBalanceActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         Button CancelButton = (Button) findViewById(R.id.balance_refund_cancel);
         Button ConfirmButton = (Button) findViewById(R.id.balance_refund_confirm);

@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
 
+    private ImageView home;
     private TextView currentBalance;
     private EditText editText;
 
@@ -47,6 +50,16 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(IncreaseBalanceActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         //Current balance
         currentBalance = (TextView) findViewById(R.id.currentBalance);
