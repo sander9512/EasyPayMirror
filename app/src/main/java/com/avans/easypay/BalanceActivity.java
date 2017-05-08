@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ public class BalanceActivity extends AppCompatActivity {
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
     private ImageView home;
+    private TextView balance;
 
     private Balance b;
 
@@ -30,7 +32,13 @@ public class BalanceActivity extends AppCompatActivity {
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
-        b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+
+        if(balanceDAO.selectData().size() == 0){
+            Log.i("BALANCE", "No balance yet");
+        }
+        else{
+            b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+        }
 
 
         //Setting up the toolbar
@@ -61,11 +69,13 @@ public class BalanceActivity extends AppCompatActivity {
             }
         });
 
+        balance = (TextView) findViewById(R.id.balanceText);
+
         RefBalButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (b.getAmount() == 0.f){
+                if (balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0.00")){
                     Toast.makeText(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(BalanceActivity.this, RefundBalanceActivity.class);
@@ -78,15 +88,24 @@ public class BalanceActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
 
         //Setting balance in toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
-        balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
 
-        //Setting up TextView balance
-        TextView balance = (TextView) findViewById(R.id.balanceText);
-        balance.setText(getResources().getString(R.string.balance) + ": €" + String.format("%.2f", b.getAmount()));
+            //Setting up TextView balance
+            TextView balance = (TextView) findViewById(R.id.balanceText);
+            balance.setText(getResources().getString(R.string.balance) + ": €0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+
+            //Setting up TextView balance
+            balance.setText(getResources().getString(R.string.balance) + ": €" + String.format("%.2f", b.getAmount()));
+        }
     }
 }

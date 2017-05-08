@@ -44,7 +44,19 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
-        b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+
+        currentBalance = (TextView) findViewById(R.id.currentBalance);
+
+        if(balanceDAO.selectData().size() == 0){
+            Log.i("BALANCE", "No balance yet");
+            currentBalance.setText(getResources().getString(R.string.balance_wallet)
+                    + " " + "€0.00");
+        }
+        else{
+            b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            currentBalance.setText(getResources().getString(R.string.balance_wallet)
+                    + " " + "€" + String.format("%.2f", b.getAmount()));
+        }
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -60,24 +72,23 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        //Current balance
-        currentBalance = (TextView) findViewById(R.id.currentBalance);
-        currentBalance.setText(getResources().getString(R.string.balance_wallet)
-                + " " + "€" + String.format("%.2f", b.getAmount()));
-
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
-
 
         //Setting balance in toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
-        balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
     //OnClick
@@ -92,7 +103,14 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
 
             Log.i("MONEYTOADD", editText.getText().toString());
 
-            float beforeAmount = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
+            float beforeAmount;
+
+            if (balanceDAO.selectData().size() == 0){
+                beforeAmount = 0f;
+            }else {
+                beforeAmount = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
+            }
+
             float afterAmount = beforeAmount + toAdd;
 
             if(afterAmount <= 150f)
