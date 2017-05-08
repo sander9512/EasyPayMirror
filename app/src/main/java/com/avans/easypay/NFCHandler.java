@@ -58,10 +58,10 @@ public class NFCHandler {
         }
     }
 
-    public NdefMessage createNdefMessage(String content) {
-        NdefRecord ndefRecord = NdefRecord.createTextRecord(content);
-        NdefMessage ndefMessage = new NdefMessage(new NdefRecord[]{ndefRecord});
-        return ndefMessage;
-    }
+//    public NdefMessage createNdefMessage(String content) {
+//        NdefRecord ndefRecord = NdefRecord.createTextRecord(content);
+//        NdefMessage ndefMessage = new NdefMessage(new NdefRecord[]{ndefRecord});
+//        return ndefMessage;
+//    }
 
 }
