@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void balanceButton(View v){
+    public void balanceButton(View v) {
         Intent intent = new Intent(this, BalanceActivity.class);
+    }
 
     public void accountButton(View v) {
         Intent intent = new Intent(this, UserDataActivity.class);

@@ -2,17 +2,18 @@ package com.avans.easypay;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by Felix on 8-5-2017.
  */
 
-public class NFCHandler {
+public class NFCHandler implements NfcAdapter.CreateNdefMessageCallback {
 
     private String TAG = this.getClass().getSimpleName();
 
@@ -58,10 +59,5 @@ public class NFCHandler {
         }
     }
 
-    public NdefMessage createNdefMessage(String content) {
-        NdefRecord ndefRecord = NdefRecord.createTextRecord(content);
-        NdefMessage ndefMessage = new NdefMessage(new NdefRecord[]{ndefRecord});
-        return ndefMessage;
-    }
 
 }
