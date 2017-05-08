@@ -9,11 +9,11 @@ import java.util.Date;
 public class Balance {
 
     private float amount;
-    private Date updateTime;
+    private Date timeLog;
 
     public Balance(float amount, Date updateTime) {
         this.amount = amount;
-        this.updateTime = updateTime;
+        this.timeLog = updateTime;
     }
 
     public Balance(float amount) {
@@ -25,7 +25,7 @@ public class Balance {
     }
 
     public Date getUpdateTime() {
-        return updateTime;
+        return timeLog;
     }
 
     public void setAmount(float amount) {

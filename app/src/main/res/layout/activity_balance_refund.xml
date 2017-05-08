@@ -48,17 +48,13 @@
         android:layout_gravity="center"
         android:layout_weight="2">
         <TextView
+            android:id="@+id/balanceRefund"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40dp"
+            android:textAlignment="center"
             android:textStyle="bold"
             android:text="@string/balance_wallet"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="40dp"
-            android:textStyle="bold"
-            android:id="@+id/balance_wallet_amount"/>
     </LinearLayout>
     <TextView
         android:layout_gravity="center"
