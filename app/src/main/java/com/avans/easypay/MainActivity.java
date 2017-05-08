@@ -1,11 +1,13 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avans.easypay.DomainModel.Balance;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
 
+    private ImageView logout;
+
     //Balance balance = new Balance(20.00f, new Date());
 
     @Override
@@ -36,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        logout = (ImageView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
