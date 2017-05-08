@@ -7,6 +7,43 @@
     android:orientation="vertical"
     tools:context="com.avans.easypay.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="€50,00"
+            android:textColor="@android:color/white"
+            android:textSize="12dp"
+            android:layout_gravity="left"
+            android:id="@+id/toolbar_balance" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_exit_to_app_24dp"
+            android:layout_marginRight="@dimen/leftRightMain"/>
+
+    </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +59,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonOrder"
                 android:onClick="orderButton"
                 android:layout_width="0dp"
@@ -54,6 +92,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonOverview"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -103,60 +142,67 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonBalance"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/button"
                 android:layout_marginRight="@dimen/button"
+                android:layout_marginTop="@dimen/button"
                 android:layout_weight="1"
                 android:background="@drawable/button"
-                android:clickable="true">
+                android:clickable="true"
+                android:onClick="balanceButton">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_credit_card"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_credit_card" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/balance"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:text="@string/balance" />
                 </LinearLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonAccount"
                 android:onClick="accountButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/button"
                 android:layout_marginLeft="@dimen/button"
+                android:layout_marginTop="@dimen/button"
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:clickable="true">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_account_circle"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_account_circle" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/account"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:text="@string/account" />
                 </LinearLayout>
 
             </RelativeLayout>
