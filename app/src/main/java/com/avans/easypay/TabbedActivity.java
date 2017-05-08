@@ -41,7 +41,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private TextView totalProductsView, totalPriceView;
     private ArrayList<ArrayList<Product>> products;
     protected static ProductAdapter adapter;
-
+    private final ProductsTotal.OnTotalChanged totalListener = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +123,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
          switch(position) {
              case 0:
                  DrinksTab tab1 = new DrinksTab();
+                 tab1.setTotalListener(totalListener);
                  return tab1;
              case 1:
                  FoodTab tab2 = new FoodTab();
+                 tab2.setTotalListener(totalListener);
                  return tab2;
              default:
                  return null;

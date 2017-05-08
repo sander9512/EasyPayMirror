@@ -73,7 +73,7 @@ public class ProductsTotal {
 
     public interface OnTotalChanged {
 
-        void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> tickets);
+        void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> products);
     }
 
 }
