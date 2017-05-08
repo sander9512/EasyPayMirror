@@ -3,58 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/leftRightMain"
     android:orientation="vertical"
     tools:context="com.avans.easypay.UserDataActivity">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/header_margin"
-        android:text="@string/userdata_userdata"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat">
 
-    <ScrollView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="€50,00"
+            android:textColor="@android:color/white"
+            android:textSize="12dp"
+            android:layout_gravity="left"
+            android:id="@+id/toolbar_balance" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title" />
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_home_24dp"
+            android:layout_marginRight="@dimen/leftRightMain"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="@dimen/leftRightMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginBottom="@dimen/header_margin"
+            android:text="@string/userdata_userdata"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/user_data_row_size"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="10"
-                    android:text="@string/firstname_userdata"
-                    android:textColor="#000"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/firstname_textview"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="16"
-                    android:text="Hassan"
-                    android:textColor="#000"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_data_editable"
-                    android:visibility="invisible" />
-
-            </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,17 +75,17 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="10"
-                        android:text="@string/lastname_userdata"
+                        android:text="@string/firstname_userdata"
                         android:textColor="#000"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/lastname_textview"
+                        android:id="@+id/firstname_textview"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="16"
-                        android:text="Geenjassaan"
+                        android:text="Hassan"
                         android:textColor="#000"
                         android:textSize="14sp" />
 
@@ -94,232 +99,269 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="10"
-                        android:text="@string/username_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/username_textview"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="16"
-                        android:text="Jojopay"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:text="@string/lastname_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_data_editable"
-                        android:visibility="invisible" />
+                        <TextView
+                            android:id="@+id/lastname_textview"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="16"
+                            android:text="Geenjassaan"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_data_editable"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:text="@string/username_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/username_textview"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="16"
+                            android:text="Jojopay"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_data_editable"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:layout_marginBottom="-4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10"
+                            android:text="@string/password_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/password_textview"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="16"
+                            android:text="**********"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
+
+                        <Button
+                            android:id="@+id/password_edit_btn"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/ic_data_editable" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:text="@string/email_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/email_edittext"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="16"
+                            android:background="@drawable/edittext_uneditable"
+                            android:inputType="textEmailAddress"
+                            android:padding="4dp"
+                            android:text="jojopay@easypay.cash"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
+
+                        <Button
+                            android:id="@+id/email_edit_btn"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/ic_data_editable" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:text="@string/banknumber_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/banknumber_edittext"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="16"
+                            android:background="@drawable/edittext_uneditable"
+                            android:padding="4dp"
+                            android:text="NL99 RABO 0123 4455 67"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/banknumber_edit_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/ic_data_editable" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/new_password_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:layout_marginBottom="-4dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="10"
-                        android:text="@string/password_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/password_textview"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="16"
-                        android:text="**********"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:text="@string/new_password_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/password_edit_btn"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:background="@drawable/ic_data_editable" />
+                        <EditText
+                            android:id="@+id/new_password_edittext_1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="16"
+                            android:background="@drawable/edittext"
+                            android:inputType="textPassword"
+                            android:padding="4dp"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
 
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:orientation="horizontal">
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:text="@string/email_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/user_data_row_size"
+                        android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/email_edittext"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="16"
-                        android:background="@drawable/edittext_uneditable"
-                        android:inputType="textEmailAddress"
-                        android:padding="4dp"
-                        android:text="jojopay@easypay.cash"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:text="@string/wachtwoord_herh_userdata"
+                            android:textColor="#000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/email_edit_btn"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/ic_data_editable" />
+                        <EditText
+                            android:id="@+id/new_password_edittext_2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="16"
+                            android:background="@drawable/edittext"
+                            android:inputType="textPassword"
+                            android:padding="4dp"
+                            android:textColor="#000"
+                            android:textSize="14sp" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:text="@string/banknumber_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        <Button
+                            android:id="@+id/confirm_password_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/leftRightMain"
+                            android:layout_marginTop="@dimen/leftRightMain"
+                            android:layout_weight="10"
+                            android:background="@drawable/button"
+                            android:text="@string/confirm_password_userdata" />
 
-                    <EditText
-                        android:id="@+id/banknumber_edittext"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="16"
-                        android:background="@drawable/edittext_uneditable"
-                        android:padding="4dp"
-                        android:text="NL99 RABO 0123 4455 67"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
+                        <Button
+                            android:id="@+id/cancel_password_btn"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/leftRightMain"
+                            android:layout_weight="1"
+                            android:background="@drawable/button"
+                            android:text="@string/cancel" />
 
-                    <ImageView
-                        android:id="@+id/banknumber_edit_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/ic_data_editable" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/new_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical"
-                android:visibility="invisible">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:text="@string/new_password_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/new_password_edittext_1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="16"
-                        android:background="@drawable/edittext"
-                        android:inputType="textPassword"
-                        android:padding="4dp"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/user_data_row_size"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:text="@string/wachtwoord_herh_userdata"
-                        android:textColor="#000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/new_password_edittext_2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="16"
-                        android:background="@drawable/edittext"
-                        android:inputType="textPassword"
-                        android:padding="4dp"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/confirm_password_btn"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/leftRightMain"
-                        android:layout_marginTop="@dimen/leftRightMain"
-                        android:layout_weight="10"
-                        android:background="@drawable/button"
-                        android:text="@string/confirm_password_userdata" />
-
-                    <Button
-                        android:id="@+id/cancel_password_btn"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/leftRightMain"
-                        android:layout_weight="1"
-                        android:background="@drawable/button"
-                        android:text="@string/cancel" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

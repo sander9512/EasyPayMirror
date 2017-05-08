@@ -1,11 +1,13 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ public class BalanceActivity extends AppCompatActivity {
 
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
+    private ImageView home;
 
     private Balance b;
 
@@ -34,6 +37,17 @@ public class BalanceActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(BalanceActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
 
         Button IncrBalButton = (Button) findViewById(R.id.balance_wallet_toincrease);
         Button RefBalButton = (Button) findViewById(R.id.balance_wallet_torefund);
