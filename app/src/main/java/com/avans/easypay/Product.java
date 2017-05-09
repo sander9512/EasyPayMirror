@@ -18,7 +18,7 @@ public class Product {
     }
 
     //Default constructor
-    public Product() {
+    public Product() { }
 
     }
     public Product(String productName, String imageUrl, double productPrice, int amount) {
