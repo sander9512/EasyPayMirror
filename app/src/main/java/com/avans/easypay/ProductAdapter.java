@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,34 @@ public class ProductAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Product> productsList;
+    private ArrayList<ArrayList<Product>> products = new ArrayList<>();
+    //protected ArrayList<Product> chosenProducts = new ArrayList<>();
 
-    public ProductAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
+    private ProductsTotal.OnTotalChanged listener;
+
+    private ProductsTotal total;
+
+    public ProductAdapter(ProductsTotal.OnTotalChanged listener,Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.productsList = productsList;
+        this.listener = listener;
+    System.out.println("prodList size: "+productsList.size());
+        for (int i = 0; i < productsList.size(); i++) {
+
+            products.add(new ArrayList<Product>());
+        }
+
+        this.total = new ProductsTotal(context, products);
+
+
     }
+    /*public ProductAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
+        this.context = context;
+        this.layoutInflater = layoutInflater;
+        this.productsList = productsList;
+
+    }*/
 
     @Override
     public int getCount() {
@@ -62,10 +85,16 @@ public class ProductAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Product p = (Product) productsList.get(position);
+        //placeholder code
+        final Product p = productsList.get(position);
         viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
-        viewHolder.productName.setText("Product Name");
-        viewHolder.productPrice.setText("€1,00");
+
+
+            viewHolder.productName.setText(p.getProductName());
+            viewHolder.productPrice.setText(" " + p.getProductPrice());
+
+//        viewHolder.productName.setText("Product Name123");
+//        viewHolder.productPrice.setText("€1,200");
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
                 R.array.spinner_array, android.R.layout.simple_spinner_item);
@@ -79,11 +108,19 @@ public class ProductAdapter extends BaseAdapter {
 
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
 
+                System.out.println("item selected "+id+" "+position2+" "+spinnerValue+" "+viewHolder.productSpinner.getSelectedItem()+" "+view.getId()+" "+parent.getId()+" "+position);
+                ArrayList<Product> chosenProducts = new ArrayList<Product>();
 
                 for (int i = 0; i < spinnerValue; i++) {
 
-                }
+                    chosenProducts.add(p);
 
+                }
+                if(products.size() > position)
+                    products.set(position, chosenProducts);
+                System.out.println(" " + chosenProducts.size());
+                Log.i("TAG","total products " + chosenProducts.size() +" "+products.size()+ " "+total.getPriceTotal()+" "+total.getTotal());
+                listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
 
             }
 
