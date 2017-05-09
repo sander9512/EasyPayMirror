@@ -40,8 +40,10 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView;
     private ArrayList<ArrayList<Product>> products;
+    private ArrayList<Product> productList;
     protected static ProductAdapter adapter;
     private final ProductsTotal.OnTotalChanged totalListener = this;
+    private ProductAdapter product_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+        productList = new ArrayList<>();
+        createTestProducts();
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -68,12 +71,17 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
-
+        product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
 
 
     }
 
-
+    private void createTestProducts() {
+        for (int i = 0; i < 20; i++) {
+            Product product = new Product("prod"+i,"" ,i);
+            productList.add(product);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,11 +131,13 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
          switch(position) {
              case 0:
                  DrinksTab tab1 = new DrinksTab();
-                 tab1.setTotalListener(totalListener);
+                 //tab1.setTotalListener(totalListener);
+                 tab1.setProductAdapter(product_adapter);
                  return tab1;
              case 1:
                  FoodTab tab2 = new FoodTab();
-                 tab2.setTotalListener(totalListener);
+                 //tab2.setTotalListener(totalListener);
+                 tab2.setProductAdapter(product_adapter);
                  return tab2;
              default:
                  return null;
