@@ -75,7 +75,8 @@ public class BalanceActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0.00")){
+                if (balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0.00")
+                        || balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0,00")) {
                     Toast.makeText(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(BalanceActivity.this, RefundBalanceActivity.class);
