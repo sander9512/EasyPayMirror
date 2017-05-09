@@ -9,11 +9,18 @@ import android.media.Image;
 public class Product {
     private String productName, imageUrl;
     private double productPrice;
+    private int amount;
 
     public Product(String productName, String imageUrl, double productPrice) {
         this.productName = productName;
         this.imageUrl = imageUrl;
         this.productPrice = productPrice;
+    }
+    public Product(String productName, String imageUrl, double productPrice, int amount) {
+        this.productName = productName;
+        this.imageUrl = imageUrl;
+        this.productPrice = productPrice;
+        this.amount = amount;
     }
 
     public String getProductName() {
@@ -39,6 +46,10 @@ public class Product {
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
+
+    public int getAmount() { return amount; }
+
+    public void setAmount(int amount) { this.amount = amount; }
 
     @Override
     public String toString() {
