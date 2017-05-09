@@ -10,7 +10,7 @@ import android.widget.Button;
  * Created by TB on 5/6/2017.
  */
 
-public class scanActivity extends AppCompatActivity{
+public class ScanActivity extends AppCompatActivity{
     Button button;
 
     @Override
@@ -22,8 +22,9 @@ public class scanActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(scanActivity.this, MainActivity.class);
+                Intent intent = new Intent(ScanActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
