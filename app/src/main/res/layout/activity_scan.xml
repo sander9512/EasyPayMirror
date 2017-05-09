@@ -7,13 +7,26 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center">
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/dummy_text"
-            android:orientation="vertical"
-            android:src="@drawable/ic_data_editable"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/dummy_text"
+                android:orientation="vertical"
+                android:src="@drawable/ic_1494336533_wifipoint"/>
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imageView2"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="@string/dummy_text"
+                android:orientation="vertical"
+                android:src="@drawable/ic_attach_money"/>
+        </FrameLayout>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,16 +38,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/instructions_scan"
-            android:textSize="18sp"/>
+            android:textSize="24sp"
+            android:textAlignment="center"/>
     </RelativeLayout>
     <RelativeLayout
+        android:layout_margin="@dimen/leftRightMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
         <Button
-            android:layout_width="wrap_content"
+            android:background="@drawable/button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_scan"
+            android:text="@string/cancel"
             android:gravity="center"
             android:id="@+id/button_scan"/>
     </RelativeLayout>
