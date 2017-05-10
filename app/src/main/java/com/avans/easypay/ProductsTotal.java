@@ -35,7 +35,7 @@ public class ProductsTotal {
 
         DecimalFormat df = new DecimalFormat("0.00##");
 
-        return "€" + df.format(d);
+        return "Subtotaal: €" + df.format(d);
     }
 
     public String getTotal() {
@@ -50,7 +50,7 @@ public class ProductsTotal {
             }
         }
 
-        return total + " products";
+        return total + " Producten";
     }
 
     public double getPriceTotalDouble() {

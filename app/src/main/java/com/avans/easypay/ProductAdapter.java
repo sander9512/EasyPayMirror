@@ -91,7 +91,7 @@ public class ProductAdapter extends BaseAdapter {
 
 
             viewHolder.productName.setText(p.getProductName());
-            viewHolder.productPrice.setText(" " + p.getProductPrice());
+            viewHolder.productPrice.setText("€" + p.getProductPrice());
 
 //        viewHolder.productName.setText("Product Name123");
 //        viewHolder.productPrice.setText("€1,200");
