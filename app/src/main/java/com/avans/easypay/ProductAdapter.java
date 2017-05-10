@@ -97,7 +97,7 @@ public class ProductAdapter extends BaseAdapter {
     }
 
 
-    private static class ViewHolder {
+    static class ViewHolder {
        private ImageView productImage;
         private TextView productName, productPrice;
         private Spinner productSpinner;

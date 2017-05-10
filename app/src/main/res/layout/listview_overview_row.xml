@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bestel ID"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="Bier" />
+
+    <TextView
+        android:id="@+id/product_amount"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="end"
+        android:text="5x" />
+
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="50dp"
+        android:text="€ 13.37" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/price_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="30dp"
+            android:text="Subtotaal: 13.37" />
+
+    </LinearLayout>
+
+</LinearLayout>
