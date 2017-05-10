@@ -1,4 +1,9 @@
 <resources>
+    <!--test_strings-->
+    <string name="dummy_text">Dummy</string>
+    <string name="dummy_number">40,4</string>
+
+    <!---->
     <string name="app_name">Ea$yPay</string>
     <string name="order">Bestel</string>
     <string name="balance">Saldo</string>
@@ -7,19 +12,19 @@
 
     <string name="balance_wallet">Saldo: </string>
     <string name="balance_increase">Saldo opwaarderen</string>
-    <string name="balance_refund">Salde terugvragen</string>
+    <string name="balance_refund">Saldo terugvragen</string>
 
     <string name="balance_wallet_increase">Huidig saldo: </string>
     <string name="balance_wallet_aincrease">Saldo na opwaardering: </string>
-    <string name="balance_increase_10">€10,-</string>
-    <string name="balance_increase_25">€25,-</string>
-    <string name="balance_increase_50">€50,-</string>
-    <string name="balance_increase_100">€100,-</string>
     <string name="balance_increase_confirm">Bevestigen</string>
 
     <string name="balance_refund_question">Weet u zeker dat u uw saldo wil terugboeken?</string>
     <string name="balance_refund_confirm">Bevestigen</string>
     <string name="balance_refund_cancel">Annuleren</string>
+
+    <string name="over150">Saldo kan niet hoger zijn dan €150,-</string>
+    <string name="isnull">Voer alstublieft een bedrag in.</string>
+    <string name="nomoney">Geen saldo om terug te vragen.</string>
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -68,4 +73,18 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+
+    <!--Activity overview current orders-->
+    <string name="title_activity_oco">OHB</string>
+    <string name="title_oco">Bestelling</string>
+    <string name="subtotal_oco">Subtotaal: €</string>
+    <string name="button_text_oco">Bestellen</string>
+
+    <!--listview product row-->
+    <string name="lpr_1">Product Name</string>
+    <string name="lpr_2">Product Price</string>
+
+    <!--activity_scan-->
+    <string name="button_scan">Cancel</string>
+    <string name="instructions_scan">Houd uw telefoon tegen de kassa</string>
 </resources>

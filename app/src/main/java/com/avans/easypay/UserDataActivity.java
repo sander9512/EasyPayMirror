@@ -1,7 +1,9 @@
 package com.avans.easypay;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -11,12 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avans.easypay.DomainModel.Balance;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
+
 public class UserDataActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView firstnameText, lastnameText, usernameText, passwordText;
     private EditText emailInput, bankNumberInput, newPassInput1, newPassInput2;
     private Button passwordEditBtn, emailEditBtn, confirmPassBtn, cancelPassBtn;
-    private ImageView bankNumberEditBtn;
+    private ImageView bankNumberEditBtn, home;
 
     private LinearLayout newPassLayout;
 
@@ -26,10 +33,31 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
 
     private String currentEmail, currentBankNumber;
 
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
+
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
+
+        //Setting up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(UserDataActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         //initialise xml elements
         firstnameText = (TextView) findViewById(R.id.firstname_textview);
@@ -70,6 +98,23 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
     @Override

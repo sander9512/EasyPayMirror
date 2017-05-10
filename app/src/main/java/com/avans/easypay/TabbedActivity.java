@@ -1,5 +1,6 @@
 package com.avans.easypay;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbedActivity extends AppCompatActivity {
+public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,7 +39,12 @@ public class TabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private TextView totalProductsView, totalPriceView;
+    private ArrayList<ArrayList<Product>> products;
+    private ArrayList<Product> productList;
+    protected static ProductAdapter adapter;
+    private final ProductsTotal.OnTotalChanged totalListener = this;
+    private ProductAdapter product_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +56,33 @@ public class TabbedActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+        productList = new ArrayList<>();
+        createTestProducts();
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        //adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), products);
+
+        totalPriceView = (TextView) findViewById(R.id.subtotal);
+        totalProductsView = (TextView) findViewById(R.id.products_amount_textview);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
-
+        product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
 
 
     }
 
-
+    private void createTestProducts() {
+        for (int i = 0; i < 20; i++) {
+            Product product = new Product("Product "+i,"" ,i);
+            productList.add(product);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,6 +106,15 @@ public class TabbedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> products) {
+        totalProductsView.setText(total);
+        totalPriceView.setText(priceTotal);
+
+        this.products = products;
+
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -106,9 +132,13 @@ public class TabbedActivity extends AppCompatActivity {
          switch(position) {
              case 0:
                  DrinksTab tab1 = new DrinksTab();
+                 //tab1.setTotalListener(totalListener);
+                 tab1.setProductAdapter(product_adapter);
                  return tab1;
              case 1:
                  FoodTab tab2 = new FoodTab();
+                 //tab2.setTotalListener(totalListener);
+                 tab2.setProductAdapter(product_adapter);
                  return tab2;
              default:
                  return null;
@@ -134,5 +164,10 @@ public class TabbedActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public void overviewCurrentOrderBtn(View v) {
+        Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
+        startActivity(i);
     }
 }
