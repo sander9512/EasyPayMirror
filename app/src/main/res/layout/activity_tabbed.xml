@@ -75,6 +75,7 @@
 
     <ImageButton
     android:layout_width="45dp"
+        android:onClick="overviewCurrentOrderBtn"
     android:layout_height="45dp"
     android:layout_toRightOf="@+id/subtotal"
     android:id="@+id/orderbutton"

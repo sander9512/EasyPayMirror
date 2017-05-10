@@ -1,5 +1,6 @@
 package com.avans.easypay;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -163,5 +164,10 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
             }
             return null;
         }
+    }
+
+    public void overviewCurrentOrderBtn(View v) {
+        Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
+        startActivity(i);
     }
 }
