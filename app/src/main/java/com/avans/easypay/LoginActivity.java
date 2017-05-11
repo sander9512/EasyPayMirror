@@ -50,9 +50,16 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     }
 
     public void loginBtn(View v) {
+
         username = usernameInput.getText().toString().trim();
         password = passwordInput.getText().toString().trim();
-        checkLoginData();
+
+        //EditTexts empty?
+        if (!username.equals("") && !password.equals("")) {
+            startLoginTask();
+        } else {
+            Toast.makeText(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void signupBtn(View v) {
@@ -60,48 +67,27 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         startActivity(i);
     }
 
-    public void checkLoginData() {
-        startLoginTask();
-
-        //wait for x seconds, so the LoginTask finished. Then verify input
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-                //EditTexts empty?
-                if (username.equals("") || password.equals("")) {
-                    Toast.makeText(LoginActivity.this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
-                } else {
-
-                    //LoginTask did not return a customer, so username = invalid
-                    if (customer == null) {
-                        Toast.makeText(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
-
-                        //username and password input is a valid customer
-                    } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
-                        compareOnlineWithLocalTimelog();
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        i.putExtra("Customer", customer);
-                        startActivity(i);
-                        finish();
-
-                        //username exists, but password is invalid
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
-                        passwordInput.setText("");
-                    }
-                }
-                //log input and LoginTask result
-//                Log.i("Username = ", "" + username);
-//                Log.i("Password = ", "" + password);
-//                Log.i("Customer = ", "" + customer);
-            }
-        }, loginDelay);
-
-    }
-
     @Override
     public void onCustomerAvailable(Customer customer) {
         this.customer = customer;
+
+        //LoginTask did not return a customer, so username = invalid
+        if (customer == null) {
+            Toast.makeText(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
+
+            //username and password input is a valid customer
+        } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
+            compareOnlineWithLocalTimelog();
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            i.putExtra("Customer", customer);
+            startActivity(i);
+            finish();
+
+            //username exists, but password is invalid
+        } else {
+            Toast.makeText(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
+            passwordInput.setText("");
+        }
     }
 
     //start AsyncTask (LoginTask)

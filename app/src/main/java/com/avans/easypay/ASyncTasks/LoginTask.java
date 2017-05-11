@@ -1,10 +1,14 @@
 package com.avans.easypay.ASyncTasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Customer;
+import com.avans.easypay.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,29 +88,32 @@ public class LoginTask extends AsyncTask<String, Void, String> {
         try {
             json = new JSONObject(response);
             JSONArray items = json.getJSONArray("items");
-            JSONObject customer = items.getJSONObject(0);
+            JSONObject customer = items.optJSONObject(0);
 
-            int customerId = customer.optInt("KlantId");
-            String username = customer.optString("Gebruikersnaam");
-            String password = customer.optString("Wachtwoord");
-            String email = customer.optString("Email");
-            String firstname = customer.optString("Voornaam");
-            String lastname = customer.optString("Achternaam");
-            String bankAccountNumber = customer.optString("Bankrekeningnummer");
-            float b = (float) customer.optDouble("Saldo");
-            String timeLog = customer.optString("TimeLog");
+            if (customer != null) {
+                int customerId = customer.optInt("KlantId");
+                String username = customer.optString("Gebruikersnaam");
+                String password = customer.optString("Wachtwoord");
+                String email = customer.optString("Email");
+                String firstname = customer.optString("Voornaam");
+                String lastname = customer.optString("Achternaam");
+                String bankAccountNumber = customer.optString("Bankrekeningnummer");
+                float b = (float) customer.optDouble("Saldo");
+                String timeLog = customer.optString("TimeLog");
 
-            Balance balance = new Balance(b, new Date());
+                Balance balance = new Balance(b, new Date());
 
-            Customer c = new Customer(customerId, username, password,
-                    email, firstname, lastname, bankAccountNumber, balance, timeLog);
+                Customer c = new Customer(customerId, username, password,
+                        email, firstname, lastname, bankAccountNumber, balance, timeLog);
 
-//            Log.i(TAG, balance + "");
-
-            //call back with customer that was been searched for
-            listener.onCustomerAvailable(c);
+                //call back with customer that was been searched for
+                listener.onCustomerAvailable(c);
+            } else {
+                listener.onCustomerAvailable(null);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
+
         }
     }
 
