@@ -10,11 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.LoginTask;
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
@@ -97,7 +99,17 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
     public void compareOnlineWithLocalTimelog() {
 
+        //if there is no local balance yet, insert a row with €0,00
+        if (balanceDAO.selectData().size() == 0) {
+            Calendar calDate = Calendar.getInstance();
+            long t = calDate.getTimeInMillis();
+            Date date = new Date(t + 1000);
+
+            balanceDAO.insertData(new Balance(0, date));
+        }
+
         //get local balance
+        Log.i(TAG, balanceDAO.selectData().size() + "");
         float localBalance = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
         //get online balance
         float onlineBalance = customer.getBalance().getAmount();
