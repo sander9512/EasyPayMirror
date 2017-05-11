@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             //username and password input is a valid customer
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
-            compareOnlineWithLocalTimelog();
+            compareOnlineWithLocalBalance();
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             i.putExtra("Customer", customer);
             startActivity(i);
@@ -97,9 +97,10 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/login/" + username);
     }
 
-    public void compareOnlineWithLocalTimelog() {
+    public void compareOnlineWithLocalBalance() {
 
         //if there is no local balance yet, insert a row with €0,00
+        //this is the case when a user first logs in
         if (balanceDAO.selectData().size() == 0) {
             Calendar calDate = Calendar.getInstance();
             long t = calDate.getTimeInMillis();
@@ -109,7 +110,6 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         }
 
         //get local balance
-        Log.i(TAG, balanceDAO.selectData().size() + "");
         float localBalance = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
         //get online balance
         float onlineBalance = customer.getBalance().getAmount();

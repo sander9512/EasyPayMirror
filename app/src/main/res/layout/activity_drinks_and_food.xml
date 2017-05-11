@@ -31,31 +31,42 @@
                 android:id="@+id/locatie_btn1"
                 android:layout_width="200dp"
                 android:layout_height="62dp"
-                android:text="Liqueurpaleis" />
+                android:layout_marginTop="@dimen/leftRightMain"
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="Liqueurpaleis"
+                android:background="@drawable/button"/>
 
             <Button
                 android:id="@+id/locatie_btn2"
                 android:layout_width="200dp"
                 android:layout_height="62dp"
-                android:text="Pizzahut" />
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="Pizzahut"
+                android:background="@drawable/button" />
 
             <Button
                 android:id="@+id/locatie_btn3"
                 android:layout_width="200dp"
                 android:layout_height="62dp"
-                android:text="Bierplaza" />
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="Bierplaza"
+                android:background="@drawable/button" />
 
             <Button
                 android:id="@+id/locatie_btn4"
                 android:layout_width="200dp"
                 android:layout_height="62dp"
-                android:text="Koffiehuis" />
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="Koffiehuis"
+                android:background="@drawable/button" />
 
             <Button
                 android:id="@+id/locatie_btn5"
                 android:layout_width="200dp"
                 android:layout_height="62dp"
-                android:text="Friettent" />
+                android:layout_marginBottom="@dimen/leftRightMain"
+                android:text="Friettent"
+                android:background="@drawable/button"/>
 
         </LinearLayout>
 
