@@ -120,9 +120,9 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //check whether local and online balance are the same. if not, update local DB
         if (localBalance != onlineBalance) {
             Log.i(TAG, "Online balance and local balance are different. Updating local DB!");
-            Log.i(TAG, "Before: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
+//            Log.i(TAG, "Before: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
             balanceDAO.insertData(customer.getBalance());
-            Log.i(TAG, "After: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
+//            Log.i(TAG, "After: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
         } else {
             Log.i(TAG, "Online balance and local balance are the same. No local update required.");
         }

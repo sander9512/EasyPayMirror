@@ -98,17 +98,23 @@ public class LoginTask extends AsyncTask<String, Void, String> {
                 String firstname = customer.optString("Voornaam");
                 String lastname = customer.optString("Achternaam");
                 String bankAccountNumber = customer.optString("Bankrekeningnummer");
-                float b = (float) customer.optDouble("Saldo");
+                float balanceInt = (float) customer.optInt("saldo");
+                Log.i(TAG, "Saldo uit API: " + balanceInt);
+                float b = balanceInt/100;
+                Log.i(TAG, "Saldo (naar float geparst): " + b);
+
+//                float b = (float) customer.optDouble("Saldo");
+
                 String timeLog = customer.optString("TimeLog");
 
                 Balance balance = new Balance(b, new Date());
-
                 Customer c = new Customer(customerId, username, password,
                         email, firstname, lastname, bankAccountNumber, balance, timeLog);
 
                 //call back with customer that was been searched for
                 listener.onCustomerAvailable(c);
             } else {
+                //return null if no customer was found
                 listener.onCustomerAvailable(null);
             }
         } catch (JSONException e) {
