@@ -79,14 +79,12 @@ public class LoginTask extends AsyncTask<String, Void, String> {
             return;
         }
 
-        Log.i(TAG, response);
         JSONObject json;
 
         try {
             json = new JSONObject(response);
             JSONArray items = json.getJSONArray("items");
             JSONObject customer = items.getJSONObject(0);
-            Log.i(TAG, customer + "");
 
             int customerId = customer.optInt("KlantId");
             String username = customer.optString("Gebruikersnaam");
@@ -95,13 +93,15 @@ public class LoginTask extends AsyncTask<String, Void, String> {
             String firstname = customer.optString("Voornaam");
             String lastname = customer.optString("Achternaam");
             String bankAccountNumber = customer.optString("Bankrekeningnummer");
-            float b = (float) customer.optDouble("Balance");
+            float b = (float) customer.optDouble("Saldo");
             String timeLog = customer.optString("TimeLog");
 
             Balance balance = new Balance(b, new Date());
 
             Customer c = new Customer(customerId, username, password,
                     email, firstname, lastname, bankAccountNumber, balance, timeLog);
+
+//            Log.i(TAG, balance + "");
 
             //call back with customer that was been searched for
             listener.onCustomerAvailable(c);

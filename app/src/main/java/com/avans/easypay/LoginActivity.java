@@ -1,13 +1,11 @@
 package com.avans.easypay;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +25,14 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private Customer customer;
 
     private String username, password;
-    private int loginDelay = 300;
+    private int loginDelay = 400;
 
+    //handler to regulate LoginTask
     private Handler handler = new Handler();
 
+    //DB objects
     private DAOFactory factory;
+    BalanceDAO balanceDAO;
 
 
     @Override
@@ -42,6 +43,10 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //initialise xml elements
         usernameInput = (TextView) findViewById(R.id.username_textview);
         passwordInput = (TextView) findViewById(R.id.password_textview);
+
+        //initialise DB objects
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
     }
 
     public void loginBtn(View v) {
@@ -73,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
                         //username and password input is a valid customer
                     } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
-//                        compareOnlineWithLocalTimelog();
+                        compareOnlineWithLocalTimelog();
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         i.putExtra("Customer", customer);
                         startActivity(i);
@@ -86,11 +91,11 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
                     }
                 }
                 //log input and LoginTask result
-                Log.i("Username = ", "" + username);
-                Log.i("Password = ", "" + password);
-                Log.i("Customer = ", "" + customer);
+//                Log.i("Username = ", "" + username);
+//                Log.i("Password = ", "" + password);
+//                Log.i("Customer = ", "" + customer);
             }
-        }, 100);
+        }, loginDelay);
 
     }
 
@@ -105,22 +110,23 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     }
 
     public void compareOnlineWithLocalTimelog() {
-        factory = new SQLiteDAOFactory(getApplicationContext());
-        BalanceDAO balanceDAO = factory.createBalanceDAO();
 
-        //get local timeLog data
-        String localTimeLog = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getTimeLog().toString();
-        //get online timeLog data
-        String onlineTimeLog = customer.getTimeLog();
+        //get local balance
+        float localBalance = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
+        //get online balance
+        float onlineBalance = customer.getBalance().getAmount();
 
-        //log timeLogs
-        Log.i(this.getClass().getSimpleName(), "Local timelog = " + localTimeLog + " | | Online timelog = " + onlineTimeLog);
+        //log balances
+        Log.i(this.getClass().getSimpleName(), "Local balance = " + localBalance + " | | Online balance = " + onlineBalance);
 
-        //check
-        if (!localTimeLog.equals(onlineTimeLog)) {
-            Log.i(TAG, "Online balance and local balance are different.");
+        //check whether local and online balance are the same. if not, update local DB
+        if (localBalance != onlineBalance) {
+            Log.i(TAG, "Online balance and local balance are different. Updating local DB!");
+            Log.i(TAG, "Before: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
+            balanceDAO.insertData(customer.getBalance());
+            Log.i(TAG, "After: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
         } else {
-            Log.i(TAG, "Online balance and local balance are the same.");
+            Log.i(TAG, "Online balance and local balance are the same. No local update required.");
         }
     }
 }

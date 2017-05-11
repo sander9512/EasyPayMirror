@@ -32,4 +32,12 @@ public class Balance implements Serializable{
     public void setAmount(float amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "Balance{" +
+                "amount=" + amount +
+                ", timeLog=" + timeLog +
+                '}';
+    }
 }
