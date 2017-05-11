@@ -108,7 +108,6 @@ public class ProductAdapter extends BaseAdapter {
 
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
 
-                System.out.println("item selected "+id+" "+position2+" "+spinnerValue+" "+viewHolder.productSpinner.getSelectedItem()+" "+view.getId()+" "+parent.getId()+" "+position);
                 ArrayList<Product> chosenProducts = new ArrayList<Product>();
 
                 for (int i = 0; i < spinnerValue; i++) {
@@ -118,8 +117,6 @@ public class ProductAdapter extends BaseAdapter {
                 }
                 if(products.size() > position)
                     products.set(position, chosenProducts);
-                System.out.println(" " + chosenProducts.size());
-                Log.i("TAG","total products " + chosenProducts.size() +" "+products.size()+ " "+total.getPriceTotal()+" "+total.getTotal());
                 listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
 
             }

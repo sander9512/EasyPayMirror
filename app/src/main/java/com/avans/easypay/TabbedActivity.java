@@ -23,7 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
+public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged, EasyPayAPIConnector.OnProductAvailable{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -57,7 +57,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         productList = new ArrayList<>();
-        createTestProducts();
+
+        getProductItems();
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -77,11 +78,18 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     }
 
-    private void createTestProducts() {
-        for (int i = 0; i < 20; i++) {
-            Product product = new Product("Product "+i,"" ,i);
-            productList.add(product);
-        }
+    @Override
+    public void onProductAvailable(Product product) {
+        productList.add(product);
+        product_adapter.notifyDataSetChanged();
+    }
+
+    public void getProductItems() {
+        String[] URL = {
+                "https://easypayserver.herokuapp.com"
+        };
+
+        new EasyPayAPIConnector(this).execute(URL);
     }
 
     @Override

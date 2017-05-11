@@ -19,7 +19,7 @@ import com.avans.easypay.SQLite.SQLiteDAOFactory;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements EasyPayAPIConnector.OnProductAvailable {
+public class MainActivity extends AppCompatActivity {
 
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
@@ -35,12 +35,6 @@ public class MainActivity extends AppCompatActivity implements EasyPayAPIConnect
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
-
-        String[] URL = {
-                "https://easypayserver.herokuapp.com"
-        };
-
-        new EasyPayAPIConnector(this).execute(URL);
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -73,11 +67,6 @@ public class MainActivity extends AppCompatActivity implements EasyPayAPIConnect
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
         }
-    }
-
-    @Override
-    public void onProductAvailable(Product product) {
-        products.add(product);
     }
 
     //OnClick

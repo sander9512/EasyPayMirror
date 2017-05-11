@@ -17,9 +17,6 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    //Default constructor
-    public Product() { }
-
     public Product(String productName, String imageUrl, double productPrice, int amount) {
         this.productName = productName;
         this.imageUrl = imageUrl;
