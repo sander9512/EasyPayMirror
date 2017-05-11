@@ -67,7 +67,7 @@ public class SQLiteBalanceDAO implements BalanceDAO {
             ContentValues values = new ContentValues();
 
             values.put(db.getCOLUMN_BALANCE_AMOUNT(), balance.getAmount());
-            values.put(db.getCOLUMN_BALANCE_TIMELOG(), balance.getUpdateTime().toString());
+            values.put(db.getCOLUMN_BALANCE_TIMELOG(), balance.getTimeLog().toString());
 
             writable.insert(db.getDB_TABLE_BALANCE__NAME(), null, values);
         }catch (SQLException e){
