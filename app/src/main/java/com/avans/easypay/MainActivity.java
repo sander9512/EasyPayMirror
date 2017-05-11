@@ -11,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avans.easypay.DomainModel.Balance;
+import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
-import com.avans.easypay.SQLite.DBConnectLite;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView logout;
 
     //Balance balance = new Balance(20.00f, new Date());
+    Customer customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
+
+        customer = (Customer) getIntent().getSerializableExtra("Customer");
+
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -69,12 +70,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     //OnClick
     public void orderButton(View v) {
         Intent intent = new Intent(this, DrinksAndFoodActivity.class);
         startActivity(intent);
     }
-
 
     public void balanceButton(View v) {
         Intent intent = new Intent(this, BalanceActivity.class);
