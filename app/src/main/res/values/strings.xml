@@ -1,4 +1,9 @@
 <resources>
+    <!--test_strings-->
+    <string name="dummy_text">Dummy</string>
+    <string name="dummy_number">40,4</string>
+
+    <!---->
     <string name="app_name">Ea$yPay</string>
     <string name="order">Bestel</string>
     <string name="balance">Saldo</string>
@@ -68,4 +73,18 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+
+    <!--Activity overview current orders-->
+    <string name="title_activity_oco">OHB</string>
+    <string name="title_oco">Bestelling</string>
+    <string name="subtotal_oco">Subtotaal: €</string>
+    <string name="button_text_oco">Bestellen</string>
+
+    <!--listview product row-->
+    <string name="lpr_1">Product Name</string>
+    <string name="lpr_2">Product Price</string>
+
+    <!--activity_scan-->
+    <string name="button_scan">Cancel</string>
+    <string name="instructions_scan">Houd uw telefoon tegen de kassa</string>
 </resources>
