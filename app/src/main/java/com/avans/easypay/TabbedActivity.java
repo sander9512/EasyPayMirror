@@ -79,7 +79,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     private void createTestProducts() {
         for (int i = 0; i < 20; i++) {
-            Product product = new Product("prod"+i,"" ,i);
+            Product product = new Product("Product "+i,"" ,i);
             productList.add(product);
         }
     }
