@@ -2,13 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.avans.easypay">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature
         android:name="android.hardware.nfc"
-        android:required="false" />
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -24,8 +22,7 @@
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
-        <activity android:name=".ScanActivity">
-        </activity>
+        <activity android:name=".ScanActivity" />
         <activity android:name=".OverviewCurrentOrdersActivity" />
 
         <activity
@@ -42,7 +39,6 @@
         </activity>
         <activity android:name=".SignupActivity" />
 
-
         <service android:name=".HCE.CardService"
             android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
@@ -56,6 +52,7 @@
             <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
                 android:resource="@xml/aid_list"/>
         </service>
+
     </application>
 
 </manifest>

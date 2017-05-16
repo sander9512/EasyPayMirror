@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private DAOFactory factory;
     BalanceDAO balanceDAO;
 
+    //Progress Dialog
+    ProgressDialog pd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +54,16 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
     public void loginBtn(View v) {
         //show loading animation
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setMessage("Logging in...");
-        pd.show();
 
         username = usernameInput.getText().toString().trim().toLowerCase();
         password = passwordInput.getText().toString();
 
         //EditTexts empty?
         if (!username.equals("") && !password.equals("")) {
+            pd = new ProgressDialog(this);
+            pd.setMessage("Logging in...");
+            pd.show();
+
             startLoginTask();
         } else {
             Toast.makeText(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
@@ -75,9 +79,13 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     public void onCustomerAvailable(Customer customer) {
         this.customer = customer;
 
+        //end ProgressDialog
+        pd.cancel();
+
         //LoginTask did not return a customer, so username = invalid
         if (customer == null) {
             Toast.makeText(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
+            passwordInput.setText("");
 
             //username and password input is a valid customer
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
