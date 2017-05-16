@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
-
+    private ArrayList<Product> products = new ArrayList<>();
     private ImageView logout;
 
     //Balance balance = new Balance(20.00f, new Date());
