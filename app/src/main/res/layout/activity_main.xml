@@ -15,13 +15,12 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="€50,00"
             android:textColor="@android:color/white"
-            android:textSize="12dp"
+            android:textSize="14dp"
             android:layout_gravity="left"
             android:id="@+id/toolbar_balance" />
 
@@ -37,8 +36,8 @@
 
         <ImageView
             android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_gravity="right"
             android:src="@drawable/ic_exit_to_app_24dp"
             android:layout_marginRight="@dimen/leftRightMain"/>
@@ -60,16 +59,16 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonOrder"
-                android:onClick="orderButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/button"
                 android:layout_marginRight="@dimen/button"
                 android:layout_weight="1"
                 android:background="@drawable/button"
-                android:clickable="true">
+                android:clickable="true"
+                android:elevation="@dimen/elevation"
+                android:onClick="orderButton">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -78,22 +77,22 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_local_bar"
-                        android:layout_gravity="center"/>
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_local_bar" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="18dp"
                         android:text="@string/order" />
                 </LinearLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:elevation="@dimen/elevation"
                 android:id="@+id/buttonOverview"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -101,7 +100,8 @@
                 android:layout_marginLeft="@dimen/button"
                 android:layout_weight="1"
                 android:background="@drawable/button"
-                android:clickable="true">
+                android:clickable="true"
+                android:elevation="@dimen/elevation">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -110,15 +110,16 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_list"
-                        android:layout_gravity="center"/>
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_list" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="18dp"
                         android:text="@string/overview" />
                 </LinearLayout>
 
@@ -134,6 +135,7 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:elevation="@dimen/elevation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/topBottomMain"
@@ -161,8 +163,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_credit_card" />
 
@@ -170,6 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="18dp"
                         android:text="@string/balance" />
                 </LinearLayout>
 
@@ -194,8 +197,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_account_circle" />
 
@@ -203,6 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textSize="18dp"
                         android:text="@string/account" />
                 </LinearLayout>
 
