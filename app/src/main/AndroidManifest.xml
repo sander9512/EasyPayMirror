@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="true" />
@@ -22,7 +23,9 @@
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
-        <activity android:name=".ScanActivity" />
+        <activity android:name=".ScanActivity">
+
+        </activity>
         <activity android:name=".OverviewCurrentOrdersActivity" />
 
         <activity
@@ -31,26 +34,27 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
+
         </activity>
         <activity android:name=".SignupActivity" />
 
-        <service android:name=".HCE.CardService"
+        <service
+            android:name=".HCE.CardService"
             android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
             <!-- Intent filter indicating that we support card emulation. -->
             <intent-filter>
-                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <!-- Required XML configuration file, listing the AIDs that we are emulating cards
                  for. This defines what protocols our card emulation service supports. -->
-            <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
-                android:resource="@xml/aid_list"/>
+            <meta-data
+                android:name="android.nfc.cardemulation.host_apdu_service"
+                android:resource="@xml/aid_list" />
         </service>
 
     </application>
