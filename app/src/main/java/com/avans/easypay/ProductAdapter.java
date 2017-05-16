@@ -14,16 +14,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sander on 5/2/2017.
- */
-
 public class ProductAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Product> productsList;
     private ArrayList<ArrayList<Product>> products = new ArrayList<>();
-    //protected ArrayList<Product> chosenProducts = new ArrayList<>();
 
     private ProductsTotal.OnTotalChanged listener;
 
@@ -88,13 +83,9 @@ public class ProductAdapter extends BaseAdapter {
         //placeholder code
         final Product p = productsList.get(position);
         viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
-
-
+        double ProductPrice = (p.getProductPrice());
             viewHolder.productName.setText(p.getProductName());
-            viewHolder.productPrice.setText("€" + p.getProductPrice());
-
-//        viewHolder.productName.setText("Product Name123");
-//        viewHolder.productPrice.setText("€1,200");
+            viewHolder.productPrice.setText("€" + ProductPrice);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
                 R.array.spinner_array, android.R.layout.simple_spinner_item);

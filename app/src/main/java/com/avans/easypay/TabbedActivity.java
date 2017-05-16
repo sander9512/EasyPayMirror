@@ -39,7 +39,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private TextView totalProductsView, totalPriceView;
+    private TextView totalProductsView, totalPriceView, category;
     private ArrayList<ArrayList<Product>> products;
     private ArrayList<Product> productList;
     protected static ProductAdapter adapter;
@@ -86,7 +86,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     public void getProductItems() {
         String[] URL = {
-                "https://easypayserver.herokuapp.com"
+                "https://easypayserver.herokuapp.com/api/product"
         };
 
         new EasyPayAPIConnector(this).execute(URL);
