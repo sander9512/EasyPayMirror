@@ -91,6 +91,7 @@ public class EasyPayAPIConnector extends AsyncTask<String, Void, String> {
                 JSONObject product = items.getJSONObject(i);
                 String productName = product.optString("ProductNaam");
                 Double productPrice = product.getDouble("Prijs");
+                int productId = product.getInt("ProductId");
 
                 //get URL Array
 //                JSONArray images = product.getJSONArray("im");
@@ -99,8 +100,8 @@ public class EasyPayAPIConnector extends AsyncTask<String, Void, String> {
 //                String imageUrl = largeImage.getString("url");
 
                 //create Product object
-                Product p = new Product(productName, "", productPrice);
-
+                Product p = new Product(productName, productPrice, productId);
+                Log.i(TAG, "onPostExecute: " + productId);
                 //call back with newly created product
                 listener.onProductAvailable(p);
             }

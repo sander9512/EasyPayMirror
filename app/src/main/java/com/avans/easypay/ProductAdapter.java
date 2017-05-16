@@ -1,7 +1,6 @@
 package com.avans.easypay;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -82,7 +83,10 @@ public class ProductAdapter extends BaseAdapter {
         }
         //placeholder code
         final Product p = productsList.get(position);
-        viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
+
+        //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
+        Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
+
         double ProductPrice = (p.getProductPrice());
             viewHolder.productName.setText(p.getProductName());
             viewHolder.productPrice.setText("€" + ProductPrice);
