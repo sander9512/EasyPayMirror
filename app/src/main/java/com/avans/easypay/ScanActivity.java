@@ -20,8 +20,6 @@ import com.avans.easypay.HCE.CardService;
 public class ScanActivity extends AppCompatActivity {
     private Button button;
 
-    public static final String EXTRA_BESTELLING_ID = "res_id";
-
     private NfcAdapter nfcAdapter;
     private int bestellingId;
 
@@ -32,16 +30,18 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
+        final Intent cardService = new Intent(this, CardService.class);
+
         messageOutput = (TextView) findViewById(R.id.message_textview);
 
         button = (Button) findViewById(R.id.button_scan);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cardService = new Intent();
+                startService(cardService);
                 Intent intent = new Intent(ScanActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+//                startActivity(intent);
+//                finish();
             }
         });
     }
@@ -68,7 +68,6 @@ public class ScanActivity extends AppCompatActivity {
                     })
                     .create().show();
         }
-
     }
 
     public void onPause() {
