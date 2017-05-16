@@ -24,8 +24,7 @@
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
-        <activity android:name=".ScanActivity">
-        </activity>
+        <activity android:name=".ScanActivity" />
         <activity android:name=".OverviewCurrentOrdersActivity" />
 
         <activity
@@ -42,7 +41,6 @@
         </activity>
         <activity android:name=".SignupActivity" />
 
-
         <service android:name=".HCE.CardService"
             android:exported="true"
             android:permission="android.permission.BIND_NFC_SERVICE">
@@ -56,6 +54,7 @@
             <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
                 android:resource="@xml/aid_list"/>
         </service>
+
     </application>
 
 </manifest>
