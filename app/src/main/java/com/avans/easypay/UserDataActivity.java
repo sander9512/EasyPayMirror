@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avans.easypay.DomainModel.Balance;
+import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
@@ -36,10 +37,16 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
 
+    private EasyPayAPIPUTConnector putRequest;
+
+    Customer customer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
+
+        customer = (Customer) getIntent().getSerializableExtra("Customer");
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
@@ -66,6 +73,22 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         passwordText = (TextView) findViewById(R.id.password_textview);
         emailInput = (EditText) findViewById(R.id.email_edittext);
         bankNumberInput = (EditText) findViewById(R.id.banknumber_edittext);
+
+        //Setting text with given customer
+        firstnameText.setText(customer.getFirstname());
+        lastnameText.setText(customer.getLastname());
+        usernameText.setText(customer.getUsername());
+        emailInput.setText(customer.getEmail());
+        bankNumberInput.setText(customer.getBankAccountNumber());
+
+        //Password *
+        int passLength = customer.getPassword().trim().length();
+        String passPlaceholder = "";
+        while (passLength > 0) {
+            passPlaceholder += "*";
+            passLength--;
+        } passwordText.setText(passPlaceholder);
+
 
         passwordEditBtn = (Button) findViewById(R.id.password_edit_btn);
         emailEditBtn = (Button) findViewById(R.id.email_edit_btn);
@@ -141,6 +164,9 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                         passPlaceholder += "*";
                         passLength--;
                     }
+                    putRequest = new EasyPayAPIPUTConnector();
+                    putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                            + customer.getCustomerId()+"/wachtwoord="+newPassInput1.getText());
                     passwordText.setText(passPlaceholder);
 
                     //restore default values
