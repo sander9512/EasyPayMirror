@@ -212,6 +212,9 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     emailEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     emailEditable = false;
                     if (!currentEmail.equals(emailInput.getText().toString().trim())) {
+                        putRequest = new EasyPayAPIPUTConnector();
+                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                + customer.getCustomerId()+"/email="+emailInput.getText());
                         Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
                         currentEmail = emailInput.getText().toString().trim();
                     }
@@ -233,6 +236,9 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     bankNumberEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     bankNumberEditable = false;
                     if (!currentBankNumber.equals(bankNumberInput.getText().toString().trim())) {
+                        putRequest = new EasyPayAPIPUTConnector();
+                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
                         Toast.makeText(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
                         currentBankNumber = bankNumberInput.getText().toString().trim();
                     }
