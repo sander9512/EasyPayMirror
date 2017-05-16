@@ -1,5 +1,6 @@
 package com.avans.easypay;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -29,9 +30,6 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private String username, password;
     private int loginDelay = 400;
 
-    //handler to regulate LoginTask
-    private Handler handler = new Handler();
-
     //DB objects
     private DAOFactory factory;
     BalanceDAO balanceDAO;
@@ -52,9 +50,13 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     }
 
     public void loginBtn(View v) {
+        //show loading animation
+        ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("Logging in...");
+        pd.show();
 
-        username = usernameInput.getText().toString().trim();
-        password = passwordInput.getText().toString().trim();
+        username = usernameInput.getText().toString().trim().toLowerCase();
+        password = passwordInput.getText().toString();
 
         //EditTexts empty?
         if (!username.equals("") && !password.equals("")) {
@@ -92,13 +94,12 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         }
     }
 
-    //start AsyncTask (LoginTask)
+    //start LoginTask (AsyncTask)
     public void startLoginTask() {
         new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/login/" + username);
     }
 
     public void compareOnlineWithLocalBalance() {
-
         //if there is no local balance yet, insert a row with €0,00
         //this is the case when a user first logs in
         if (balanceDAO.selectData().size() == 0) {

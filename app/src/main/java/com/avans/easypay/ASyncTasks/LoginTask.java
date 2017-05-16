@@ -99,11 +99,7 @@ public class LoginTask extends AsyncTask<String, Void, String> {
                 String lastname = customer.optString("Achternaam");
                 String bankAccountNumber = customer.optString("Bankrekeningnummer");
                 float balanceInt = (float) customer.optInt("saldo");
-                Log.i(TAG, "Saldo uit API: " + balanceInt);
                 float b = balanceInt/100;
-                Log.i(TAG, "Saldo (naar float geparst): " + b);
-
-//                float b = (float) customer.optDouble("Saldo");
 
                 String timeLog = customer.optString("TimeLog");
 

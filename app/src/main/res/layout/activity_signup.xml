@@ -36,10 +36,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/firstname_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="text"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
@@ -52,10 +54,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/lastname_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="text"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
@@ -68,10 +72,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/username_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="text"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
@@ -84,10 +90,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="text"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
@@ -100,10 +108,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/email_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="textEmailAddress"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
@@ -116,10 +126,12 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/banknumber_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/fab_margin"
                 android:background="@drawable/edittext"
+                android:inputType="text"
                 android:padding="4dp"
                 android:textSize="14sp" />
 
