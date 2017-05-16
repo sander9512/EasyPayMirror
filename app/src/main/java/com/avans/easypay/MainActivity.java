@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void accountButton(View v) {
         Intent intent = new Intent(this, UserDataActivity.class);
+        intent.putExtra("Customer", customer);
         startActivity(intent);
     }
 }
