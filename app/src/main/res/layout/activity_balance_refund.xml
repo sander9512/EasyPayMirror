@@ -5,42 +5,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat">
+    <include layout="@layout/header" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="€50,00"
-            android:textColor="@android:color/white"
-            android:textSize="14dp"
-            android:layout_gravity="left"
-            android:id="@+id/toolbar_balance" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@android:color/white"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:id="@+id/toolbar_title" />
-
-        <ImageView
-            android:id="@+id/home"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="right"
-            android:src="@drawable/ic_home_24dp"
-            android:layout_marginRight="@dimen/leftRightMain"/>
-
-    </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
