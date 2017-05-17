@@ -76,11 +76,13 @@
                     android:textSize="14sp" />
 
                 <CheckBox
+
                     android:translationX="-7dp"
                     android:id="@+id/saveUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Onthoud gebruikersnaam"
+                    android:buttonTint="@color/colorPrimaryDark"
                     android:layout_marginBottom="@dimen/topBottomMain"/>
 
             </LinearLayout>
