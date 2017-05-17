@@ -1,6 +1,8 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -41,13 +43,24 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
 
     Customer customer;
 
+    SharedPreferences customerPref;
+    SharedPreferences.Editor customerEdit;
+
+    public static final String PREFRENCE = "CUSTOMER";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
 
-        customer = (Customer) getIntent().getSerializableExtra("Customer");
 
+        customerPref = getSharedPreferences(PREFRENCE, Context.MODE_PRIVATE);
+        customerEdit = customerPref.edit();
+
+        customer = new Customer(customerPref.getInt("ID", 0),customerPref.getString("Username", "")
+                , customerPref.getString("Password", ""), customerPref.getString("Email", "")
+                , customerPref.getString("FirstName", ""), customerPref.getString("LastName", "")
+                , customerPref.getString("Bank", ""));
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
 
@@ -167,6 +180,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     putRequest = new EasyPayAPIPUTConnector();
                     putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
                             + customer.getCustomerId()+"/wachtwoord="+newPassInput1.getText());
+                    customerEdit.putString("Password", newPassInput1.getText().toString());
+                    customerEdit.commit();
                     passwordText.setText(passPlaceholder);
 
                     //restore default values
@@ -215,6 +230,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                         putRequest = new EasyPayAPIPUTConnector();
                         putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
                                 + customer.getCustomerId()+"/email="+emailInput.getText());
+                        customerEdit.putString("Email", emailInput.getText().toString());
+                        customerEdit.commit();
                         Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
                         currentEmail = emailInput.getText().toString().trim();
                     }
@@ -239,6 +256,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                         putRequest = new EasyPayAPIPUTConnector();
                         putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
                                 + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
+                        customerEdit.putString("Bank", bankNumberInput.getText().toString());
+                        customerEdit.commit();
                         Toast.makeText(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
                         currentBankNumber = bankNumberInput.getText().toString().trim();
                     }

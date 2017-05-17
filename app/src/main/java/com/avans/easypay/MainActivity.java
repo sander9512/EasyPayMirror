@@ -34,9 +34,6 @@ public class MainActivity extends AppCompatActivity {
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
 
-        customer = (Customer) getIntent().getSerializableExtra("Customer");
-
-
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);

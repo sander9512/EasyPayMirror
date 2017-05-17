@@ -1,8 +1,9 @@
 package com.avans.easypay;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,11 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     //Progress Dialog
     ProgressDialog pd;
 
+    SharedPreferences customerPref;
+    SharedPreferences.Editor customerEdit;
+
+    public static final String PREFERENCE = "CUSTOMER";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,11 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //initialise DB objects
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
+
+        customerPref = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
+        customerEdit = customerPref.edit();
+
+        usernameInput.setText(customerPref.getString("Username", ""));
     }
 
     public void loginBtn(View v) {
@@ -61,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //EditTexts empty?
         if (!username.equals("") && !password.equals("")) {
             pd = new ProgressDialog(this);
-            pd.setMessage("Logging in...");
+            pd.setMessage("Aan het inloggen...");
             pd.show();
 
             startLoginTask();
@@ -91,7 +102,15 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
             compareOnlineWithLocalBalance();
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            i.putExtra("Customer", customer);
+//            i.putExtra("Customer", customer);
+            customerEdit.putInt("ID", customer.getCustomerId());
+            customerEdit.putString("Username", customer.getUsername());
+            customerEdit.putString("Password", customer.getUsername());
+            customerEdit.putString("Email", customer.getEmail());
+            customerEdit.putString("FirstName", customer.getFirstname());
+            customerEdit.putString("LastName", customer.getLastname());
+            customerEdit.putString("Bank", customer.getBankAccountNumber());
+            customerEdit.commit();
             startActivity(i);
             finish();
 
