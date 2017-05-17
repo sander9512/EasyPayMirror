@@ -44,7 +44,7 @@
     <string name="register_signup">Registreren</string>
     <string name="firstname_required_signup">* Voornaam</string>
     <string name="lastname_required_signup">* Achternaam</string>
-    <string name="username_required_signup">* Gebruikersnaam (8-16)</string>
+    <string name="username_required_signup">* Gebruikersnaam (6-16)</string>
     <string name="password_required_signup">* Wachtwoord (8-32)</string>
     <string name="email_signup">Email</string>
     <string name="banknumber_signup">Bankrekeningnummer</string>
