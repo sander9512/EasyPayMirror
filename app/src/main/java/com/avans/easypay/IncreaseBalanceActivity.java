@@ -1,6 +1,8 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,10 +36,16 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
 
     private Balance b;
 
+    EasyPayAPIPUTConnector put;
+
+    SharedPreferences customer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance_increase);
+
+        customer = getSharedPreferences("CUSTOMER", Context.MODE_PRIVATE);
 
         editText = (EditText) findViewById(R.id.editText2);
         editText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
@@ -115,7 +123,11 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
 
             if(afterAmount <= 150f)
             {
-                balanceDAO.insertData(new Balance(afterAmount, new Date()));
+                Balance afterBalance = new Balance(afterAmount, new Date());
+                put = new EasyPayAPIPUTConnector();
+                put.execute("https://easypayserver.herokuapp.com/api/klant/id=" + customer.getInt("ID", 0)
+                        + "/saldo=" + afterBalance.getAmount() * 100 + "&datum=" + afterBalance.getTimeLog());
+                balanceDAO.insertData(afterBalance);
                 finish();
             }
             else{

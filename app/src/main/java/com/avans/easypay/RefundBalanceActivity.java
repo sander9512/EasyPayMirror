@@ -1,6 +1,8 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,10 +29,16 @@ public class RefundBalanceActivity extends AppCompatActivity {
 
     private Balance b;
 
+    EasyPayAPIPUTConnector put;
+
+    SharedPreferences customer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance_refund);
+
+        customer = getSharedPreferences("CUSTOMER", Context.MODE_PRIVATE);
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
@@ -77,6 +85,9 @@ public class RefundBalanceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Balance b = new Balance(0f, new Date());
+                put = new EasyPayAPIPUTConnector();
+                put.execute("https://easypayserver.herokuapp.com/api/klant/id=" + customer.getInt("ID", 0)
+                        + "/saldo=" + b.getAmount() * 100 + "&datum=" + b.getTimeLog());
                 balanceDAO.insertData(b);
                 finish();
             }
