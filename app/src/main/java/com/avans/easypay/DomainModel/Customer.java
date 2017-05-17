@@ -25,6 +25,17 @@ public class Customer implements Serializable {
         this.timeLog = timeLog;
     }
 
+    public Customer(int customerId, String username, String password, String email, String firstname,
+                    String lastname, String bankAccountNumber) {
+        this.customerId = customerId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.bankAccountNumber = bankAccountNumber;
+    }
+
     public int getCustomerId() {
         return customerId;
     }

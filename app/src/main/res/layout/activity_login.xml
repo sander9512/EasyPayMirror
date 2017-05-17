@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:layout_marginBottom="@dimen/topBottomMain"
                     android:background="@drawable/edittext"
                     android:padding="4dp"
                     android:textSize="14sp"/>
@@ -70,10 +70,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:layout_marginBottom="@dimen/fab_margin"
+                    android:layout_marginBottom="@dimen/topBottomMain"
                     android:background="@drawable/edittext"
                     android:padding="4dp"
                     android:textSize="14sp" />
+
+                <CheckBox
+                    android:translationX="-7dp"
+                    android:id="@+id/saveUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Onthoud gebruikersnaam"
+                    android:layout_marginBottom="@dimen/topBottomMain"/>
 
             </LinearLayout>
 
