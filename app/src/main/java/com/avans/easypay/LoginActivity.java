@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private TextView usernameInput, passwordInput;
     private Customer customer;
 
+    private CheckBox check;
+
     private String username, password;
     private int loginDelay = 400;
 
@@ -38,10 +41,14 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     //Progress Dialog
     ProgressDialog pd;
 
-    SharedPreferences customerPref;
-    SharedPreferences.Editor customerEdit;
+    private SharedPreferences loginPref;
+    private SharedPreferences.Editor loginEdit;
 
-    public static final String PREFERENCE = "CUSTOMER";
+    private SharedPreferences customerPref;
+    private SharedPreferences.Editor customerEdit;
+
+    public static final String PREFERENCECUSTOMER = "CUSTOMER";
+    public static final String PREFERENCELOGIN = "LOGIN";
 
 
     @Override
@@ -52,20 +59,40 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //initialise xml elements
         usernameInput = (TextView) findViewById(R.id.username_textview);
         passwordInput = (TextView) findViewById(R.id.password_textview);
+        check = (CheckBox) findViewById(R.id.saveUser);
 
         //initialise DB objects
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
 
-        customerPref = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
+        customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
         customerEdit = customerPref.edit();
 
-        usernameInput.setText(customerPref.getString("Username", ""));
+        loginPref = getSharedPreferences(PREFERENCELOGIN, Context.MODE_PRIVATE);
+        loginEdit = loginPref.edit();
+
+        if (loginPref.getBoolean("Check", false)){
+            usernameInput.setText(loginPref.getString("Username", ""));
+            check.setChecked(true);
+        } else{
+            usernameInput.setText("");
+            check.setChecked(false);
+        }
     }
 
     public void loginBtn(View v) {
-        //show loading animation
 
+        if (check.isChecked()){
+            loginEdit.putString("Username", usernameInput.getText().toString());
+            loginEdit.putBoolean("Check", true);
+            loginEdit.commit();
+        } else{
+            loginEdit.putString("Username", "");
+            loginEdit.putBoolean("Check", false);
+            loginEdit.commit();
+        }
+
+        //show loading animation
         username = usernameInput.getText().toString().trim().toLowerCase();
         password = passwordInput.getText().toString();
 
