@@ -7,11 +7,14 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.avans.easypay.HCE.CardService;
+import com.avans.easypay.HCE.OrderStorage;
 
 /**
  * Created by TB on 5/6/2017.
@@ -30,20 +33,23 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        final Intent cardService = new Intent(this, CardService.class);
-
         messageOutput = (TextView) findViewById(R.id.message_textview);
+
 
         button = (Button) findViewById(R.id.button_scan);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startService(cardService);
-                Intent intent = new Intent(ScanActivity.this, MainActivity.class);
+                startService(new Intent(ScanActivity.this, CardService.class));
+//                Intent intent = new Intent(ScanActivity.this, MainActivity.class);
 //                startActivity(intent);
-//                finish();
+//                finish();account.setText(AccountStorage.GetAccount(getActivity()));
             }
         });
+
+        //HCE components
+        messageOutput.setText(OrderStorage.GetAccount(getApplicationContext()));
+        messageOutput.addTextChangedListener(new OrderUpdater());
     }
 
     @Override
@@ -70,7 +76,21 @@ public class ScanActivity extends AppCompatActivity {
         }
     }
 
-    public void onPause() {
-        super.onPause();
+    private class OrderUpdater implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Not implemented.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Not implemented.
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String account = s.toString();
+            OrderStorage.SetAccount(getApplicationContext(), account);
+        }
     }
 }
