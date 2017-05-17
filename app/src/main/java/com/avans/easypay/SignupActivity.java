@@ -20,8 +20,8 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
     private String actualEmail, actualBanknumber;
 
     private Customer customer;
-    private int minUsernameLength = 6, maxUsernameLength = 18,
-            minPasswordLength = 8, maxPasswordLength = 32;
+    private int minUsernameLength = 6, maxUsernameLength = 16,
+            minPasswordLength = 8, maxPasswordLength = 16;
 
     private ProgressDialog pd;
 
@@ -59,17 +59,13 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         banknumber = !banknumberInput.getText().toString().trim().equals("") ?
                 "/" + banknumberInput.getText().toString().trim() : "";
 
-        //to save in shared preferences
-        actualEmail = emailInput.getText().toString().trim();
-        actualBanknumber = banknumberInput.getText().toString().trim();
-
         Log.i(this.getClass().getSimpleName(), username + "|" + password);
         Log.i(this.getClass().getSimpleName(), username.length() + "|" + password.length());
 
 
         if (!firstname.equals("") && !lastname.equals("")
-                && username.length() > minUsernameLength && username.length() < maxUsernameLength
-                && password.length() > minPasswordLength && password.length() < maxPasswordLength) {
+                && username.length() > minUsernameLength-1 && username.length() <= maxUsernameLength
+                && password.length() > minPasswordLength-1 && password.length() <= maxPasswordLength) {
 
             //if all required fields are filled, show progress dialog
             pd = new ProgressDialog(this);
