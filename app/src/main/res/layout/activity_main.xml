@@ -86,8 +86,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="18dp"
-                        android:text="@string/order" />
+                        android:text="@string/order"
+                        android:textSize="18dp" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -101,7 +101,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/button"
                 android:clickable="true"
-                android:elevation="@dimen/elevation">
+                android:elevation="@dimen/elevation"
+                android:onClick="overviewButton">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -119,8 +120,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="18dp"
-                        android:text="@string/overview" />
+                        android:text="@string/overview"
+                        android:textSize="18dp" />
                 </LinearLayout>
 
             </RelativeLayout>

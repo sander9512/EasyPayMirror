@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/order_id"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="Ordernummer:" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="end"
+            android:text="Locatie" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="50dp"
+            android:text="Datum" />
+
+    </LinearLayout>
+
+</LinearLayout>
