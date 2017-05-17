@@ -44,10 +44,21 @@
     <string name="register_signup">Registreren</string>
     <string name="firstname_required_signup">* Voornaam</string>
     <string name="lastname_required_signup">* Achternaam</string>
-    <string name="username_required_signup">* Gebruikersnaam</string>
-    <string name="password_required_signup">* Wachtwoord</string>
+    <string name="username_required_signup">* Gebruikersnaam (8-16)</string>
+    <string name="password_required_signup">* Wachtwoord (8-32)</string>
     <string name="email_signup">Email</string>
     <string name="banknumber_signup">Bankrekeningnummer</string>
+
+    <string name="empty_fields">Een of meer velden zijn niet ingevuld</string>
+    <string name="account_being_created_progressdialog">Account wordt aangemaakt...</string>
+    <string name="username_already_exists">Gebruikersnaam bestaat al.</string>
+    <string name="username_too_short">Gebruikersnaam is te kort.</string>
+    <string name="username_too_long">Gebruikersnaam is te lang.</string>
+    <string name="password_too_short">Wachtwoord is te kort.</string>
+    <string name="password_too_long">Wachtwoord is te lang.</string>
+
+    <string name="account_created1of2">Account met gebruikersnaam \'</string>
+    <string name="account_created2of2">\' aangemaakt.</string>
 
     <!--userdata-->
     <string name="userdata_userdata">Accountgegevens</string>

@@ -254,7 +254,8 @@
                             android:padding="4dp"
                             android:text="NL99 RABO 0123 4455 67"
                             android:textColor="#000"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:inputType="text"/>
 
                         <ImageView
                             android:id="@+id/banknumber_edit_btn"
