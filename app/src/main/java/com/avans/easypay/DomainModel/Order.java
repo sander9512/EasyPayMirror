@@ -1,4 +1,4 @@
-package com.avans.easypay;
+package com.avans.easypay.DomainModel;
 
 import java.io.Serializable;
 
@@ -31,8 +31,8 @@ public class Order implements Serializable {
         this.price = price;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getAmount() {
+        return ""+amount;
     }
 
     public void setAmount(int amount) {

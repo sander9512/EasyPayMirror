@@ -3,14 +3,11 @@ package com.avans.easypay;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.avans.easypay.DomainModel.Order;
 
-import static com.avans.easypay.R.id.amount_id;
-import static com.avans.easypay.R.id.product_id;
+import java.util.ArrayList;
 
 public class OrderOverviewDetail extends AppCompatActivity {
     private ArrayList<Order> mOrderList = new ArrayList<>();
@@ -28,7 +25,10 @@ public class OrderOverviewDetail extends AppCompatActivity {
         amount = (TextView) findViewById(R.id.amount_id);
         price = (TextView) findViewById(R.id.price_id);
 
-        Bundle bundle = getIntent().getExtras();
-        Order order = bundle.getParcelable("Order");
+        Order order = (Order) getIntent().getSerializableExtra("Order");
+
+        productName.setText("Naam: " + order.getPurchasedProduct());
+        amount.setText("Aantal: " + order.getAmount());
+        price.setText("Prijs: " + order.getPrice()+ "");
     }
 }

@@ -1,17 +1,13 @@
 package com.avans.easypay;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.avans.easypay.DomainModel.Order;
 
 import java.util.ArrayList;
 
@@ -26,8 +22,10 @@ public class OrderOverviewActivity extends AppCompatActivity implements ListView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_overview);
         mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
-        ListView ListOverview = (ListView) findViewById(R.id.orderListview);
-        ListOverview.setAdapter(mOverviewAdapter);
+        ListView listOverview = (ListView) findViewById(R.id.orderListview);
+        listOverview.setAdapter(mOverviewAdapter);
+        listOverview.setOnItemClickListener(this);
+
 
         //Aanmaken van product objecten en toevoegen aan de lijst
         Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);

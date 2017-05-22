@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Order;
+
 import java.util.ArrayList;
 /**
  * Created by Omidleet on 10/05/2017.
