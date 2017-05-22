@@ -16,23 +16,23 @@ public class OverviewAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<Product> productsList;
+    private ArrayList<Order> orderList;
 
-    public OverviewAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
+    public OverviewAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Order> orderList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
-        this.productsList = productsList;
+        this.orderList = orderList;
     }
 
     @Override
     public int getCount() {
-        int size = productsList.size();
+        int size = orderList.size();
         return size;
     }
 
     @Override
     public Object getItem(int position) {
-        return productsList.get(position);
+        return orderList.get(position);
     }
 
     @Override
@@ -58,19 +58,17 @@ public class OverviewAdapter extends BaseAdapter {
         } else {
             viewHolder = (OverviewAdapter.ViewHolder) convertView.getTag();
         }
-        Product p = (Product) productsList.get(position);
+        Order o = (Order) orderList.get(position);
 
-        viewHolder.orderLocation.setText("Liqueurpaleis");
-        viewHolder.orderDate.setText("11/11/2020");
-        viewHolder.orderId.setText("7");
+        viewHolder.orderLocation.setText(o.getLocation());
+        viewHolder.orderDate.setText(o.getDate());
+        viewHolder.orderId.setText(o.getOrderId());
 
         return convertView;
 
     }
 
-
     public class ViewHolder {
         private TextView orderLocation, orderDate, orderId;
     }
-
 }
