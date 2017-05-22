@@ -75,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void overviewButton(View v) {
+        Intent intent = new Intent(this, OrderOverviewActivity.class);
+        startActivity(intent);
+    }
+
     public void balanceButton(View v) {
         Intent intent = new Intent(this, BalanceActivity.class);
         startActivity(intent);
