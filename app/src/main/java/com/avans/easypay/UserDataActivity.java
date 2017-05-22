@@ -1,8 +1,10 @@
 package com.avans.easypay;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +42,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     private BalanceDAO balanceDAO;
 
     private EasyPayAPIPUTConnector putRequest;
+    private EasyPayAPIDELETEConnector deleteRequest;
 
     Customer customer;
 
@@ -91,9 +94,16 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         firstnameText.setText(customer.getFirstname());
         lastnameText.setText(customer.getLastname());
         usernameText.setText(customer.getUsername());
-        emailInput.setText(customer.getEmail());
-        bankNumberInput.setText(customer.getBankAccountNumber());
-
+        if (customer.getEmail().equals("null")){
+            emailInput.setText("");
+        } else{
+            emailInput.setText(customer.getEmail());
+        }
+        if (customer.getBankAccountNumber().equals("null")){
+            bankNumberInput.setText("");
+        }else {
+            bankNumberInput.setText(customer.getBankAccountNumber());
+        }
         //Password *
         int passLength = customer.getPassword().trim().length();
         String passPlaceholder = "";
@@ -151,6 +161,33 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
         }
+    }
+
+    public void deleteAcc(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Weet u zeker dat uw account verwijderd moet worden?")
+                .setTitle("Verwijdering account");
+        builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                deleteRequest = new EasyPayAPIDELETEConnector();
+                deleteRequest.execute("https://easypayserver.herokuapp.com/api/klant/delete/" + customerPref.getInt("ID", 0));
+                Toast.makeText(UserDataActivity.this, "Account verwijderd", Toast.LENGTH_SHORT).show();
+                finishAffinity();
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
