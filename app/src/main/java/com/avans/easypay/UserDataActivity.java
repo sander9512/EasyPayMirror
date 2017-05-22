@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
+
+import java.util.regex.Pattern;
 
 public class UserDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -190,6 +193,11 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         dialog.show();
     }
 
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -264,13 +272,24 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     emailEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     emailEditable = false;
                     if (!currentEmail.equals(emailInput.getText().toString().trim())) {
-                        putRequest = new EasyPayAPIPUTConnector();
-                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
-                                + customer.getCustomerId()+"/email="+emailInput.getText());
-                        customerEdit.putString("Email", emailInput.getText().toString());
-                        customerEdit.commit();
-                        Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
-                        currentEmail = emailInput.getText().toString().trim();
+                        if (validEmail(emailInput.getText().toString().trim())){
+                            putRequest = new EasyPayAPIPUTConnector();
+                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                    + customer.getCustomerId()+"/email="+emailInput.getText());
+                            customerEdit.putString("Email", emailInput.getText().toString());
+                            customerEdit.commit();
+                            Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
+                            currentEmail = emailInput.getText().toString().trim();
+                        }else {
+                            Toast.makeText(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+                            emailInput.setEnabled(true);
+                            emailInput.requestFocus();
+                            emailEditBtn.setBackgroundResource(R.drawable.ic_check);
+                            emailEditable = true;
+                            emailInput.setText(currentEmail);
+                        }
+                    } else {
+                        Toast.makeText(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
