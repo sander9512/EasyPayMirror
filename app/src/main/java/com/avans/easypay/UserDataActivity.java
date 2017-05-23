@@ -1,11 +1,14 @@
 package com.avans.easypay;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +23,8 @@ import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
+
+import java.util.regex.Pattern;
 
 public class UserDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +45,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     private BalanceDAO balanceDAO;
 
     private EasyPayAPIPUTConnector putRequest;
+    private EasyPayAPIDELETEConnector deleteRequest;
 
     Customer customer;
 
@@ -91,9 +97,16 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         firstnameText.setText(customer.getFirstname());
         lastnameText.setText(customer.getLastname());
         usernameText.setText(customer.getUsername());
-        emailInput.setText(customer.getEmail());
-        bankNumberInput.setText(customer.getBankAccountNumber());
-
+        if (customer.getEmail().equals("null")){
+            emailInput.setText("");
+        } else{
+            emailInput.setText(customer.getEmail());
+        }
+        if (customer.getBankAccountNumber().equals("null")){
+            bankNumberInput.setText("");
+        }else {
+            bankNumberInput.setText(customer.getBankAccountNumber());
+        }
         //Password *
         int passLength = customer.getPassword().trim().length();
         String passPlaceholder = "";
@@ -151,6 +164,38 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
         }
+    }
+
+    public void deleteAcc(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Weet u zeker dat uw account verwijderd moet worden?")
+                .setTitle("Verwijdering account");
+        builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                deleteRequest = new EasyPayAPIDELETEConnector();
+                deleteRequest.execute("https://easypayserver.herokuapp.com/api/klant/delete/" + customerPref.getInt("ID", 0));
+                Toast.makeText(UserDataActivity.this, "Account verwijderd", Toast.LENGTH_SHORT).show();
+                finishAffinity();
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     @Override
@@ -227,13 +272,24 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     emailEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     emailEditable = false;
                     if (!currentEmail.equals(emailInput.getText().toString().trim())) {
-                        putRequest = new EasyPayAPIPUTConnector();
-                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
-                                + customer.getCustomerId()+"/email="+emailInput.getText());
-                        customerEdit.putString("Email", emailInput.getText().toString());
-                        customerEdit.commit();
-                        Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
-                        currentEmail = emailInput.getText().toString().trim();
+                        if (validEmail(emailInput.getText().toString().trim())){
+                            putRequest = new EasyPayAPIPUTConnector();
+                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                    + customer.getCustomerId()+"/email="+emailInput.getText());
+                            customerEdit.putString("Email", emailInput.getText().toString());
+                            customerEdit.commit();
+                            Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
+                            currentEmail = emailInput.getText().toString().trim();
+                        }else {
+                            Toast.makeText(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+                            emailInput.setEnabled(true);
+                            emailInput.requestFocus();
+                            emailEditBtn.setBackgroundResource(R.drawable.ic_check);
+                            emailEditable = true;
+                            emailInput.setText(currentEmail);
+                        }
+                    } else {
+                        Toast.makeText(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

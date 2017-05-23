@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="2"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        android:id="@+id/product_id"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:paddingTop="100dp"
+        android:text="Product:"
+        android:textSize="30dp" />
+
+
+    <TextView
+        android:id="@+id/amount_id"
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text="Aantal:" />
+
+
+    <TextView
+        android:id="@+id/price_id"
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="90dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text="Prijs:" />
+
+</LinearLayout>
+

@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.LoginTask;
 import com.avans.easypay.DomainModel.Customer;
+
+import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
 
@@ -54,8 +57,17 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         }
         username = usernameInput.getText().toString().trim();
         password = passwordInput.getText().toString(); //no trim
-        email = !emailInput.getText().toString().trim().equals("") ?
-                "/" + emailInput.getText().toString().trim() : "";
+        if (emailInput.getText().toString().trim().equals("")){
+            email = "";
+        } else{
+            if (validEmail(emailInput.getText().toString().trim())){
+                email = "/" + emailInput.getText().toString().trim();
+            } else {
+                email = null;
+            }
+        }
+//        email = !emailInput.getText().toString().trim().equals("") ?
+//                "/" + emailInput.getText().toString().trim() : "";
         banknumber = !banknumberInput.getText().toString().trim().equals("") ?
                 "/" + banknumberInput.getText().toString().trim() : "";
 
@@ -65,7 +77,8 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
 
         if (!firstname.equals("") && !lastname.equals("")
                 && username.length() > minUsernameLength-1 && username.length() <= maxUsernameLength
-                && password.length() > minPasswordLength-1 && password.length() <= maxPasswordLength) {
+                && password.length() > minPasswordLength-1 && password.length() <= maxPasswordLength
+                && email != null) {
 
             //if all required fields are filled, show progress dialog
             pd = new ProgressDialog(this);
@@ -91,9 +104,16 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         } else if (password.length() > maxPasswordLength && !password.equals("")) {
             Toast.makeText(this, getResources().getString(R.string.password_too_long), Toast.LENGTH_SHORT).show();
             //if other fields are empty
-        } else {
+        } else if (email == null){
+            Toast.makeText(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+        }else {
             Toast.makeText(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     public void startLoginTask() {
