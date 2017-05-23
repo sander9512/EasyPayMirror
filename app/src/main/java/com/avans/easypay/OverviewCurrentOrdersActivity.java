@@ -19,6 +19,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     private TextView subtotal;
     private double price;
     private String totalprice;
+    private ProductsTotal.OnTotalChanged totalListener = null;
 
     //private ArrayAdapter mPersonAdapter;
     private ProductAdapter   mProductAdapter;
@@ -40,7 +41,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         }
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        mProductAdapter = new ProductAdapter(this, inflater, mProductList);
+        mProductAdapter = new ProductAdapter(totalListener, this, inflater, mProductList);
 
         // Link adapter to ListView
         mProductListView.setAdapter(mProductAdapter);

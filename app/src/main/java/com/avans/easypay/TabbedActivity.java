@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged, EasyPayAPIConnector.OnProductAvailable{
+public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged, EasyPayAPIConnector.OnProductAvailable {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,6 +46,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     protected static ProductAdapter adapter;
     private final ProductsTotal.OnTotalChanged totalListener = this;
     private ProductAdapter product_adapter;
+    private FoodAdapter food_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
         product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
+        food_adapter = new FoodAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
 
 
     }
@@ -81,12 +84,13 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     @Override
     public void onProductAvailable(Product product) {
         productList.add(product);
+        //Log.i("", "onProductAvailable: " + productList);
         product_adapter.notifyDataSetChanged();
     }
 
     public void getProductItems() {
         String[] URL = {
-                "https://easypayserver.herokuapp.com/api/product"
+                "https://easypayserver.herokuapp.com/api/product/drank"
         };
 
         new EasyPayAPIConnector(this).execute(URL);
@@ -146,11 +150,10 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
              case 1:
                  FoodTab tab2 = new FoodTab();
                  //tab2.setTotalListener(totalListener);
-                 tab2.setProductAdapter(product_adapter);
+                 tab2.setFoodAdapter(food_adapter);
                  return tab2;
              default:
                  return null;
-
          }
         }
 

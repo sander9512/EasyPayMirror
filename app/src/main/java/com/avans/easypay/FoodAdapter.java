@@ -15,41 +15,30 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProductAdapter extends BaseAdapter {
+public class FoodAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<Product> productsList;
+    private ArrayList<Product> productList;
     private ArrayList<ArrayList<Product>> products = new ArrayList<>();
-
     private ProductsTotal.OnTotalChanged listener;
-
     private ProductsTotal total;
 
-    public ProductAdapter(ProductsTotal.OnTotalChanged listener,Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
+    public FoodAdapter(ProductsTotal.OnTotalChanged listener ,Context context, LayoutInflater layoutInflater, ArrayList<Product> productList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
-        this.productsList = productsList;
+        this.productList = productList;
         this.listener = listener;
-    System.out.println("prodList size: "+productsList.size());
-        for (int i = 0; i < productsList.size(); i++) {
-
-            products.add(new ArrayList<Product>());
-        }
-
-        this.total = new ProductsTotal(context, products);
-
-
     }
 
     @Override
     public int getCount() {
-        int size = productsList.size();
+        int size = productList.size();
         return size;
     }
 
     @Override
     public Object getItem(int position) {
-        return productsList.get(position);
+        return productList.get(position);
     }
 
     @Override
@@ -59,43 +48,43 @@ public class ProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+        final FoodAdapter.ViewHolder viewHolder;
 
         if(convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.listview_product_row, null);
+            convertView = layoutInflater.inflate(R.layout.listview_food_row, null);
 
-            viewHolder = new ViewHolder();
-            viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_image);
-            viewHolder.productName = (TextView) convertView.findViewById(R.id.product_name);
-            viewHolder.productPrice = (TextView) convertView.findViewById(R.id.product_price);
-            viewHolder.productSpinner = (Spinner) convertView.findViewById(R.id.product_spinner);
+            viewHolder = new FoodAdapter.ViewHolder();
+            viewHolder.foodImage = (ImageView) convertView.findViewById(R.id.food_image);
+            viewHolder.foodName = (TextView) convertView.findViewById(R.id.food_name);
+            viewHolder.foodPrice = (TextView) convertView.findViewById(R.id.food_price);
+            viewHolder.foodSpinner = (Spinner) convertView.findViewById(R.id.food_spinner);
 
             convertView.setTag(viewHolder);
         }
         else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (FoodAdapter.ViewHolder) convertView.getTag();
         }
         //placeholder code
-        final Product p = productsList.get(position);
+        final Product p = productList.get(position);
 
         //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
-        Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
+        Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.foodImage);
 
         double ProductPrice = (p.getProductPrice());
-            viewHolder.productName.setText(p.getProductName());
-            viewHolder.productPrice.setText("€" + ProductPrice);
+        viewHolder.foodName.setText(p.getProductName());
+        viewHolder.foodPrice.setText("€" + ProductPrice);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
                 R.array.spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        viewHolder.productSpinner.setAdapter(adapter);
-        viewHolder.productSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+        viewHolder.foodSpinner.setAdapter(adapter);
+        viewHolder.foodSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
 
 
-                int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
+                int spinnerValue = Integer.parseInt(viewHolder.foodSpinner.getSelectedItem().toString());
 
                 ArrayList<Product> chosenProducts = new ArrayList<Product>();
 
@@ -106,7 +95,7 @@ public class ProductAdapter extends BaseAdapter {
                 }
                 if(products.size() > position)
                     products.set(position, chosenProducts);
-                listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
+                //listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
 
             }
 
@@ -120,11 +109,9 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
-       private ImageView productImage;
-        private TextView productName, productPrice;
-        private Spinner productSpinner;
+        private ImageView foodImage;
+        private TextView foodName, foodPrice;
+        private Spinner foodSpinner;
 
     }
 }
-
-
