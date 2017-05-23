@@ -2,38 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-<!--    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:text="Bestelnummer"
-        android:padding="10dp" />
+    <include layout="@layout/header" />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:text="Locatie"
-        android:padding="10dp"/>
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:text="Datum"
-        android:padding="10dp"/>-->
-
-
-
-<ListView
-android:id="@+id/orderListview"
-android:clickable="true"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
-
-</ListView>
+    <ListView
+    android:id="@+id/orderListview"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    </ListView>
 
 </LinearLayout>
 
