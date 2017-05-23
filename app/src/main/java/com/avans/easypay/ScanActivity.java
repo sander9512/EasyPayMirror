@@ -55,7 +55,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
 
         //check the status of the order payment every x seconds
-        new CountDownTimer(10000, 500) {
+        new CountDownTimer(3000, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -66,11 +66,11 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
                 if (currentOrderStatus.equals("PAID")) {
-
                     //start new activity after x seconds
-                    Log.i(TAG, "1. Order status: " + currentOrderStatus);
-//                    Intent i = new Intent(this, DeClassWaarOmidMeeBezigIs.class);
-//                    startActivity(i);
+                    Intent i = new Intent(ScanActivity.this, LoginActivity.class);
+                    startActivity(i);
+                } else {
+                    this.start();
                 }
             }
         }.start();
@@ -102,12 +102,9 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 
     @Override
     public void onStatusAvailable(String status) {
-        Toast.makeText(this, "API GET request gedaan.", Toast.LENGTH_SHORT).show();
         this.currentOrderStatus = status;
-        Log.i(TAG, "3. Order status: " + currentOrderStatus);
         if (currentOrderStatus.equals("PAID")) {
-            Log.i(TAG, "4. Order status: " + currentOrderStatus);
-            Toast.makeText(this, "Status is nu betaald", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Bestelling is betaald", Toast.LENGTH_SHORT).show();
 
             //show check mark animation to give user feedback that the transaction is successful
 
