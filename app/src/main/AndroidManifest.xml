@@ -23,11 +23,9 @@
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
-        <activity android:name=".ScanActivity">
-
-        </activity>
+        <activity android:name=".ScanActivity"/>
+        <activity android:name= ".OrderOverviewActivity"/>
         <activity android:name=".OverviewCurrentOrdersActivity" />
-
         <activity
             android:name=".TabbedActivity"
             android:label="@string/app_name"
