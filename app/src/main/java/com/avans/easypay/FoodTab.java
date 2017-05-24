@@ -3,16 +3,11 @@ package com.avans.easypay;
 /**
  * Created by Sander on 5/2/2017.
  */
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,7 +38,7 @@ public class FoodTab extends Fragment {
         //ProductAdapter adapter = TabbedActivity.adapter
         //ProductAdapter adapter = new ProductAdapter(this.getActivity(), inflater, productList);
         amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
-        total_price = (TextView) rootView.findViewById(R.id.subtotal);
+        total_price = (TextView) rootView.findViewById(R.id.subtotaal);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);
         //ProductAdapter adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, productList);
         listview_food.setAdapter(adapter);

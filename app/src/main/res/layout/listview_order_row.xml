@@ -43,13 +43,5 @@
         android:layout_marginTop="10dp"
         android:text="aantal"
         android:textSize="17sp" />
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:id="@+id/product_spinner"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
-
-    </Spinner>
 
 </LinearLayout>

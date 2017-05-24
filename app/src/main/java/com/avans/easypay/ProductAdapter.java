@@ -49,8 +49,7 @@ public class ProductAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        int size = productsList.size();
-        return size;
+        return productsList.size();
     }
 
     @Override
@@ -99,21 +98,14 @@ public class ProductAdapter extends BaseAdapter {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
-
-
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
-
                 ArrayList<Product> chosenProducts = new ArrayList<Product>();
-
                 for (int i = 0; i < spinnerValue; i++) {
-
                     chosenProducts.add(p);
-
                 }
                 if(products.size() > position)
                     products.set(position, chosenProducts);
                 listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
-
             }
 
             @Override

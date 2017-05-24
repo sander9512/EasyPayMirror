@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +39,7 @@ public class DrinksTab extends Fragment {
         //ProductAdapter adapter = new ProductAdapter(totalListener, this.getActivity(),inflater,productList);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
         amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
-        total_price = (TextView) rootView.findViewById(R.id.subtotal);
+        total_price = (TextView) rootView.findViewById(R.id.subtotaal);
 
         listview_drinks.setAdapter(adapter);
 

@@ -2,7 +2,6 @@ package com.avans.easypay;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,17 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged, EasyPayAPIConnector.OnProductAvailable{
 
@@ -66,7 +61,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
         //adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), products);
 
-        totalPriceView = (TextView) findViewById(R.id.subtotal);
+        totalPriceView = (TextView) findViewById(R.id.subtotaal);
         totalProductsView = (TextView) findViewById(R.id.products_amount_textview);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
