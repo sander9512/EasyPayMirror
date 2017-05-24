@@ -66,6 +66,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_drink_white_24dp);
         ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
     }
 
