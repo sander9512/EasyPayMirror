@@ -5,7 +5,7 @@
 
     <!---->
     <string name="app_name">Ea$yPay</string>
-    <string name="service_name">Card Emulation</string>
+    <string name="service_name">Ea$yPay Payment</string>
     <string name="card_title">Card Title</string>
     <string name="order">Bestel</string>
     <string name="balance">Saldo</string>
