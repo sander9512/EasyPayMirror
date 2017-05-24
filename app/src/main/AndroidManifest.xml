@@ -24,7 +24,6 @@
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
         <activity android:name=".ScanActivity">
-
         </activity>
         <activity android:name=".OverviewCurrentOrdersActivity" />
 

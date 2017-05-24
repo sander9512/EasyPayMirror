@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:valueFrom="-180"
+        android:valueTo="0"
+        android:duration="500" >
+    </rotate>
+
+    <rotate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:startOffset="500"
+        android:valueFrom="-180"
+        android:valueTo="-180"
+        android:duration="500" >
+    </rotate>
+
+</set>
