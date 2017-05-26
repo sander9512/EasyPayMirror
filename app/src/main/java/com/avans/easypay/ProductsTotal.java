@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 
 public class ProductsTotal {
-    private ArrayList<ArrayList<Product>> products;
+    private ArrayList<Product> products;
 
-    public ProductsTotal(Context context, ArrayList<ArrayList<Product>> products) {
+    public ProductsTotal(Context context, ArrayList<Product> products) {
 
         this.products = products;
 
@@ -22,16 +22,17 @@ public class ProductsTotal {
 
         double d = 0;
 
-        for (ArrayList<Product> specificProducts : products) {
+        //for (ArrayList<Product> specificProducts : products) {
 
-            for (Product product : specificProducts) {
+        for (Product product : products) {
 
-                Product p;
+            Product p;
 
-                p = product;
-                d += p.getProductPrice();
-            }
+            p = product;
+            int amount = p.getAmount();
+            d += p.getProductPrice() * amount;
         }
+        //}
 
         DecimalFormat df = new DecimalFormat("0.00##");
 
@@ -42,38 +43,41 @@ public class ProductsTotal {
 
         int total = 0;
 
-        for (ArrayList<Product> specificProducts : products) {
+        //for (ArrayList<Product> specificProducts : products) {
 
-            for (Product product : specificProducts) {
+        for (Product product : products) {
+            Product p;
+            p = product;
 
-                total += 1;
-            }
+            int amount = p.getAmount();
+            total += amount;
         }
+        //}
 
         return total + " Producten";
     }
 
-    public double getPriceTotalDouble() {
-
-        double d = 0;
-
-        for (ArrayList<Product> specificProducts : products) {
-
-            for (Product product : specificProducts) {
-
-                Product p;
-
-                p = product;
-                d += p.getProductPrice();
-            }
-        }
-
-        return d;
-    }
+//    public double getPriceTotalDouble() {
+//
+//        double d = 0;
+//
+//        for (ArrayList<Product> specificProducts : products) {
+//
+//            for (Product product : specificProducts) {
+//
+//                Product p;
+//
+//                p = product;
+//                d += p.getProductPrice();
+//            }
+//        }
+//
+//        return d;
+//    }
 
     public interface OnTotalChanged {
 
-        void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> products);
+        void onTotalChanged(String priceTotal, String total, ArrayList<Product> products);
     }
 
 }

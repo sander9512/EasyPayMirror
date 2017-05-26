@@ -18,7 +18,7 @@
 
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity" />
-        <activity android:name=".DrinksAndFoodActivity" />
+        <activity android:name=".LocationActivity" />
         <activity android:name=".BalanceActivity" />
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
@@ -26,6 +26,8 @@
         <activity android:name=".ScanActivity">
         </activity>
         <activity android:name=".OverviewCurrentOrdersActivity" />
+        <activity android:name=".OrderOverviewActivity" />
+        <activity android:name=".SignupActivity" />
 
         <activity
             android:name=".TabbedActivity"

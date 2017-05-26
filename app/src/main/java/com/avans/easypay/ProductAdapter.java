@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ProductAdapter extends BaseAdapter {
@@ -20,6 +22,7 @@ public class ProductAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private ArrayList<Product> productsList;
     private ArrayList<ArrayList<Product>> products = new ArrayList<>();
+    private ArrayList<Product> chosenProducts = new ArrayList<>();
 
     private ProductsTotal.OnTotalChanged listener;
 
@@ -36,7 +39,7 @@ public class ProductAdapter extends BaseAdapter {
             products.add(new ArrayList<Product>());
         }
 
-        this.total = new ProductsTotal(context, products);
+        this.total = new ProductsTotal(context, chosenProducts);
 
 
     }
@@ -79,13 +82,14 @@ public class ProductAdapter extends BaseAdapter {
 
         //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
         Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
-
-        double ProductPrice = (p.getProductPrice());
+        DecimalFormat df = new DecimalFormat("0.00##");
+        String price = "€" + df.format(p.getProductPrice());
+        price = price.replace(".", ",");
             viewHolder.productName.setText(p.getProductName());
-            viewHolder.productPrice.setText("€" + ProductPrice);
+            viewHolder.productPrice.setText(price);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
-                R.array.spinner_array, android.R.layout.simple_spinner_item);
+                R.array.spinner_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         viewHolder.productSpinner.setAdapter(adapter);
         viewHolder.productSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
@@ -93,13 +97,13 @@ public class ProductAdapter extends BaseAdapter {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
-                ArrayList<Product> chosenProducts = new ArrayList<Product>();
+                //ArrayList<Product> chosenProducts = new ArrayList<Product>();
                 for (int i = 0; i < spinnerValue; i++) {
                     chosenProducts.add(p);
                 }
                 if(products.size() > position)
                     products.set(position, chosenProducts);
-                listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), products);
+                listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
             }
 
             @Override

@@ -27,8 +27,8 @@ public class SodaTab extends Fragment implements EasyPayAPIConnector.OnProductAv
         sodaList = new ArrayList<Product>();
         View rootView = inflater.inflate(R.layout.fragment_tab_soda, container, false);
         getProductItems();
-        TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
-        TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
+//        TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
+//        TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
         listview_soda = (ListView) rootView.findViewById(R.id.sodaListView);
 
         adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, sodaList);
