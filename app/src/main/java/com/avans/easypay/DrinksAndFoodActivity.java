@@ -38,17 +38,18 @@ public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnC
         home.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(DrinksAndFoodActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
     }
-//      Hier mogelijk tags doorgeven vanuit database om assortiment te filteren op locatie
+
+    //      Hier mogelijk tags doorgeven vanuit database om assortiment te filteren op locatie
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.locatie_btn1:
                 Intent i = new Intent(context, TabbedActivity.class);
                 startActivity(i);
@@ -60,7 +61,7 @@ public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.locatie_btn3:
-                Intent i3 = new Intent(context, TabbedActivity.class );
+                Intent i3 = new Intent(context, TabbedActivity.class);
                 startActivity(i3);
                 break;
 

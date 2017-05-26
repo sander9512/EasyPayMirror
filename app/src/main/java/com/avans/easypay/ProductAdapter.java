@@ -40,12 +40,6 @@ public class ProductAdapter extends BaseAdapter {
 
 
     }
-    public ProductAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
-        this.context = context;
-        this.layoutInflater = layoutInflater;
-        this.productsList = productsList;
-
-    }
 
     @Override
     public int getCount() {
@@ -116,7 +110,6 @@ public class ProductAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 
     private static class ViewHolder {
        private ImageView productImage;

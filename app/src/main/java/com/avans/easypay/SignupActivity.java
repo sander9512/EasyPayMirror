@@ -117,7 +117,7 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
     }
 
     public void startLoginTask() {
-        new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/login/" + username);
+        new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/signup/" + username);
     }
 
     @Override

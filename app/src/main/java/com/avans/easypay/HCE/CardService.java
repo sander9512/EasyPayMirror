@@ -6,15 +6,10 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-/**
- * Created by Felix on 16-5-2017.
- */
-
 public class CardService extends HostApduService {
-
     private static final String TAG = "CardService";
     // AID for our loyalty card service.
-    private static final String LOYALTY_CARD_AID = "F222222222";
+    private static final String SAMPLE_LOYALTY_CARD_AID = "F222222222";
     // ISO-DEP command HEADER for selecting an AID.
     // Format: [Class | Instruction | Parameter 1 | Parameter 2]
     private static final String SELECT_APDU_HEADER = "00A40400";
@@ -22,28 +17,30 @@ public class CardService extends HostApduService {
     private static final byte[] SELECT_OK_SW = HexStringToByteArray("9000");
     // "UNKNOWN" status word sent in response to invalid APDU command (0x0000)
     private static final byte[] UNKNOWN_CMD_SW = HexStringToByteArray("0000");
-    private static final byte[] SELECT_APDU = BuildSelectApdu(LOYALTY_CARD_AID);
+    private static final byte[] SELECT_APDU = BuildSelectApdu(SAMPLE_LOYALTY_CARD_AID);
 
     @Override
     public void onDeactivated(int reason) {
+
     }
 
+    // BEGIN_INCLUDE(processCommandApdu)
     @Override
     public byte[] processCommandApdu(byte[] commandApdu, Bundle extras) {
         Log.i(TAG, "Received APDU: " + ByteArrayToHexString(commandApdu));
         // If the APDU matches the SELECT AID command for this service,
         // send the loyalty card account number, followed by a SELECT_OK status trailer (0x9000).
         if (Arrays.equals(SELECT_APDU, commandApdu)) {
-            String orderNr = "0000";
-            byte[] accountBytes = orderNr.getBytes();
-            Log.i(TAG, "Sending order number: " + orderNr);
+            String account = AccountStorage.GetAccount(this);
+            byte[] accountBytes = account.getBytes();
+            Log.i(TAG, "Sending order number: " + account);
             return ConcatArrays(accountBytes, SELECT_OK_SW);
         } else {
             return UNKNOWN_CMD_SW;
         }
     }
+    // END_INCLUDE(processCommandApdu)
 
-    //build APDU code (APDU_HEADER + LOYALTY_CARD_AID)
     public static byte[] BuildSelectApdu(String aid) {
         // Format: [CLASS | INSTRUCTION | PARAMETER 1 | PARAMETER 2 | LENGTH | DATA]
         return HexStringToByteArray(SELECT_APDU_HEADER + String.format("%02X",
@@ -51,7 +48,7 @@ public class CardService extends HostApduService {
     }
 
     public static String ByteArrayToHexString(byte[] bytes) {
-        final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        final char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
         char[] hexChars = new char[bytes.length * 2]; // Each byte has two hex characters (nibbles)
         int v;
         for (int j = 0; j < bytes.length; j++) {
@@ -71,7 +68,7 @@ public class CardService extends HostApduService {
         for (int i = 0; i < len; i += 2) {
             // Convert each character into a integer (base-16), then bit-shift into place
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i + 1), 16));
+                    + Character.digit(s.charAt(i+1), 16));
         }
         return data;
     }
@@ -90,4 +87,3 @@ public class CardService extends HostApduService {
         return result;
     }
 }
-
