@@ -1,8 +1,13 @@
 package com.avans.easypay;
 
+/**
+ * Created by Sander on 5/2/2017.
+ */
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +31,12 @@ public class FoodTab extends Fragment implements EasyPayAPIConnector.OnProductAv
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         foodList = new ArrayList<Product>();
         View rootView = inflater.inflate(R.layout.fragment_tab_food, container, false);
+        //productList = new ArrayList<>();
+        //createTestProducts();
+        //ProductAdapter adapter = TabbedActivity.adapter
+        //ProductAdapter adapter = new ProductAdapter(this.getActivity(), inflater, productList);
+        //amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
+        //total_price = (TextView) rootView.findViewById(R.id.subtotaal);
         getProductItems();
         TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
         TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);

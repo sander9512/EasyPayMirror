@@ -69,7 +69,7 @@
     android:layout_toRightOf="@+id/products_amount_textview"
     android:layout_marginRight="65dp"
     android:layout_marginTop="15dp"
-    android:id="@+id/subtotal"
+    android:id="@+id/subtotaal"
     android:text="Subtotal: €0,00"
     android:textStyle="bold"
     android:textSize="15dp"/>
@@ -78,7 +78,7 @@
     android:layout_width="45dp"
         android:onClick="overviewCurrentOrderBtn"
     android:layout_height="45dp"
-    android:layout_toRightOf="@+id/subtotal"
+    android:layout_toRightOf="@+id/subtotaal"
     android:id="@+id/orderbutton"
     android:background="@drawable/ic_shopping_cart_black_24dp"
     />

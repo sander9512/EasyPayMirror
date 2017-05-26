@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include
+        layout="@layout/header"
+        layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_weight="1" />
+
+
+    <TextView
+        android:id="@+id/Bestelling"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.15"
+        android:text="@string/title_oco"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <ListView
+        android:id="@+id/oco_OrdersList"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/subtotaal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.15"
+        android:text="subtotaal: €"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_oco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="scanBtn"
+        android:text="@string/button_text_oco" />
+
+</LinearLayout>

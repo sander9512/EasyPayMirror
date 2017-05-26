@@ -1,5 +1,8 @@
 package com.avans.easypay;
 
+/**
+ * Created by Sander on 5/2/2017.
+ */
         import android.os.Bundle;
         import android.support.v4.app.Fragment;
         import android.util.Log;
@@ -13,6 +16,7 @@ package com.avans.easypay;
 
 public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {
     private ArrayList<Product> drinksList;
+
     private ListView listview_drinks;
     private ArrayList<ArrayList<Product>> products;
     private ProductsTotal.OnTotalChanged totalListener = null;
@@ -31,6 +35,11 @@ public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProduct
         TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
         TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
+
+        //amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
+        //total_price = (TextView) rootView.findViewById(R.id.subtotaal);
+
+
 
         adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, drinksList);
         listview_drinks.setAdapter(adapter);
