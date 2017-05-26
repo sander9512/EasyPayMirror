@@ -57,9 +57,9 @@ public class CurrentOrderAdapter extends BaseAdapter {
 
             viewHolder = new ViewHolder();
             viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_order_image);
-            viewHolder.purchasedProduct = (TextView) convertView.findViewById(R.id.product_order_name);
-            viewHolder.amount = (TextView) convertView.findViewById(R.id.order_amount);
+            viewHolder.purchasedProductName = (TextView) convertView.findViewById(R.id.product_order_name);
             viewHolder.price = (TextView) convertView.findViewById(R.id.product_order_price);
+            viewHolder.amount = (TextView) convertView.findViewById(R.id.product_amount_order);
             convertView.setTag(viewHolder);
         }
         else {
@@ -72,16 +72,18 @@ public class CurrentOrderAdapter extends BaseAdapter {
         DecimalFormat df = new DecimalFormat("0.00##");
         String price = "€" + df.format(product.getProductPrice());
         price = price.replace(".", ",");
-        viewHolder.purchasedProduct.setText(product.getProductName());
+        viewHolder.purchasedProductName.setText(product.getProductName());
+        viewHolder.amount.setText(String.valueOf(product.getAmount()));
         viewHolder.price.setText(price);
-       // viewHolder.amount.setText(product.getAmount());
+
 
         return convertView;
     }
 
 
     private static class ViewHolder {
-        private TextView purchasedProduct, amount, price;
+        private TextView purchasedProductName, price;
+        private TextView amount;
         private ImageView productImage;
 
 }

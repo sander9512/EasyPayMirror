@@ -43,13 +43,12 @@
     <ListView
         android:id="@+id/oco_OrdersList"
         android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:orientation="vertical" />
+        android:layout_height="400dp" />
 
     <TextView
         android:id="@+id/order_subtotal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"

@@ -2,7 +2,6 @@ package com.avans.easypay;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,14 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnClickListener {
+public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn1, btn2, btn3, btn4, btn5;
     private Context context;
+    private String loc1, loc2, loc3, loc4, loc5;
+    private Order order = new Order();
+    public static final String ORDER = "order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drinks_and_food);
+        setContentView(R.layout.activity_location);
         context = getApplicationContext();
         btn1 = (Button) findViewById(R.id.locatie_btn1);
         btn1.setOnClickListener(this);
@@ -30,6 +32,13 @@ public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnC
         btn5 = (Button) findViewById(R.id.locatie_btn5);
         btn5.setOnClickListener(this);
 
+        loc1 = "Liqueurpaleis";
+        loc2 = "Pizzahut";
+        loc3 = "Bierplaza";
+        loc4 = "Koffiehuis";
+        loc5 = "Friettent";
+
+
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -39,7 +48,7 @@ public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DrinksAndFoodActivity.this, MainActivity.class);
+                Intent intent = new Intent(LocationActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -47,31 +56,42 @@ public class DrinksAndFoodActivity extends AppCompatActivity implements View.OnC
     }
 
     //      Hier mogelijk tags doorgeven vanuit database om assortiment te filteren op locatie
+    // order aanmaken en locatie toevoegen, vervolgens doorsturen naar tabbedactivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.locatie_btn1:
                 Intent i = new Intent(context, TabbedActivity.class);
+                order.setLocation(loc1);
+                i.putExtra(ORDER, order);
                 startActivity(i);
                 break;
 
             case R.id.locatie_btn2:
                 Intent i2 = new Intent(context, TabbedActivity.class);
+                order.setLocation(loc2);
+                i2.putExtra(ORDER, order);
                 startActivity(i2);
                 break;
 
             case R.id.locatie_btn3:
                 Intent i3 = new Intent(context, TabbedActivity.class);
+                order.setLocation(loc3);
+                i3.putExtra(ORDER, order);
                 startActivity(i3);
                 break;
 
             case R.id.locatie_btn4:
                 Intent i4 = new Intent(context, TabbedActivity.class);
+                order.setLocation(loc4);
+                i4.putExtra(ORDER, order);
                 startActivity(i4);
                 break;
 
             case R.id.locatie_btn5:
                 Intent i5 = new Intent(context, TabbedActivity.class);
+                order.setLocation(loc5);
+                i5.putExtra(ORDER, order);
                 startActivity(i5);
                 break;
         }

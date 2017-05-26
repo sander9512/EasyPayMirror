@@ -50,5 +50,9 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         order_total.setText(total.getPriceTotal());
     }
 
+    public void scanBtn(View view) {
+        Intent i = new Intent(getApplicationContext(), ScanActivity.class);
+        startActivity(i);
+    }
 }
 

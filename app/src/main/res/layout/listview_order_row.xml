@@ -19,7 +19,7 @@
         android:layout_width="75dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="10dp"
         android:text="Product Name"
         android:textSize="17sp" />
@@ -29,17 +29,16 @@
         android:layout_width="75dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="35dp"
+        android:layout_marginRight="75dp"
         android:layout_marginTop="10dp"
         android:text="product price"
         android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/order_amount"
+        android:id="@+id/product_amount_order"
         android:layout_width="75dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="35dp"
         android:layout_marginTop="10dp"
         android:text="product amount"
         android:textSize="17sp" />

@@ -31,6 +31,7 @@ public class Order implements Serializable {
         this.location = location;
         this.orderedProducts = orderedProducts;
     }
+    public Order() {}
 
     public double getPrice() {
         return price;
