@@ -37,7 +37,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
      */
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView, category;
-    private ArrayList<ArrayList<Product>> products;
+    private ArrayList<Product> products;
     private ArrayList<Product> productList;
     protected static ProductAdapter adapter;
     private final ProductsTotal.OnTotalChanged totalListener = this;
@@ -89,7 +89,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     }
 
     @Override
-    public void onTotalChanged(String priceTotal, String total, ArrayList<ArrayList<Product>> products) {
+    public void onTotalChanged(String priceTotal, String total, ArrayList<Product> products) {
         totalProductsView.setText(total);
         totalPriceView.setText(priceTotal);
 

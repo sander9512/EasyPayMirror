@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -23,17 +24,12 @@ import java.util.ArrayList;
 public class CurrentOrderAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<Order> currentList;
-    private ArrayList<ArrayList<Order>> orders;
-
-    public CurrentOrderAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Order> orderList) {
+    private ArrayList<Product> currentList;
+    public CurrentOrderAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> orderList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.currentList = orderList;
 
-        for (int i = 0; i < orderList.size(); i++) {
-            orders.add(new ArrayList<Order>());
-        }
 
     } 
 
@@ -43,71 +39,49 @@ public class CurrentOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public Order getItem(int position) {
+    public Product getItem(int position) {
         return this.currentList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return  Integer.parseInt(this.currentList.get(position).getOrderId());
+        return  position;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final CurrentOrderAdapter.ViewHolder viewHolder;
+        final ViewHolder viewHolder;
 
         if(convertView == null) {
             convertView = layoutInflater.inflate(R.layout.listview_order_row, null);
 
-            viewHolder = new CurrentOrderAdapter.ViewHolder();
-            viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_image);
-            viewHolder.purchasedProduct = (TextView) convertView.findViewById(R.id.Bestelling);
-            viewHolder.amount = (TextView) convertView.findViewById(R.id.aantal);
-            viewHolder.price = (TextView) convertView.findViewById(R.id.price_id);
+            viewHolder = new ViewHolder();
+            viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_order_image);
+            viewHolder.purchasedProduct = (TextView) convertView.findViewById(R.id.product_order_name);
+            viewHolder.amount = (TextView) convertView.findViewById(R.id.order_amount);
+            viewHolder.price = (TextView) convertView.findViewById(R.id.product_order_price);
             convertView.setTag(viewHolder);
         }
         else {
-            viewHolder = (CurrentOrderAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        final Order o = currentList.get(position);
-        double orderPrice = (o.getPrice());
-        viewHolder.purchasedProduct.setText(o.getPurchasedProduct());
-        viewHolder.price.setText("€ " + o.getPrice());
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
-                R.array.spinner_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        viewHolder.orderSpinner.setAdapter(adapter);
-        viewHolder.orderSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
-
-
-                int spinnerValue = Integer.parseInt(viewHolder.orderSpinner.getSelectedItem().toString());
-
-                ArrayList<Order> orderChosen = new ArrayList<Order>();
-
-                for (int i = 0; i < spinnerValue; i++) {
-                    orderChosen.add(o);
-                }
-                if (orders.size() > position){
-                    orders.set(position, orderChosen);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        final Product product = currentList.get(position);
+        viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
+        //vervang bovenstaande placeholder met Picasso wanneer dit werkt met API
+        //Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
+        DecimalFormat df = new DecimalFormat("0.00##");
+        String price = "€" + df.format(product.getProductPrice());
+        price = price.replace(".", ",");
+        viewHolder.purchasedProduct.setText(product.getProductName());
+        viewHolder.price.setText(price);
+       // viewHolder.amount.setText(product.getAmount());
 
         return convertView;
     }
 
 
     private static class ViewHolder {
-        private TextView date, location, purchasedProduct, amount, price;
-        private Spinner orderSpinner;
+        private TextView purchasedProduct, amount, price;
         private ImageView productImage;
 
 }
