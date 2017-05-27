@@ -1,17 +1,14 @@
 package com.avans.easypay;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Product;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -66,9 +63,8 @@ public class CurrentOrderAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final Product product = currentList.get(position);
-        viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
-        //vervang bovenstaande placeholder met Picasso wanneer dit werkt met API
-        //Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
+
+        Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
         DecimalFormat df = new DecimalFormat("0.00##");
         String price = "€" + df.format(product.getProductPrice());
         price = price.replace(".", ",");

@@ -1,12 +1,14 @@
-package com.avans.easypay;
+package com.avans.easypay.DomainModel;
 
 import android.media.Image;
+
+import java.io.Serializable;
 
 /**
  * Created by Sander on 5/2/2017.
  */
 
-public class Product {
+public class Product implements Serializable {
     private String productName;
     private double productPrice;
     private int productId;

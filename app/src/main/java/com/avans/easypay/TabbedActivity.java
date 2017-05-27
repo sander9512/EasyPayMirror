@@ -11,14 +11,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
+
+import static com.avans.easypay.LocationActivity.ORDER;
 
 public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
 
@@ -38,9 +42,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView, category;
     private ArrayList<Product> products;
-    private ArrayList<Product> productList;
+    protected static ArrayList<Product> mergedProducts;
     protected static ProductAdapter adapter;
+    public static final String PRODUCTS = "products";
     private final ProductsTotal.OnTotalChanged totalListener = this;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +56,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle bundle = getIntent().getExtras();
+        order = (Order) bundle.get(ORDER);
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        productList = new ArrayList<>();
+        mergedProducts = new ArrayList<>();
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -68,14 +77,16 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_drink_white_24dp);
-        ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
+        //ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_tabbed, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,8 +103,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     public void onTotalChanged(String priceTotal, String total, ArrayList<Product> products) {
         totalProductsView.setText(total);
         totalPriceView.setText(priceTotal);
+        mergedProducts.addAll(products);
+        Log.i("mergedProducts", "" + mergedProducts.size());
 
-        this.products = products;
+        this.mergedProducts = products;
+
 
     }
 
@@ -147,6 +161,13 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     public void overviewCurrentOrderBtn(View v) {
         Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
-        startActivity(i);
+        order.setOrderedProducts(mergedProducts);
+        i.putExtra(PRODUCTS, order);
+        if (mergedProducts.isEmpty()) {
+            Toast.makeText(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            startActivity(i);
+        }
     }
 }

@@ -67,7 +67,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_toRightOf="@+id/products_amount_textview"
-    android:layout_marginRight="65dp"
+    android:layout_marginRight="45dp"
     android:layout_marginTop="15dp"
     android:id="@+id/subtotal"
     android:text="Subtotal: €0,00"
