@@ -2,6 +2,8 @@ package com.avans.easypay;
 
 import android.content.Context;
 
+import com.avans.easypay.DomainModel.Product;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -74,6 +76,15 @@ public class ProductsTotal {
 //
 //        return d;
 //    }
+
+    public ArrayList<Product> combineLists() {
+        ArrayList<Product> mergedProducts = new ArrayList<>();
+
+        mergedProducts.addAll(products);
+
+        return mergedProducts;
+
+    }
 
     public interface OnTotalChanged {
 

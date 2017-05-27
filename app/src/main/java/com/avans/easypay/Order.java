@@ -1,5 +1,7 @@
 package com.avans.easypay;
 
+import com.avans.easypay.DomainModel.Product;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

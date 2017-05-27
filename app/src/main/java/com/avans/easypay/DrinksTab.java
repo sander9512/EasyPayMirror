@@ -12,6 +12,8 @@ package com.avans.easypay;
         import android.widget.ListView;
         import android.widget.TextView;
 
+        import com.avans.easypay.DomainModel.Product;
+
         import java.util.ArrayList;
 
 public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {

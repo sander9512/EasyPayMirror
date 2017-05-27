@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Product;
+
 import java.util.ArrayList;
 
 public class FoodTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {

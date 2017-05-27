@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Product;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -39,7 +39,6 @@ public class ProductAdapter extends BaseAdapter {
 
             products.add(new ArrayList<Product>());
         }
-
         this.total = new ProductsTotal(context, chosenProducts);
 
 
@@ -93,6 +92,7 @@ public class ProductAdapter extends BaseAdapter {
                 R.array.spinner_array, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         viewHolder.productSpinner.setAdapter(adapter);
+        viewHolder.productSpinner.setSelection(p.getAmount());
         viewHolder.productSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 
             @Override
@@ -110,10 +110,10 @@ public class ProductAdapter extends BaseAdapter {
                     chosenProducts.add(p);
                 }
                 //need to save spinner values when scrolling/switching tabs
-//                            else if (spinnerValue == 0 ) {
-//                                p.setAmount(0);
-//                                chosenProducts.remove(p);
-//                            }
+                            else if (spinnerValue == 0 ) {
+                                p.setAmount(0);
+                                chosenProducts.remove(p);
+                            }
                 //}
                 //if(products.size() > position)
                 //products.set(position, chosenProducts);

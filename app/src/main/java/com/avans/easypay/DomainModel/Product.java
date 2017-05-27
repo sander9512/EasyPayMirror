@@ -1,4 +1,4 @@
-package com.avans.easypay;
+package com.avans.easypay.DomainModel;
 
 import android.media.Image;
 

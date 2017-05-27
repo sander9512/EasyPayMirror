@@ -1,16 +1,13 @@
 package com.avans.easypay;
 
 import android.content.Intent;
-import android.icu.text.PluralRules;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
 
@@ -52,13 +49,19 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         adapter = new CurrentOrderAdapter(getApplicationContext(), getLayoutInflater(), orderedProducts);
         currentOrder.setAdapter(adapter);
 
-        order_location.setText("Locatie: " + order.getLocation());
+        order_location.setText(order.getLocation());
         order_total.setText(total.getPriceTotal());
     }
 
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), LocationActivity.class);
+        startActivity(i);
+    }
     public void scanBtn(View view) {
         Intent i = new Intent(getApplicationContext(), ScanActivity.class);
         startActivity(i);
     }
+
 }
 
