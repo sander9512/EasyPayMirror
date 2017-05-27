@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,14 +97,30 @@ public class ProductAdapter extends BaseAdapter {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+
+
                 int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
+                System.out.println(spinnerValue);
+                System.out.println("item selected " + id + " " + position2 + " " + spinnerValue + " " + viewHolder.productSpinner.getSelectedItem() + " " + view.getId() + " " + parent.getId() + " " + position);
                 //ArrayList<Product> chosenProducts = new ArrayList<Product>();
-                for (int i = 0; i < spinnerValue; i++) {
+
+                //for (int i = 0; i < spinnerValue; i++) {
+                if (spinnerValue > 0) {
+                    p.setAmount(spinnerValue);
                     chosenProducts.add(p);
                 }
-                if(products.size() > position)
-                    products.set(position, chosenProducts);
+                //need to save spinner values when scrolling/switching tabs
+//                            else if (spinnerValue == 0 ) {
+//                                p.setAmount(0);
+//                                chosenProducts.remove(p);
+//                            }
+                //}
+                //if(products.size() > position)
+                //products.set(position, chosenProducts);
+                System.out.println(" " + chosenProducts.size());
+                Log.i("TAG", "total products " + chosenProducts.size() + " " + products.size() + " " + total.getPriceTotal() + " " + total.getTotal());
                 listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
+
             }
 
             @Override

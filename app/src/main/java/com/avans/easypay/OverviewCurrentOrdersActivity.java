@@ -14,34 +14,40 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static com.avans.easypay.TabbedActivity.PRODUCTS;
+
 public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     private CurrentOrderAdapter adapter;
     private ArrayList<Product> orderedProducts;
     private ProductsTotal total;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_order);
 
+        Bundle bundle = getIntent().getExtras();
+        order = (Order) bundle.get(PRODUCTS);
         ListView currentOrder = (ListView) findViewById(R.id.oco_OrdersList);
         TextView order_location = (TextView) findViewById(R.id.orderLocation);
         TextView order_total = (TextView) findViewById(R.id.order_subtotal);
 
-        orderedProducts = new ArrayList<>();
-        Product p1 = new Product("Product 1", 2.50, 5, 1);
-        Product p2 = new Product("Product 2", 4.50, 2, 2);
-        Product p3 = new Product("Product 3", 7.50, 3, 3);
-        Product p4 = new Product("Product 4", 1.50, 1, 4);
+        orderedProducts = order.getOrderedProducts();
+        //dummydata
+//        Product p1 = new Product("Product 1", 2.50, 5, 1);
+//        Product p2 = new Product("Product 2", 4.50, 2, 2);
+//        Product p3 = new Product("Product 3", 7.50, 3, 3);
+//        Product p4 = new Product("Product 4", 1.50, 1, 4);
 
-        orderedProducts.add(p1);
-        orderedProducts.add(p2);
-        orderedProducts.add(p3);
-        orderedProducts.add(p4);
+//        orderedProducts.add(p1);
+//        orderedProducts.add(p2);
+//        orderedProducts.add(p3);
+//        orderedProducts.add(p4);
 
         total = new ProductsTotal(getApplicationContext(), orderedProducts);
-
-        Order order = new Order(1, 5, "Friettent", orderedProducts);
+        //dummy order
+//        Order order = new Order(1, 5, "Friettent", orderedProducts);
 
         adapter = new CurrentOrderAdapter(getApplicationContext(), getLayoutInflater(), orderedProducts);
         currentOrder.setAdapter(adapter);

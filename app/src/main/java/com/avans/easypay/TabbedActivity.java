@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.avans.easypay.LocationActivity.ORDER;
+
 public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
 
     /**
@@ -40,7 +42,9 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private ArrayList<Product> products;
     private ArrayList<Product> productList;
     protected static ProductAdapter adapter;
+    public static final String PRODUCTS = "products";
     private final ProductsTotal.OnTotalChanged totalListener = this;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,9 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle bundle = getIntent().getExtras();
+        order = (Order) bundle.get(ORDER);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         productList = new ArrayList<>();
@@ -147,6 +154,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     public void overviewCurrentOrderBtn(View v) {
         Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
+        order.setOrderedProducts(products);
+        i.putExtra(PRODUCTS, order);
         startActivity(i);
     }
 }

@@ -24,13 +24,14 @@ public class Order implements Serializable {
         this.amount = amount;
         this.price = price;
     }
-        // deze constructor moet gebruikt worden, een order heeft een lijst met producten
+        // deze constructor gebruiken voor testorders
     public Order(int orderId, int date, String location, ArrayList<Product> orderedProducts) {
         this.orderId = orderId;
         this.date = date;
         this.location = location;
         this.orderedProducts = orderedProducts;
     }
+    //default constructor om data toe te voegen aan een order over meerdere activities.
     public Order() {}
 
     public double getPrice() {

@@ -66,9 +66,8 @@ public class CurrentOrderAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final Product product = currentList.get(position);
-        viewHolder.productImage.setImageResource(R.drawable.ic_local_dining_black_24dp);
-        //vervang bovenstaande placeholder met Picasso wanneer dit werkt met API
-        //Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
+
+        Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
         DecimalFormat df = new DecimalFormat("0.00##");
         String price = "€" + df.format(product.getProductPrice());
         price = price.replace(".", ",");
