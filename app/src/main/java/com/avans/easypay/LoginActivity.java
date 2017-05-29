@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             startLoginTask();
         } else {
-            Toasty.warning(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
+            Toasty.error(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
         //LoginTask did not return a customer, so username = invalid
         if (customer == null) {
-            Toasty.warning(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
 
             //username and password input is a valid customer
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             //username exists, but password is invalid
         } else {
-            Toasty.warning(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
         }
     }

@@ -166,7 +166,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         order.setOrderedProducts(mergedProducts);
         i.putExtra(PRODUCTS, order);
         if (mergedProducts.isEmpty()) {
-            Toasty.warning(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
         }
         else {
             startActivity(i);

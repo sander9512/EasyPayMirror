@@ -242,11 +242,11 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     //if an input is empty...
                 } else if (newPassInput1.getText().toString().equals("") ||
                         newPassInput2.getText().toString().trim().equals("")) {
-                    Toasty.warning(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_SHORT).show();
 
                     //else... (passwords are unequal)
                 } else {
-                    Toasty.warning(this, "Wachtwoorden zijn ongelijk.", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "Wachtwoorden zijn ongelijk.", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -283,7 +283,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                             Toasty.success(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
                             currentEmail = emailInput.getText().toString().trim();
                         }else {
-                            Toasty.warning(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+                            Toasty.error(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
                             emailInput.setEnabled(true);
                             emailInput.requestFocus();
                             emailEditBtn.setBackgroundResource(R.drawable.ic_check);
@@ -291,7 +291,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                             emailInput.setText(currentEmail);
                         }
                     } else {
-                        Toasty.warning(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
+                        Toasty.error(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

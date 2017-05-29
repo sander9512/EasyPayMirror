@@ -92,24 +92,24 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
 
             //username and/or password still empty
         } else if (username.equals("") || password.equals("")) {
-            Toasty.warning(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             //username too short
         } else if (username.length() < minUsernameLength && !username.equals("")) {
-            Toasty.warning(this, getResources().getString(R.string.username_too_short), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.username_too_short), Toast.LENGTH_SHORT).show();
             //username too long
         } else if (username.length() > maxUsernameLength && !username.equals("")) {
-            Toasty.warning(this, getResources().getString(R.string.username_too_long), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.username_too_long), Toast.LENGTH_SHORT).show();
             //password too short
         } else if (password.length() < minPasswordLength && !password.equals("")) {
-            Toasty.warning(this, getResources().getString(R.string.password_too_short), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.password_too_short), Toast.LENGTH_SHORT).show();
             //password too long
         } else if (password.length() > maxPasswordLength && !password.equals("")) {
-            Toasty.warning(this, getResources().getString(R.string.password_too_long), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.password_too_long), Toast.LENGTH_SHORT).show();
             //if other fields are empty
         } else if (email == null){
-            Toasty.warning(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
         }else {
-            Toasty.warning(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -129,7 +129,7 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         if (customer == null) {
             startSignupTask();
         } else {
-            Toasty.warning(this, getResources().getString(R.string.username_already_exists), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.username_already_exists), Toast.LENGTH_SHORT).show();
             pd.cancel();
         }
     }

@@ -106,7 +106,7 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
         Log.i("TEXTENTERED", editText.getText().toString());
 
         if(editText.getText().toString().equals("") || editText.getText().toString().equals(".")){
-            Toasty.warning(this, getResources().getString(R.string.isnull), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.isnull), Toast.LENGTH_SHORT).show();
         }else{
 
             float toAdd = Float.parseFloat(editText.getText().toString());
@@ -133,7 +133,7 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
                 finish();
             }
             else{
-                Toasty.warning(this, getResources().getString(R.string.over150), Toast.LENGTH_SHORT).show();
+                Toasty.error(this, getResources().getString(R.string.over150), Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -79,7 +79,7 @@ public class BalanceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0.00")
                         || balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0,00")) {
-                    Toasty.warning(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
+                    Toasty.error(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(BalanceActivity.this, RefundBalanceActivity.class);
                     startActivity(intent);
