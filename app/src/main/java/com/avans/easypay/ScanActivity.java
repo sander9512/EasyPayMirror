@@ -18,6 +18,8 @@ import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.HCE.AccountStorage;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by TB on 5/6/2017.
  */
@@ -114,7 +116,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     public void onStatusAvailable(String status) {
         this.currentOrderStatus = status;
         if (currentOrderStatus.equals("PAID")) {
-            Toast.makeText(this, "Bestelling is betaald", Toast.LENGTH_SHORT).show();
+            Toasty.success(this, "Bestelling is betaald", Toast.LENGTH_SHORT).show();
 
             //show animation to give user feedback that the transaction is successful
             checkMarkAnimFeedback();

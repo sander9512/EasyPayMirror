@@ -15,6 +15,8 @@ import com.avans.easypay.DomainModel.Customer;
 
 import java.util.regex.Pattern;
 
+import es.dmoral.toasty.Toasty;
+
 public class SignupActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
 
     private EditText firstnameInput, lastnameInput, usernameInput,
@@ -90,24 +92,24 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
 
             //username and/or password still empty
         } else if (username.equals("") || password.equals("")) {
-            Toast.makeText(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             //username too short
         } else if (username.length() < minUsernameLength && !username.equals("")) {
-            Toast.makeText(this, getResources().getString(R.string.username_too_short), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.username_too_short), Toast.LENGTH_SHORT).show();
             //username too long
         } else if (username.length() > maxUsernameLength && !username.equals("")) {
-            Toast.makeText(this, getResources().getString(R.string.username_too_long), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.username_too_long), Toast.LENGTH_SHORT).show();
             //password too short
         } else if (password.length() < minPasswordLength && !password.equals("")) {
-            Toast.makeText(this, getResources().getString(R.string.password_too_short), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.password_too_short), Toast.LENGTH_SHORT).show();
             //password too long
         } else if (password.length() > maxPasswordLength && !password.equals("")) {
-            Toast.makeText(this, getResources().getString(R.string.password_too_long), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.password_too_long), Toast.LENGTH_SHORT).show();
             //if other fields are empty
         } else if (email == null){
-            Toast.makeText(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -127,7 +129,7 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         if (customer == null) {
             startSignupTask();
         } else {
-            Toast.makeText(this, getResources().getString(R.string.username_already_exists), Toast.LENGTH_SHORT).show();
+            Toasty.warning(this, getResources().getString(R.string.username_already_exists), Toast.LENGTH_SHORT).show();
             pd.cancel();
         }
     }
@@ -138,7 +140,7 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
                 "signup/" + firstname + "/" + lastname + "/" + username + "/" + password + email + banknumber;
 
         new EasyPayAPIPUTConnector().execute(url);
-        Toast.makeText(this, getResources().getString(R.string.account_created1of2) + username
+        Toasty.success(this, getResources().getString(R.string.account_created1of2) + username
                 + getResources().getString(R.string.account_created2of2), Toast.LENGTH_SHORT).show();
         pd.cancel();
         Intent i = new Intent(this, LoginActivity.class);
