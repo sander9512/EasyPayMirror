@@ -4,11 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private String TAG = this.getClass().getSimpleName();
 
     private TextView usernameInput, passwordInput;
+    private ImageView logo;
     private Customer customer;
 
     private CheckBox check;
@@ -61,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //initialise xml elements
         usernameInput = (TextView) findViewById(R.id.username_textview);
         passwordInput = (TextView) findViewById(R.id.password_textview);
+//        logo = (ImageView) findViewById(R.id.logo);
         check = (CheckBox) findViewById(R.id.saveUser);
 
         //initialise DB objects
