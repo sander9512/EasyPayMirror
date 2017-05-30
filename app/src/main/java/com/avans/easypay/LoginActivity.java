@@ -131,7 +131,6 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
             compareOnlineWithLocalBalance();
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
-//            i.putExtra("Customer", customer);
             customerEdit.putInt("ID", customer.getCustomerId());
             customerEdit.putString("Username", customer.getUsername());
             customerEdit.putString("Password", customer.getPassword());
