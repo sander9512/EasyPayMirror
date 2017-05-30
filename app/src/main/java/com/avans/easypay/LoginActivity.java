@@ -22,6 +22,8 @@ import com.avans.easypay.SQLite.SQLiteDAOFactory;
 import java.util.Calendar;
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
+
 public class LoginActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
 
     private String TAG = this.getClass().getSimpleName();
@@ -104,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             startLoginTask();
         } else {
-            Toast.makeText(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
+            Toasty.error(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -122,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
         //LoginTask did not return a customer, so username = invalid
         if (customer == null) {
-            Toast.makeText(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
 
             //username and password input is a valid customer
@@ -143,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             //username exists, but password is invalid
         } else {
-            Toast.makeText(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
         }
     }

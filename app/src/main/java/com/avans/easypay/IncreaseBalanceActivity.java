@@ -25,6 +25,8 @@ import org.w3c.dom.Text;
 
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
+
 public class IncreaseBalanceActivity extends AppCompatActivity {
 
     private DAOFactory factory;
@@ -104,7 +106,7 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
         Log.i("TEXTENTERED", editText.getText().toString());
 
         if(editText.getText().toString().equals("") || editText.getText().toString().equals(".")){
-            Toast.makeText(this, getResources().getString(R.string.isnull), Toast.LENGTH_SHORT).show();
+            Toasty.error(this, getResources().getString(R.string.isnull), Toast.LENGTH_SHORT).show();
         }else{
 
             float toAdd = Float.parseFloat(editText.getText().toString());
@@ -131,7 +133,7 @@ public class IncreaseBalanceActivity extends AppCompatActivity {
                 finish();
             }
             else{
-                Toast.makeText(this, getResources().getString(R.string.over150), Toast.LENGTH_SHORT).show();
+                Toasty.error(this, getResources().getString(R.string.over150), Toast.LENGTH_SHORT).show();
             }
         }
 
