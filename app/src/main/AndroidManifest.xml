@@ -22,7 +22,7 @@
         <activity android:name=".BalanceActivity" />
         <activity android:name=".IncreaseBalanceActivity" android:windowSoftInputMode="adjustResize"  />
         <activity android:name=".RefundBalanceActivity" />
-        <activity android:name=".UserDataActivity" />
+        <activity android:name=".UserDataActivity" android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".ScanActivity">
         </activity>
         <activity android:name=".OverviewCurrentOrdersActivity" />
