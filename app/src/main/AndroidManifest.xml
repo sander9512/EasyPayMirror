@@ -20,7 +20,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".LocationActivity" />
         <activity android:name=".BalanceActivity" />
-        <activity android:name=".IncreaseBalanceActivity" />
+        <activity android:name=".IncreaseBalanceActivity" android:windowSoftInputMode="adjustResize"  />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
         <activity android:name=".ScanActivity">
@@ -28,7 +28,6 @@
         <activity android:name=".OverviewCurrentOrdersActivity" />
         <activity android:name=".OrderOverviewActivity" />
         <activity android:name=".SignupActivity" />
-
         <activity
             android:name=".TabbedActivity"
             android:label="@string/app_name"
