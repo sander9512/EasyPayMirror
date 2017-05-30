@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +24,11 @@ import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
+
+import org.iban4j.IbanFormatException;
+import org.iban4j.IbanUtil;
+import org.iban4j.InvalidCheckDigitException;
+import org.iban4j.UnsupportedCountryException;
 
 import java.util.regex.Pattern;
 
@@ -200,6 +206,19 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         return pattern.matcher(email).matches();
     }
 
+    private boolean validIBAN(String iban){
+        try{
+            IbanUtil.validate(iban);
+            Log.i("IBAN", "VALID IBAN");
+            return true;
+        }catch (IbanFormatException |
+                InvalidCheckDigitException |
+                UnsupportedCountryException e) {
+            Log.i("IBAN", "UNVALID IBAN");
+            return false;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -311,13 +330,23 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     bankNumberEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     bankNumberEditable = false;
                     if (!currentBankNumber.equals(bankNumberInput.getText().toString().trim())) {
-                        putRequest = new EasyPayAPIPUTConnector();
-                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
-                                + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
-                        customerEdit.putString("Bank", bankNumberInput.getText().toString());
-                        customerEdit.commit();
-                        Toasty.success(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
-                        currentBankNumber = bankNumberInput.getText().toString().trim();
+                        if (validIBAN(bankNumberInput.getText().toString().trim())){
+                            putRequest = new EasyPayAPIPUTConnector();
+                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                    + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
+                            customerEdit.putString("Bank", bankNumberInput.getText().toString());
+                            customerEdit.commit();
+                            Toasty.success(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
+                            currentBankNumber = bankNumberInput.getText().toString().trim();
+                        } else {
+                            Toasty.error(this, "Geen geldig bankrekeningnummer", Toast.LENGTH_SHORT).show();
+                            bankNumberInput.setEnabled(true);
+                            bankNumberInput.requestFocus();
+                            bankNumberEditBtn.setBackgroundResource(R.drawable.ic_check);
+                            bankNumberEditable = true;
+                            bankNumberInput.setText(currentBankNumber);
+                        }
+
                     }
                 }
                 break;
