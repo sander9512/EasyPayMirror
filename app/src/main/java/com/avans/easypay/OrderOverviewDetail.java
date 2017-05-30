@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Order;
+
 import java.util.ArrayList;
 
 import static com.avans.easypay.R.id.amount_id;

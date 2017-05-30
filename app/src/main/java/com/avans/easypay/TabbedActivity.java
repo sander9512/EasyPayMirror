@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
@@ -161,7 +162,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     public void overviewCurrentOrderBtn(View v) {
         Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
-        order.setOrderedProducts(mergedProducts);
+        order.setProducts(mergedProducts);
         i.putExtra(PRODUCTS, order);
         if (mergedProducts.isEmpty()) {
             Toast.makeText(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
