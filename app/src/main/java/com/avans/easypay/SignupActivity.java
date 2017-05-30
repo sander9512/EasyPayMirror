@@ -13,6 +13,11 @@ import android.widget.Toast;
 import com.avans.easypay.ASyncTasks.LoginTask;
 import com.avans.easypay.DomainModel.Customer;
 
+import org.iban4j.IbanFormatException;
+import org.iban4j.IbanUtil;
+import org.iban4j.InvalidCheckDigitException;
+import org.iban4j.UnsupportedCountryException;
+
 import java.util.regex.Pattern;
 
 import es.dmoral.toasty.Toasty;
@@ -68,10 +73,20 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
                 email = null;
             }
         }
+
+        if (banknumberInput.getText().toString().trim().equals("")){
+            banknumber = "";
+        } else {
+            if(validIBAN(banknumberInput.getText().toString().trim())){
+                banknumber = "/" + banknumberInput.getText().toString().trim();
+            } else {
+                banknumber = null;
+            }
+        }
 //        email = !emailInput.getText().toString().trim().equals("") ?
 //                "/" + emailInput.getText().toString().trim() : "";
-        banknumber = !banknumberInput.getText().toString().trim().equals("") ?
-                "/" + banknumberInput.getText().toString().trim() : "";
+//        banknumber = !banknumberInput.getText().toString().trim().equals("") ?
+//                "/" + banknumberInput.getText().toString().trim() : "";
 
         Log.i(this.getClass().getSimpleName(), username + "|" + password);
         Log.i(this.getClass().getSimpleName(), username.length() + "|" + password.length());
@@ -80,7 +95,7 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         if (!firstname.equals("") && !lastname.equals("")
                 && username.length() > minUsernameLength-1 && username.length() <= maxUsernameLength
                 && password.length() > minPasswordLength-1 && password.length() <= maxPasswordLength
-                && email != null) {
+                && email != null && banknumber != null) {
 
             //if all required fields are filled, show progress dialog
             pd = new ProgressDialog(this);
@@ -108,7 +123,9 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
             //if other fields are empty
         } else if (email == null){
             Toasty.error(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
-        }else {
+        } else if (banknumber == null){
+            Toasty.error(this, "Geen geldig bankrekeningnummer", Toast.LENGTH_SHORT).show();
+        } else {
             Toasty.error(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
     }
@@ -118,8 +135,21 @@ public class SignupActivity extends AppCompatActivity implements LoginTask.OnCus
         return pattern.matcher(email).matches();
     }
 
+    private boolean validIBAN(String iban){
+        try{
+            IbanUtil.validate(iban);
+            Log.i("IBAN", "VALID IBAN");
+            return true;
+        }catch (IbanFormatException |
+                InvalidCheckDigitException |
+                UnsupportedCountryException e) {
+            Log.i("IBAN", "UNVALID IBAN");
+            return false;
+        }
+    }
+
     public void startLoginTask() {
-        new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/signup/" + username);
+        new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/login/" + username);
     }
 
     @Override
