@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 //            i.putExtra("Customer", customer);
             customerEdit.putInt("ID", customer.getCustomerId());
             customerEdit.putString("Username", customer.getUsername());
-            customerEdit.putString("Password", customer.getUsername());
+            customerEdit.putString("Password", customer.getPassword());
             customerEdit.putString("Email", customer.getEmail());
             customerEdit.putString("FirstName", customer.getFirstname());
             customerEdit.putString("LastName", customer.getLastname());
