@@ -23,6 +23,8 @@ import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 import static com.avans.easypay.LocationActivity.ORDER;
 
 public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
@@ -165,7 +167,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         order.setProducts(mergedProducts);
         i.putExtra(PRODUCTS, order);
         if (mergedProducts.isEmpty()) {
-            Toast.makeText(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
         }
         else {
             startActivity(i);

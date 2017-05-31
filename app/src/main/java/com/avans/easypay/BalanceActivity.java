@@ -17,6 +17,8 @@ import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
+import es.dmoral.toasty.Toasty;
+
 public class BalanceActivity extends AppCompatActivity {
 
     private DAOFactory factory;
@@ -77,7 +79,7 @@ public class BalanceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0.00")
                         || balance.getText().toString().equals(getResources().getString(R.string.balance) + ": €0,00")) {
-                    Toast.makeText(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
+                    Toasty.error(BalanceActivity.this, getResources().getString(R.string.nomoney), Toast.LENGTH_SHORT).show();
                 }else {
                     Intent intent = new Intent(BalanceActivity.this, RefundBalanceActivity.class);
                     startActivity(intent);

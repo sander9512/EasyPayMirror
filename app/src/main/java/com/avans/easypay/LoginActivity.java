@@ -4,11 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +27,14 @@ import com.avans.easypay.SQLite.SQLiteDAOFactory;
 import java.util.Calendar;
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
+
 public class LoginActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
 
     private String TAG = this.getClass().getSimpleName();
 
     private TextView usernameInput, passwordInput;
+    private ImageView logo;
     private Customer customer;
 
     private CheckBox check;
@@ -59,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         //initialise xml elements
         usernameInput = (TextView) findViewById(R.id.username_textview);
         passwordInput = (TextView) findViewById(R.id.password_textview);
+//        logo = (ImageView) findViewById(R.id.logo);
         check = (CheckBox) findViewById(R.id.saveUser);
 
         //initialise DB objects
@@ -104,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             startLoginTask();
         } else {
-            Toast.makeText(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
+            Toasty.error(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -122,17 +131,16 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
         //LoginTask did not return a customer, so username = invalid
         if (customer == null) {
-            Toast.makeText(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
 
             //username and password input is a valid customer
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
             compareOnlineWithLocalBalance();
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
-//            i.putExtra("Customer", customer);
             customerEdit.putInt("ID", customer.getCustomerId());
             customerEdit.putString("Username", customer.getUsername());
-            customerEdit.putString("Password", customer.getUsername());
+            customerEdit.putString("Password", customer.getPassword());
             customerEdit.putString("Email", customer.getEmail());
             customerEdit.putString("FirstName", customer.getFirstname());
             customerEdit.putString("LastName", customer.getLastname());
@@ -143,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
             //username exists, but password is invalid
         } else {
-            Toast.makeText(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
+            Toasty.error(LoginActivity.this, "Gegevens zijn onjuist.", Toast.LENGTH_LONG).show();
             passwordInput.setText("");
         }
     }

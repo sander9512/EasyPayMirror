@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,7 +25,14 @@ import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
+import org.iban4j.IbanFormatException;
+import org.iban4j.IbanUtil;
+import org.iban4j.InvalidCheckDigitException;
+import org.iban4j.UnsupportedCountryException;
+
 import java.util.regex.Pattern;
+
+import es.dmoral.toasty.Toasty;
 
 public class UserDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -176,7 +184,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 deleteRequest = new EasyPayAPIDELETEConnector();
                 deleteRequest.execute("https://easypayserver.herokuapp.com/api/klant/delete/" + customerPref.getInt("ID", 0));
-                Toast.makeText(UserDataActivity.this, "Account verwijderd", Toast.LENGTH_SHORT).show();
+                Toasty.success(UserDataActivity.this, "Account verwijderd", Toast.LENGTH_SHORT).show();
                 finishAffinity();
                 startActivity(intent);
             }
@@ -196,6 +204,19 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
     private boolean validEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
+    }
+
+    private boolean validIBAN(String iban){
+        try{
+            IbanUtil.validate(iban);
+            Log.i("IBAN", "VALID IBAN");
+            return true;
+        }catch (IbanFormatException |
+                InvalidCheckDigitException |
+                UnsupportedCountryException e) {
+            Log.i("IBAN", "UNVALID IBAN");
+            return false;
+        }
     }
 
     @Override
@@ -235,16 +256,16 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     newPassInput1.setText("");
                     newPassInput2.setText("");
                     passEditable = false;
-                    Toast.makeText(this, "Wachtwoord gewijzigd.", Toast.LENGTH_LONG).show();
+                    Toasty.success(this, "Wachtwoord gewijzigd.", Toast.LENGTH_LONG).show();
 
                     //if an input is empty...
                 } else if (newPassInput1.getText().toString().equals("") ||
                         newPassInput2.getText().toString().trim().equals("")) {
-                    Toast.makeText(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "Een of meer velden zijn niet ingevuld.", Toast.LENGTH_SHORT).show();
 
                     //else... (passwords are unequal)
                 } else {
-                    Toast.makeText(this, "Wachtwoorden zijn ongelijk.", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "Wachtwoorden zijn ongelijk.", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -278,10 +299,10 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                                     + customer.getCustomerId()+"/email="+emailInput.getText());
                             customerEdit.putString("Email", emailInput.getText().toString());
                             customerEdit.commit();
-                            Toast.makeText(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
+                            Toasty.success(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
                             currentEmail = emailInput.getText().toString().trim();
                         }else {
-                            Toast.makeText(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
+                            Toasty.error(this, "Geen geldig email address", Toast.LENGTH_SHORT).show();
                             emailInput.setEnabled(true);
                             emailInput.requestFocus();
                             emailEditBtn.setBackgroundResource(R.drawable.ic_check);
@@ -289,7 +310,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                             emailInput.setText(currentEmail);
                         }
                     } else {
-                        Toast.makeText(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
+                        Toasty.error(this, "Email is zelfde als huidig address", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -309,13 +330,23 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     bankNumberEditBtn.setBackgroundResource(R.drawable.ic_data_editable);
                     bankNumberEditable = false;
                     if (!currentBankNumber.equals(bankNumberInput.getText().toString().trim())) {
-                        putRequest = new EasyPayAPIPUTConnector();
-                        putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
-                                + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
-                        customerEdit.putString("Bank", bankNumberInput.getText().toString());
-                        customerEdit.commit();
-                        Toast.makeText(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
-                        currentBankNumber = bankNumberInput.getText().toString().trim();
+                        if (validIBAN(bankNumberInput.getText().toString().trim())){
+                            putRequest = new EasyPayAPIPUTConnector();
+                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                                    + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
+                            customerEdit.putString("Bank", bankNumberInput.getText().toString());
+                            customerEdit.commit();
+                            Toasty.success(this, "Bankrekeningnummer gewijzigd.", Toast.LENGTH_SHORT).show();
+                            currentBankNumber = bankNumberInput.getText().toString().trim();
+                        } else {
+                            Toasty.error(this, "Geen geldig bankrekeningnummer", Toast.LENGTH_SHORT).show();
+                            bankNumberInput.setEnabled(true);
+                            bankNumberInput.requestFocus();
+                            bankNumberEditBtn.setBackgroundResource(R.drawable.ic_check);
+                            bankNumberEditable = true;
+                            bankNumberInput.setText(currentBankNumber);
+                        }
+
                     }
                 }
                 break;
