@@ -24,6 +24,10 @@
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".ScanActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".OverviewCurrentOrdersActivity" />
         <activity android:name=".OrderOverviewActivity" />
@@ -34,10 +38,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <service
             android:name=".HCE.CardService"

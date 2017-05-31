@@ -42,6 +42,7 @@
                 android:orientation="vertical"
                 android:visibility="invisible"
                 android:src="@drawable/ic_check" />
+
         </FrameLayout>
 
     </RelativeLayout>
@@ -57,7 +58,7 @@
             android:id="@+id/message_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/instructions_scan"
+            android:text="@string/instructions_scan1"
             android:textAlignment="center"
             android:textSize="24sp" />
     </RelativeLayout>

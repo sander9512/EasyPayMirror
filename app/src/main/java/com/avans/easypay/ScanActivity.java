@@ -16,9 +16,12 @@ import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
 import com.avans.easypay.DomainModel.Order;
+import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.HCE.AccountStorage;
 
-import static com.avans.easypay.OverviewCurrentOrdersActivity.ORDER;
+import java.util.ArrayList;
+import java.util.Date;
+
 import es.dmoral.toasty.Toasty;
 
 
@@ -43,54 +46,50 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
+        //initialise elements
         messageOutput = (TextView) findViewById(R.id.message_textview);
-        Bundle bundle = getIntent().getExtras();
+        button = (Button) findViewById(R.id.button_scan);
+
+        //initialise scan images
         scanImage1 = (ImageView) findViewById(R.id.scan_indicator_imageview1);
         scanImage2 = (ImageView) findViewById(R.id.scan_indicator_imageview2);
-        //start infinite animation, until NFC succeeded
+        checkmarkImage = (ImageView) findViewById(R.id.checkmark_imageview);
+        //start infinite animation, until NFC succeeds
         Animation pulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.pulse);
         scanImage1.startAnimation(pulse);
         scanImage2.startAnimation(pulse);
-        checkmarkImage = (ImageView) findViewById(R.id.checkmark_imageview);
-        button = (Button) findViewById(R.id.button_scan);
+
+        //this is where intent data from previous activity should be called and inserted in a new Order object
+//        Bundle bundle = getIntent().getExtras();
+//        order = (Order) bundle.get(ORDER);
+//        order.setCustomerId(5);
+//        order.setOrderNumber(1235);
+//        Log.i("ORDER", order.toString());
+
+        //--TEST DATA--
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Schoenzool", 3.20, 1));
+        products.add(new Product("Oreo", 1.40, 2));
+        order = new Order(4, 4, new Date(), "Pizzahut", products, 8, "WAITING");
+        //------------
+
+        //add listener to cancel button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkMarkAnimFeedback();
+                //update database, so that the order has a status of 'CANCELED'
+                new EasyPayAPIPUTConnector().execute(URL + order.getOrderNumber());
+
+                //go back to MainActivity and close this activity
+                Intent i = new Intent(ScanActivity.this, MainActivity.class);
+                startActivity(i);
+                //close activity
+                finish();
             }
         });
 
-        //this is where intent data from previous activity should be called and inserted in a new Order object
-        order = (Order) bundle.get(ORDER);
-        order.setCustomerId(5);
-        order.setOrderNumber(1235);
-        Log.i("ORDER", order.toString());
-        //final Order order = new Order(4, 4, 14, 8, "WAITING");
-
-        //HCE components
-        messageOutput.setText(getResources().getString(R.string.instructions_scan));
-        AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
-
-        //check the status of the order payment every x seconds
-        new CountDownTimer(3000, 500) {
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-                Log.i(TAG, millisUntilFinished + "");
-            }
-
-            @Override
-            public void onFinish() {
-                new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
-                if (currentOrderStatus.equals("PAID")) {
-                    //start new activity after x seconds
-                    Intent i = new Intent(ScanActivity.this, LoginActivity.class);
-                    startActivity(i);
-                } else {
-                    this.start();
-                }
-            }
-        }.start();
+        //send order number to EasyPayKassa (phase 1/2)
+        sendOrderNumber();
     }
 
     @Override
@@ -117,13 +116,74 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 //        }
     }
 
+    //NFC phase 1/2
+    public void sendOrderNumber() {
+        //send order number
+        Log.i(TAG, "Sending order number: " + order.getOrderNumber());
+        AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
+
+        //check the status of the order payment every x seconds
+        new CountDownTimer(3000, 500) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.i(TAG, "TICK: " + millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
+                Log.i(TAG, "FINISHED SENDING ORDER");
+                if (currentOrderStatus.equals("RECEIVED")) {
+                    //give user feedback
+                    messageOutput.setText(getResources().getString(R.string.instructions_scan2));
+                    //send string 'PAID' to EasyPayKassa (phase 2/2)
+                    completePayment();
+                } else {
+                    this.start();
+                }
+            }
+        }.start();
+    }
+
+    //NFC phase 2/2
+    public void completePayment() {
+        //sending string 'PAID'. When EasyPayKassa receives this string, it will handle the payment in the DB, as well as decreasing the customer balance.
+        AccountStorage.SetAccount(getApplicationContext(), "PAID");
+
+        //check the status of the order payment every x seconds
+        new CountDownTimer(3000, 500) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.i(TAG, millisUntilFinished + "");
+            }
+
+            @Override
+            public void onFinish() {
+                new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
+                if (currentOrderStatus.equals("PAID")) {
+//                    Intent i = new Intent(ScanActivity.this, OrderOverviewDetail.class);
+//                    startActivity(i);
+                    finish();
+                } else {
+                    this.start();
+                }
+            }
+        }.start();
+    }
+
+    //after NFC connection was made...
     @Override
     public void onStatusAvailable(String status) {
         this.currentOrderStatus = status;
-        if (currentOrderStatus.equals("PAID")) {
-            Toasty.success(this, "Bestelling is betaald", Toast.LENGTH_SHORT).show();
+        Log.i("onStatusAvailable", "--CURRENT STATUS: " + status + "--");
+        if (currentOrderStatus.equals("RECEIVED")) {
+            Toasty.success(this, "Bestelling is ontvangen (1/2).", Toast.LENGTH_SHORT).show();
 
             //show animation to give user feedback that the transaction is successful
+        } else if (currentOrderStatus.equals("PAID")) {
+            Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
             checkMarkAnimFeedback();
         }
     }
