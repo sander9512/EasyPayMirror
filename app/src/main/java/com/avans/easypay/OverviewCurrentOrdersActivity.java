@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
 
@@ -18,6 +20,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     private ArrayList<Product> orderedProducts;
     private ProductsTotal total;
     private Order order;
+    public static final String ORDER = "order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         TextView order_location = (TextView) findViewById(R.id.orderLocation);
         TextView order_total = (TextView) findViewById(R.id.order_subtotal);
 
-        orderedProducts = order.getOrderedProducts();
+        orderedProducts = order.getProducts();
         //dummydata
 //        Product p1 = new Product("Product 1", 2.50, 5, 1);
 //        Product p2 = new Product("Product 2", 4.50, 2, 2);
@@ -60,6 +63,11 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     }
     public void scanBtn(View view) {
         Intent i = new Intent(getApplicationContext(), ScanActivity.class);
+        order.setStatus("WAITING");
+        Date date = new Date(30/05/2017);
+        order.setDate(date);
+        order.setOrderId(1);
+        i.putExtra(ORDER, order);
         startActivity(i);
     }
 

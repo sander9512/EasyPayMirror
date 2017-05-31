@@ -18,7 +18,9 @@ import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.HCE.AccountStorage;
 
+import static com.avans.easypay.OverviewCurrentOrdersActivity.ORDER;
 import es.dmoral.toasty.Toasty;
+
 
 /**
  * Created by TB on 5/6/2017.
@@ -32,7 +34,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     private TextView messageOutput;
 
     private ImageView scanImage1, scanImage2, checkmarkImage;
-
+    private Order order;
     private String URL = "https://easypayserver.herokuapp.com/api/bestelling/";
     private String currentOrderStatus = "";
 
@@ -42,7 +44,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         setContentView(R.layout.activity_scan);
 
         messageOutput = (TextView) findViewById(R.id.message_textview);
-
+        Bundle bundle = getIntent().getExtras();
         scanImage1 = (ImageView) findViewById(R.id.scan_indicator_imageview1);
         scanImage2 = (ImageView) findViewById(R.id.scan_indicator_imageview2);
         //start infinite animation, until NFC succeeded
@@ -59,8 +61,11 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         });
 
         //this is where intent data from previous activity should be called and inserted in a new Order object
-//        Order order = getIntent().getSerializableExtra("ORDER");
-        final Order order = new Order(4, 4, 14, 8, "WAITING");
+        order = (Order) bundle.get(ORDER);
+        order.setCustomerId(5);
+        order.setOrderNumber(1235);
+        Log.i("ORDER", order.toString());
+        //final Order order = new Order(4, 4, 14, 8, "WAITING");
 
         //HCE components
         messageOutput.setText(getResources().getString(R.string.instructions_scan));

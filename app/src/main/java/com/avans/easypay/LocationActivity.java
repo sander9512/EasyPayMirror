@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.avans.easypay.DomainModel.Order;
+
 public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn1, btn2, btn3, btn4, btn5;
     private Context context;

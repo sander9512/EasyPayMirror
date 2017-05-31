@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Order;
+
 import java.util.ArrayList;
 
 public class OrderOverviewActivity extends AppCompatActivity implements ListView.OnItemClickListener {
@@ -27,22 +29,23 @@ public class OrderOverviewActivity extends AppCompatActivity implements ListView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_overview);
-        mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
+        //mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
         ListView ListOverview = (ListView) findViewById(R.id.orderListview);
         ListOverview.setAdapter(mOverviewAdapter);
 
-        //Aanmaken van product objecten en toevoegen aan de lijst
-        Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);
-        Order order2 = new Order(2, 17052017, "Bierplaza", "Bier", 5, 12.50);
-        Order order3 = new Order(3, 17052017, "Friettent", "Patat", 1, 2.50);
-        Order order4 = new Order(4, 17052017, "Koffiehuis", "Latte Machiatto", 2, 10.00);
-        mOrderList.add(order1);
-        mOrderList.add(order2);
-        mOrderList.add(order3);
-        mOrderList.add(order4);
+//        Aanmaken van product objecten en toevoegen aan de lijst
+//        Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);
+//        Order order2 = new Order(2, 17052017, "Bierplaza", "Bier", 5, 12.50);
+//        Order order3 = new Order(3, 17052017, "Friettent", "Patat", 1, 2.50);
+//        Order order4 = new Order(4, 17052017, "Koffiehuis", "Latte Machiatto", 2, 10.00);
+//        mOrderList.add(order1);
+//        mOrderList.add(order2);
+//        mOrderList.add(order3);
+//        mOrderList.add(order4);
 
         // Force update listview
         this.mOverviewAdapter.notifyDataSetChanged();
+        ListOverview.setOnItemClickListener(this);
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
