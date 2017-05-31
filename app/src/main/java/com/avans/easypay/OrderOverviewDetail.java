@@ -11,12 +11,10 @@ import com.avans.easypay.DomainModel.Order;
 
 import java.util.ArrayList;
 
-import static com.avans.easypay.R.id.amount_id;
-import static com.avans.easypay.R.id.product_id;
 
 public class OrderOverviewDetail extends AppCompatActivity {
     private ArrayList<Order> mOrderList = new ArrayList<>();
-    private TextView productName, amount, price;
+    private TextView productNr, location, date;
     private Context context;
 
 
@@ -26,9 +24,9 @@ public class OrderOverviewDetail extends AppCompatActivity {
         setContentView(R.layout.activity_order_overview_detail);
         context = getApplicationContext();
 
-        productName = (TextView) findViewById(R.id.product_id);
-        amount = (TextView) findViewById(R.id.amount_id);
-        price = (TextView) findViewById(R.id.price_id);
+        productNr = (TextView) findViewById(R.id.overview_order_nr);
+        location = (TextView) findViewById(R.id.overview_location_id);
+        date = (TextView) findViewById(R.id.overview_date_id);
 
         Bundle bundle = getIntent().getExtras();
         Order order = bundle.getParcelable("Order");
