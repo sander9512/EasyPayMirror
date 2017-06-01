@@ -44,7 +44,7 @@ public class OrderOverviewActivity extends AppCompatActivity implements ListView
 //        mOrderList.add(order4);
 
         // Force update listview
-        this.mOverviewAdapter.notifyDataSetChanged();
+        //this.mOverviewAdapter.notifyDataSetChanged();
         ListOverview.setOnItemClickListener(this);
 
         //Setting up the toolbar

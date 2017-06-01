@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -70,7 +71,10 @@ public class ProductAdapter extends BaseAdapter {
             viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_image);
             viewHolder.productName = (TextView) convertView.findViewById(R.id.product_name);
             viewHolder.productPrice = (TextView) convertView.findViewById(R.id.product_price);
-            viewHolder.productSpinner = (Spinner) convertView.findViewById(R.id.product_spinner);
+            viewHolder.productAmount = (TextView) convertView.findViewById(R.id.product_amount_row);
+           // viewHolder.productSpinner = (Spinner) convertView.findViewById(R.id.product_spinner);
+            viewHolder.removeBtn = (ImageButton) convertView.findViewById(R.id.product_remove_button);
+            viewHolder.addBtn = (ImageButton) convertView.findViewById(R.id.product_add_button);
 
             convertView.setTag(viewHolder);
         }
@@ -78,7 +82,7 @@ public class ProductAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //placeholder code
-        final Product p = productsList.get(position);
+         final Product p = productsList.get(position);
 
         //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
         Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
@@ -87,55 +91,104 @@ public class ProductAdapter extends BaseAdapter {
         price = price.replace(".", ",");
             viewHolder.productName.setText(p.getProductName());
             viewHolder.productPrice.setText(price);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
-                R.array.spinner_array, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        viewHolder.productSpinner.setAdapter(adapter);
-        viewHolder.productSpinner.setSelection(p.getAmount());
-        viewHolder.productSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
-
-
-                int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
-                System.out.println(spinnerValue);
-                System.out.println("item selected " + id + " " + position2 + " " + spinnerValue + " " + viewHolder.productSpinner.getSelectedItem() + " " + view.getId() + " " + parent.getId() + " " + position);
-                //ArrayList<Product> chosenProducts = new ArrayList<Product>();
-
-                //for (int i = 0; i < spinnerValue; i++) {
-                if (spinnerValue > 0) {
-                    p.setAmount(spinnerValue);
+            viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
+                int amount = 0;
+                @Override
+                public void onClick(View v) {
+                    amount++;
+                    p.setAmount(amount);
+                    Log.i("ADDTEST", p.getProductName() + p.getAmount() + p.getProductId());
+                    viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
                     chosenProducts.add(p);
                 }
-                //need to save spinner values when scrolling/switching tabs
-                            else if (spinnerValue == 0 ) {
-                                p.setAmount(0);
-                                chosenProducts.remove(p);
-                            }
-                //}
-                //if(products.size() > position)
-                //products.set(position, chosenProducts);
-                System.out.println(" " + chosenProducts.size());
-                Log.i("TAG", "total products " + chosenProducts.size() + " " + products.size() + " " + total.getPriceTotal() + " " + total.getTotal());
-                listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
+            });
+            viewHolder.removeBtn.setOnClickListener(new View.OnClickListener() {
+                int amount = p.getAmount();
+                @Override
+                public void onClick(View v) {
+                    Log.i("AMOUNT", "" + p.getAmount());
+                    if(p.getAmount() > 0) {
+                        amount--;
+                        p.setAmount(amount);
+                        Log.i("REMOVETEST", p.getProductName() + p.getAmount()+ p.getProductId());
+                        chosenProducts.add(p);
+                    }
+                    if (p.getAmount() == 0) {
+                        chosenProducts.remove(p);
+                    }
+                    viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+                }
+            });
 
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+//                R.array.spinner_array, R.layout.spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        viewHolder.productSpinner.setAdapter(adapter);
+//        viewHolder.productSpinner.setSelection(p.getAmount());
+//        viewHolder.productSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
+//
+//
+//                int spinnerValue = Integer.parseInt(viewHolder.productSpinner.getSelectedItem().toString());
+//                System.out.println(spinnerValue);
+//                System.out.println("item selected " + id + " " + position2 + " " + spinnerValue + " " + viewHolder.productSpinner.getSelectedItem() + " " + view.getId() + " " + parent.getId() + " " + position);
+//                //ArrayList<Product> chosenProducts = new ArrayList<Product>();
+//
+//                //for (int i = 0; i < spinnerValue; i++) {
+//                if (spinnerValue > 0) {
+//                    p.setAmount(spinnerValue);
+//                    chosenProducts.add(p);
+//                }
+//                //need to save spinner values when scrolling/switching tabs
+//                            else if (spinnerValue == 0 ) {
+//                                p.setAmount(0);
+//                                chosenProducts.remove(p);
+//                            }
+//                //}
+//                //if(products.size() > position)
+//                //products.set(position, chosenProducts);
+//                System.out.println(" " + chosenProducts.size());
+//                Log.i("TAG", "total products " + chosenProducts.size() + " " + products.size() + " " + total.getPriceTotal() + " " + total.getTotal());
+                //listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
 
-            }
-        });
-
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+      //  });
+        listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
         return convertView;
     }
 
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.product_add_button:
+//                amount++;
+//                p.setAmount(amount);
+//                Log.i("ADDTEST", p.getProductName() + p.getAmount());
+//                break;
+//
+//            case R.id.product_remove_button:
+//                amount--;
+//                p.setAmount(amount);
+//                Log.i("REMOVETEST", p.getProductName() + p.getAmount());
+//                break;
+//
+//        }
+//        listener.onTotalChanged(total.getPriceTotal(), total.getTotal(), chosenProducts);
+//    }
+
     private static class ViewHolder {
        private ImageView productImage;
-        private TextView productName, productPrice;
+        private TextView productName, productPrice, productAmount;
         private Spinner productSpinner;
+        private ImageButton removeBtn, addBtn;
 
     }
 }

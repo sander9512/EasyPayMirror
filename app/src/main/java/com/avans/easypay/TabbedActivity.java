@@ -50,6 +50,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     public static final String PRODUCTS = "products";
     private final ProductsTotal.OnTotalChanged totalListener = this;
     private Order order;
+    private int orderTotal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,15 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     public void onTotalChanged(String priceTotal, String total, ArrayList<Product> products) {
         totalProductsView.setText(total);
         totalPriceView.setText(priceTotal);
-        mergedProducts.addAll(products);
+        if (!products.isEmpty()) {
+            mergedProducts.addAll(products);
+        }
+
+        for (Product product : mergedProducts) {
+            if (product.getAmount() == 0) {
+                mergedProducts.remove(product);
+            }
+        }
         Log.i("mergedProducts", "" + mergedProducts.size());
 
         this.mergedProducts = products;
