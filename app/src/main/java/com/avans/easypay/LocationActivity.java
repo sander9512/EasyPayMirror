@@ -17,6 +17,9 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
     private String loc1, loc2, loc3, loc4, loc5;
     private Order order = new Order();
     public static final String ORDER = "order";
+    
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
         loc4 = "Koffiehuis";
         loc5 = "Friettent";
 
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -55,6 +60,23 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
             }
         });
+    }
+    
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
     //      Hier mogelijk tags doorgeven vanuit database om assortiment te filteren op locatie
