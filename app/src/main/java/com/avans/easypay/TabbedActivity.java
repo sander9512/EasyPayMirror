@@ -22,6 +22,8 @@ import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import es.dmoral.toasty.Toasty;
 
@@ -105,21 +107,20 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     @Override
     public void onTotalChanged(String priceTotal, String total, ArrayList<Product> products) {
-        totalProductsView.setText(total);
-        totalPriceView.setText(priceTotal);
-        if (!products.isEmpty()) {
-            mergedProducts.addAll(products);
-        }
-
-        for (Product product : mergedProducts) {
-            if (product.getAmount() == 0) {
-                mergedProducts.remove(product);
-            }
-        }
+//        if (!products.isEmpty()) {
+//            mergedProducts.addAll(products);
+//        }
+        this.mergedProducts = products;
+        mergedProducts.addAll(products);
+        HashSet<Product> hashSet = new HashSet<Product>();
+        hashSet.addAll(mergedProducts);
+        mergedProducts.clear();
+        mergedProducts.addAll(hashSet);
         Log.i("mergedProducts", "" + mergedProducts.size());
 
-        this.mergedProducts = products;
-
+       // this.mergedProducts = products;
+        totalProductsView.setText(total);
+        totalPriceView.setText(priceTotal);
 
     }
 

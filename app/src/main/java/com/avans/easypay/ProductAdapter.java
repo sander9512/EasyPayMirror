@@ -92,31 +92,33 @@ public class ProductAdapter extends BaseAdapter {
             viewHolder.productName.setText(p.getProductName());
             viewHolder.productPrice.setText(price);
             viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
-                int amount = 0;
                 @Override
                 public void onClick(View v) {
+                    int amount = p.getAmount();
                     amount++;
                     p.setAmount(amount);
-                    Log.i("ADDTEST", p.getProductName() + p.getAmount() + p.getProductId());
+                    Log.i("ADDTEST", p.getProductName() +" " +  p.getAmount() +" " +  p.getProductId());
                     viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
                     chosenProducts.add(p);
+                    Log.i("chosenproducts: ", chosenProducts.toString());
                 }
             });
             viewHolder.removeBtn.setOnClickListener(new View.OnClickListener() {
-                int amount = p.getAmount();
                 @Override
                 public void onClick(View v) {
+                    int amountRemove = p.getAmount();
                     Log.i("AMOUNT", "" + p.getAmount());
                     if(p.getAmount() > 0) {
-                        amount--;
-                        p.setAmount(amount);
-                        Log.i("REMOVETEST", p.getProductName() + p.getAmount()+ p.getProductId());
+                        amountRemove--;
+                        p.setAmount(amountRemove);
+                        Log.i("REMOVETEST", p.getProductName() +" " +  p.getAmount() + " " +  p.getProductId());
                         chosenProducts.add(p);
                     }
                     if (p.getAmount() == 0) {
                         chosenProducts.remove(p);
                     }
                     viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+                    Log.i("chosenproducts: ", chosenProducts.toString());
                 }
             });
 
