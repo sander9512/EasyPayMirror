@@ -22,10 +22,10 @@ import java.util.ArrayList;
 public class FoodTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {
     private ArrayList<Product> foodList;
     private ListView listview_food;
-    private ProductsTotal.OnTotalChanged totalListener = null;
+    private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
 
-    public void setTotalListener(ProductsTotal.OnTotalChanged totalListener){
+    public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
     }
 

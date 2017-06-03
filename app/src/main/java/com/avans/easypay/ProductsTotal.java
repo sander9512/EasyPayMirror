@@ -6,6 +6,7 @@ import com.avans.easypay.DomainModel.Product;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Sander on 4-5-2017.
@@ -13,11 +14,15 @@ import java.util.ArrayList;
 
 public class ProductsTotal {
     private ArrayList<Product> products;
+    private HashSet<Product> hashProducts;
 
     public ProductsTotal(Context context, ArrayList<Product> products) {
 
         this.products = products;
 
+    }
+    public ProductsTotal(Context context, HashSet<Product> hashProducts) {
+        this.hashProducts = hashProducts;
     }
 
     public String getPriceTotal() {
@@ -77,6 +82,45 @@ public class ProductsTotal {
 //        return d;
 //    }
 
+    public double getPriceTotalHashSet() {
+
+        double d = 0;
+
+        //for (ArrayList<Product> specificProducts : products) {
+
+        for (Product product : hashProducts) {
+
+            Product p;
+
+            p = product;
+            int amount = p.getAmount();
+            d += p.getProductPrice() * amount;
+        }
+        //}
+
+        DecimalFormat df = new DecimalFormat("0.00##");
+
+        return d;
+    }
+
+    public int getTotalHashSet() {
+
+        int total = 0;
+
+        //for (ArrayList<Product> specificProducts : products) {
+
+        for (Product product : hashProducts) {
+            Product p;
+            p = product;
+
+            int amount = p.getAmount();
+            total += amount;
+        }
+        //}
+
+        return total;
+    }
+
     public ArrayList<Product> combineLists() {
         ArrayList<Product> mergedProducts = new ArrayList<>();
 
@@ -86,6 +130,10 @@ public class ProductsTotal {
 
     }
 
+    public interface OnTotalChangedHash {
+
+        void onTotalChangedHash(double priceTotal, int total, HashSet<Product> products);
+    }
     public interface OnTotalChanged {
 
         void onTotalChanged(String priceTotal, String total, ArrayList<Product> products);

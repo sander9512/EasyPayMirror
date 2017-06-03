@@ -12,12 +12,14 @@ import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
 
 public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     private CurrentOrderAdapter adapter;
-    private ArrayList<Product> orderedProducts;
+    private ArrayList<Product> orderedProducts = new ArrayList<>();
+    private HashSet<Product> hashSet;
     private ProductsTotal total;
     private Order order;
     public static final String ORDER = "order";
@@ -32,8 +34,10 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         ListView currentOrder = (ListView) findViewById(R.id.oco_OrdersList);
         TextView order_location = (TextView) findViewById(R.id.orderLocation);
         TextView order_total = (TextView) findViewById(R.id.order_subtotal);
+        hashSet = order.getHashProducts();
+        orderedProducts.addAll(hashSet);
 
-        orderedProducts = order.getProducts();
+//        orderedProducts = order.getProducts();
         //dummydata
 //        Product p1 = new Product("Product 1", 2.50, 5, 1);
 //        Product p2 = new Product("Product 2", 4.50, 2, 2);

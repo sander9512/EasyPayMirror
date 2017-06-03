@@ -61,7 +61,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="15dp"
                 android:textColor="#FFF"
-                android:text="Amount of items: 0"
+                android:text="0 Producten"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -72,7 +72,7 @@
                 android:layout_marginRight="45dp"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@+id/products_amount_textview"
-                android:text="Subtotal: €0,00"
+                android:text="Subtotaal: € 0.00"
                 android:textSize="15dp"
                 android:textColor="#FFF"
                 android:textStyle="bold" />
