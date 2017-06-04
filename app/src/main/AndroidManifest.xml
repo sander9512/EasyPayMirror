@@ -23,11 +23,11 @@
         <activity android:name=".IncreaseBalanceActivity" />
         <activity android:name=".RefundBalanceActivity" />
         <activity android:name=".UserDataActivity" />
-        <activity android:name=".ScanActivity">
-        </activity>
+        <activity android:name=".ScanActivity" />
         <activity android:name=".OverviewCurrentOrdersActivity" />
         <activity android:name=".OrderOverviewActivity" />
         <activity android:name=".SignupActivity" />
+        <activity android:name=".OrderOverviewDetailActivity" />
 
         <activity
             android:name=".TabbedActivity"

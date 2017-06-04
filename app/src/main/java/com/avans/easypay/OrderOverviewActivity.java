@@ -1,23 +1,18 @@
 package com.avans.easypay;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.JsonWriter;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class OrderOverviewActivity extends AppCompatActivity implements ListView.OnItemClickListener {
+public class OrderOverviewActivity extends AppCompatActivity /*implements ListView.OnItemClickListener */{
     private ArrayList<Order> mOrderList = new ArrayList<>();
 
     private OverviewAdapter mOverviewAdapter;
@@ -30,6 +25,7 @@ public class OrderOverviewActivity extends AppCompatActivity implements ListView
         mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
         ListView ListOverview = (ListView) findViewById(R.id.orderListview);
         ListOverview.setAdapter(mOverviewAdapter);
+
 
         //Aanmaken van product objecten en toevoegen aan de lijst
         Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);
@@ -59,13 +55,19 @@ public class OrderOverviewActivity extends AppCompatActivity implements ListView
             }
         });
 
+
+        ListOverview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("Open detailview");
+                Order order = (Order) mOrderList.get(position);
+                Intent intent = new Intent(getApplicationContext(), OrderOverviewDetailActivity.class);
+
+
+                intent.putExtra("Order", order.toStringArray());
+                startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Order order = (Order) mOrderList.get(position);
-        Intent intent = new Intent(getApplicationContext(), OrderOverviewDetail.class);
-        intent.putExtra("Order", order);
-        startActivity(intent);
-    }
 }

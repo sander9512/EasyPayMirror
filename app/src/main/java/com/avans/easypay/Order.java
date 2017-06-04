@@ -1,5 +1,8 @@
 package com.avans.easypay;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.avans.easypay.DomainModel.Product;
 
 import java.io.Serializable;
@@ -103,4 +106,18 @@ public class Order implements Serializable {
                 ", price = " + price +
                 '}';
     }
+
+
+    public String[] toStringArray(){
+        return new String[] {
+        this.orderId + "",
+        date + "",
+        location,
+        purchasedProduct,
+        this.amount + "",
+        this.price + ""
+        };
+
+    }
+
 }
