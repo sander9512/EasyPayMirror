@@ -66,7 +66,7 @@ public class Product implements Serializable {
     }
 
     public String getFullImageUrl() {
-        String url = "https://easypayserver.github.io/" + productId + ".png";
+        String url = "https://raw.githubusercontent.com/bartaveld/EasyPayImages/master/" + productId + ".png";
         return url;
     }
 }
