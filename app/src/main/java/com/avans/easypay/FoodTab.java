@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,11 +22,10 @@ import java.util.ArrayList;
 public class FoodTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {
     private ArrayList<Product> foodList;
     private ListView listview_food;
-    private ArrayList<ArrayList<Product>> products;
-    private ProductsTotal.OnTotalChanged totalListener = null;
+    private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
 
-    public void setTotalListener(ProductsTotal.OnTotalChanged totalListener){
+    public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
     }
 
@@ -66,4 +66,5 @@ public class FoodTab extends Fragment implements EasyPayAPIConnector.OnProductAv
 
         new EasyPayAPIConnector(this).execute(URL);
     }
+
 }

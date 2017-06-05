@@ -16,32 +16,49 @@
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="90dp"
+        android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:text="Product Name"
         android:textSize="17sp" />
 
     <TextView
         android:id="@+id/product_price"
-        android:layout_width="75dp"
+        android:layout_width="55dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
         android:text="product price"
         android:textSize="17sp" />
 
-
-    <Spinner
-        android:layout_width="wrap_content"
+    <ImageButton
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="35dp"
+        android:id="@+id/product_add_button"
+        android:background="@drawable/ic_add_circle_black_24dp"
+        />
+    <TextView
+        android:layout_width="40dp"
         android:layout_height="60dp"
-        android:id="@+id/product_spinner"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="25dp"
+        android:id="@+id/product_amount_row"
+        android:textSize="17sp"
+        android:text="0"/>
 
-    </Spinner>
+    <ImageButton
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/product_remove_button"
+        android:background="@drawable/ic_remove_circle_black_24dp"
+        />
 
 </LinearLayout>

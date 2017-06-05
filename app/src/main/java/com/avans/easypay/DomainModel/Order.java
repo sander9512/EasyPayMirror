@@ -3,6 +3,7 @@ package com.avans.easypay.DomainModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Created by Felix on 22-5-2017.
@@ -14,6 +15,7 @@ public class Order implements Serializable{
     private String status, location;
     private Date date;
     private ArrayList<Product> products;
+    private HashSet<Product> hashProducts;
 
     public Order(int orderId, int customerId, Date date, String location, ArrayList<Product> selectedProducts, int orderNumber, String status) {
         this.orderId = orderId;
@@ -83,6 +85,14 @@ public class Order implements Serializable{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public HashSet<Product> getHashProducts() {
+        return hashProducts;
+    }
+
+    public void setHashProducts(HashSet<Product> hashProducts) {
+        this.hashProducts = hashProducts;
     }
 
     @Override

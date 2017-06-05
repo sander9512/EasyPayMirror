@@ -21,13 +21,16 @@ import android.widget.Toast;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import es.dmoral.toasty.Toasty;
 
 import static com.avans.easypay.LocationActivity.ORDER;
 
-public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChanged {
+public class TabbedActivity extends AppCompatActivity implements ProductsTotal.OnTotalChangedHash {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -48,8 +51,10 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     protected static ArrayList<Product> mergedProducts;
     protected static ProductAdapter adapter;
     public static final String PRODUCTS = "products";
-    private final ProductsTotal.OnTotalChanged totalListener = this;
+    private final ProductsTotal.OnTotalChangedHash totalListener = this;
     private Order order;
+    private HashSet<Product> hashSet = new HashSet<>();
+    private HashSet<Product> mergedHashSet = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,16 +108,23 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     }
 
     @Override
-    public void onTotalChanged(String priceTotal, String total, ArrayList<Product> products) {
-        totalProductsView.setText(total);
-        totalPriceView.setText(priceTotal);
-        mergedProducts.addAll(products);
-        Log.i("mergedProducts", "" + mergedProducts.size());
+    public void onTotalChangedHash(double priceTotal, int total, HashSet<Product> products) {
+        this.hashSet = products;
+        mergedHashSet.addAll(hashSet);
+        int totalProducts = 0;
+        double totalPrice = 0;
+        Log.i("mergedProducts", "" + mergedHashSet.size());
 
-        this.mergedProducts = products;
-
+        for (Product product : mergedHashSet) {
+            totalProducts += product.getAmount();
+            totalPrice += product.getProductPrice() * product.getAmount();
+        }
+        DecimalFormat df = new DecimalFormat("0.00##");
+        totalProductsView.setText(totalProducts + " Producten");
+        totalPriceView.setText("Subtotaal: € " + df.format(totalPrice));
 
     }
+
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -123,24 +135,24 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         @Override
         public Fragment getItem(int position) {
 
-         switch(position) {
-             case 0:
-                 DrinksTab tab1 = new DrinksTab();
-                 tab1.setTotalListener(totalListener);
-                 //tab1.setProductAdapter(product_adapter);
-                 return tab1;
-             case 1:
-                 FoodTab tab2 = new FoodTab();
-                 tab2.setTotalListener(totalListener);
-                 //tab2.setFoodAdapter(food_adapter);
-                 return tab2;
-             case 2:
-                 SodaTab tab3 = new SodaTab();
-                 tab3.setTotalListener(totalListener);
-                 return tab3;
-             default:
-                 return null;
-         }
+            switch (position) {
+                case 0:
+                    DrinksTab tab1 = new DrinksTab();
+                    tab1.setTotalListener(totalListener);
+                    //tab1.setProductAdapter(product_adapter);
+                    return tab1;
+                case 1:
+                    FoodTab tab2 = new FoodTab();
+                    tab2.setTotalListener(totalListener);
+                    //tab2.setFoodAdapter(food_adapter);
+                    return tab2;
+                case 2:
+                    SodaTab tab3 = new SodaTab();
+                    tab3.setTotalListener(totalListener);
+                    return tab3;
+                default:
+                    return null;
+            }
         }
 
         @Override
@@ -164,12 +176,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
     public void overviewCurrentOrderBtn(View v) {
         Intent i = new Intent(this, OverviewCurrentOrdersActivity.class);
-        order.setProducts(mergedProducts);
+        order.setHashProducts(mergedHashSet);
         i.putExtra(PRODUCTS, order);
-        if (mergedProducts.isEmpty()) {
+        if (mergedHashSet.isEmpty()) {
             Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             startActivity(i);
         }
     }
