@@ -8,8 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn1, btn2, btn3, btn4, btn5;
