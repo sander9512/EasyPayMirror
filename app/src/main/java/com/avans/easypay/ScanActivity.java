@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,9 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     private String URL = "https://easypayserver.herokuapp.com/api/bestelling/";
     private String currentOrderStatus = "";
 
+    private boolean orderReceived = false;
+    private boolean paymentReceived = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Schoenzool", 3.20, 1));
         products.add(new Product("Oreo", 1.40, 2));
-        order = new Order(4, 4, new Date(), "Pizzahut", products, 8, "WAITING");
+        order = new Order(0, 4, new Date(), "Likeurpaleis", products, 8, "WAITING");
         //------------
 
         //add listener to cancel button
@@ -82,9 +86,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 
                 //go back to MainActivity and close this activity
                 Intent i = new Intent(ScanActivity.this, MainActivity.class);
-                startActivity(i);
-                //close activity
                 finish();
+                startActivity(i);
             }
         });
 
@@ -163,8 +166,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
                 if (currentOrderStatus.equals("PAID")) {
-//                    Intent i = new Intent(ScanActivity.this, OrderOverviewDetail.class);
-//                    startActivity(i);
+                    Intent i = new Intent(ScanActivity.this, OrderOverviewDetail.class);
+                    startActivity(i);
                     finish();
                 } else {
                     this.start();
@@ -177,14 +180,19 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     @Override
     public void onStatusAvailable(String status) {
         this.currentOrderStatus = status;
-        Log.i("onStatusAvailable", "--CURRENT STATUS: " + status + "--");
         if (currentOrderStatus.equals("RECEIVED")) {
-            Toasty.success(this, "Bestelling is ontvangen (1/2).", Toast.LENGTH_SHORT).show();
+            if (!orderReceived) {
+                Toasty.success(this, "Bestelling is ontvangen (1/2).", Toast.LENGTH_SHORT).show();
+                orderReceived = true;
+            }
 
             //show animation to give user feedback that the transaction is successful
         } else if (currentOrderStatus.equals("PAID")) {
-            Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
-            checkMarkAnimFeedback();
+            if (!paymentReceived) {
+                Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
+                checkMarkAnimFeedback();
+                paymentReceived = true;
+            }
         }
     }
 
@@ -203,6 +211,13 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Looper.prepare();
+                //calc price
+                int price = 0;
+                for (int i = 0; i < order.getProducts().size(); i++) {
+                    price += order.getProducts().get(i).getProductPrice();
+                }
+
                 //animate check mark image
                 scanImage1.setVisibility(View.GONE);
                 scanImage2.setVisibility(View.GONE);
