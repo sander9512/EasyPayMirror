@@ -63,8 +63,8 @@ public class OverviewAdapter extends BaseAdapter {
         Order o = (Order) orderList.get(position);
 
         viewHolder.orderLocation.setText(o.getLocation());
-        viewHolder.orderDate.setText((CharSequence) o.getDate());
-        viewHolder.orderId.setText(o.getOrderId());
+        viewHolder.orderDate.setText(String.valueOf(o.getDate()));
+        viewHolder.orderId.setText(String.valueOf(o.getOrderId()));
 
         return convertView;
 
