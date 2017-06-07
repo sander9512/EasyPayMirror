@@ -51,7 +51,8 @@
             android:background="@color/colorPrimary"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:onClick="overviewCurrentOrderBtn">
 
             <TextView
                 android:layout_centerVertical="true"
@@ -90,8 +91,7 @@
                     android:id="@+id/orderbutton"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:background="@drawable/ic_shopping_cart_white_24dp"
-                    android:onClick="overviewCurrentOrderBtn" />
+                    android:background="@drawable/ic_shopping_cart_white_24dp" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
