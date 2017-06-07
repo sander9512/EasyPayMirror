@@ -120,8 +120,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
             totalPrice += product.getProductPrice() * product.getAmount();
         }
         DecimalFormat df = new DecimalFormat("0.00##");
-        totalProductsView.setText(totalProducts + " Producten");
-        totalPriceView.setText("Subtotaal: € " + df.format(totalPrice));
+        totalProductsView.setText("Aantal items: " + totalProducts);
+        totalPriceView.setText("€" + df.format(totalPrice));
 
     }
 
