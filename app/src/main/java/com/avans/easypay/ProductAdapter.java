@@ -93,6 +93,7 @@ public class ProductAdapter extends BaseAdapter {
         price = price.replace(".", ",");
             viewHolder.productName.setText(p.getProductName());
             viewHolder.productPrice.setText(price);
+            viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
             viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

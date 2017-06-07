@@ -33,6 +33,7 @@
             android:textStyle="bold"
             android:text="Datum"/>
     </LinearLayout>
+
     <ListView
         android:id="@+id/orderListview"
         android:clickable="true"

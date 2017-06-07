@@ -68,7 +68,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
     public void scanBtn(View view) {
         Intent i = new Intent(getApplicationContext(), ScanActivity.class);
         order.setStatus("WAITING");
-        Date date = new Date(30/05/2017);
+        Date date = new Date();
         order.setDate(date);
         order.setOrderId(1);
         i.putExtra(ORDER, order);
