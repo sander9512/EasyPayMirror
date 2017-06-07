@@ -89,6 +89,7 @@
                     android:layout_toRightOf="@id/subtotal"
                     android:layout_centerInParent="true"
                     android:id="@+id/orderbutton"
+                    android:onClick="overviewCurrentOrderBtn"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:background="@drawable/ic_shopping_cart_white_24dp" />
