@@ -4,5 +4,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+sonarqube{
+    skipProject = true
+}
+
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"

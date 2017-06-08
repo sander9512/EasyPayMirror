@@ -77,6 +77,8 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
         customerEdit = customerPref.edit();
 
+        customerPref.getInt("ID", 0);
+
         loginPref = getSharedPreferences(PREFERENCELOGIN, Context.MODE_PRIVATE);
         loginEdit = loginPref.edit();
 

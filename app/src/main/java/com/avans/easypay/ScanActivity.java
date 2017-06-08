@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -71,6 +72,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         messageOutput.setText(getResources().getString(R.string.instructions_scan));
         AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
 
+
+
         //check the status of the order payment every x seconds
         new CountDownTimer(3000, 500) {
 
@@ -91,6 +94,9 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                 }
             }
         }.start();
+
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
+        nfc.setNdefPushMessage(null, this);
     }
 
     @Override

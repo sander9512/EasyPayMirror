@@ -70,10 +70,13 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
         //      mOrderList.add(order4);
 
         // Force update listview
+
+
         mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
         ListView ListOverview = (ListView) findViewById(R.id.orderListview);
         ListOverview.setAdapter(mOverviewAdapter);
         this.mOverviewAdapter.notifyDataSetChanged();
+
         ListOverview.setOnItemClickListener(this);
 
         //Setting up the toolbar
