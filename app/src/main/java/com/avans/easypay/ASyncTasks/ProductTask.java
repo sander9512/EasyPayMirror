@@ -1,4 +1,4 @@
-package com.androiddevper3.testproductgeteroni.Asynctasks;
+package com.avans.easypay.ASyncTasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
