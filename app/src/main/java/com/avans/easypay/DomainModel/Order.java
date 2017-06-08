@@ -15,6 +15,7 @@ public class Order implements Serializable{
     private String status, location;
     private Date date;
     private ArrayList<Product> products;
+    private ArrayList<Integer> productsIDs;
     private HashSet<Product> hashProducts;
     private ArrayList<Integer> productsIDs;
 
@@ -98,6 +99,13 @@ public class Order implements Serializable{
         this.date = date;
     }
 
+
+    public ArrayList<Integer> getProductsIDs() {
+        return productsIDs;
+    }
+
+    public void setProductsIDs(ArrayList<Integer> productsIDs) {
+        this.productsIDs = productsIDs;
     public HashSet<Product> getHashProducts() {
         return hashProducts;
     }
