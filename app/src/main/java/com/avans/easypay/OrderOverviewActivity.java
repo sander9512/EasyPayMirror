@@ -50,6 +50,7 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
 
         for (int i = 0; i < 10; i++) {
             Product p = new Product("Testproduct" + i, 2.50, i);
+            p.setAmount(2);
             prod0.add(p);
         }
         Date date = new Date();

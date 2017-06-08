@@ -18,12 +18,12 @@ import static com.avans.easypay.OrderOverviewActivity.ORDER;
 
 public class OrderOverviewDetail extends AppCompatActivity {
     private ArrayList<Product> productsList = new ArrayList<>();
-    private TextView locatie, ordernummer, datum;
+    private TextView locatie, ordernummer, datum, subtotaal;
     private ListView listView;
     private Context context;
     private Order order;
     private CurrentOrderAdapter adapter;
-
+    private ProductsTotal total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,8 @@ public class OrderOverviewDetail extends AppCompatActivity {
         locatie = (TextView) findViewById(R.id.overview_location_id);
         ordernummer = (TextView) findViewById(R.id.overview_order_nr);
         datum = (TextView) findViewById(R.id.overview_date_id);
+        subtotaal = (TextView) findViewById(R.id.overview_subtotaal_id);
+
 
 
         Bundle bundle = getIntent().getExtras();
@@ -52,5 +54,8 @@ public class OrderOverviewDetail extends AppCompatActivity {
         // ((TextView)findViewById(R.id.txt_locatie)).setText(order.getLocation());
         //((TextView)findViewById(R.id.txt_amount)).setText(order.getAmount());
         //voeg hier de andere vlden toe
+
+        total = new ProductsTotal(getApplicationContext(), order.getProducts());
+        subtotaal.setText(total.getPriceTotal());
     }
 }
