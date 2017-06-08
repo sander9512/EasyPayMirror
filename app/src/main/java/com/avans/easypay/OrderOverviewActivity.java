@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.JsonWriter;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -12,14 +13,20 @@ import android.widget.ListView;
 
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
+import com.avans.easypay.SQLite.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class OrderOverviewActivity extends AppCompatActivity implements AdapterView.OnItemClickListener /*implements ListView.OnItemClickListener */{
+public class OrderOverviewActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, EasyPayAPIOrdersConnector.OnOrdersAvailable /*implements ListView.OnItemClickListener */{
     private ArrayList<Order> mOrderList = new ArrayList<>();
+    private OverviewAdapter adapter;
+    private ArrayList<Order> orders = new ArrayList<>();
+    private EasyPayAPIOrdersConnector get;
+    private ArrayList<Integer> orderNumbers = new ArrayList<>();
 
-    private OverviewAdapter mOverviewAdapter;
+
+    private OverviewAdapter   mOverviewAdapter;
     public static final String ORDER = "order";
 
 
@@ -28,7 +35,8 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_overview);
 
-
+        get = new EasyPayAPIOrdersConnector(this);
+        get.execute("https://easypayserver.herokuapp.com/api/bestelling/");
 
 //        Aanmaken van product objecten en toevoegen aan de lijst
 //        Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);
@@ -54,26 +62,26 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
             prod0.add(p);
         }
         Date date = new Date();
-        Order order = new Order(5, 5, date, "testloc", prod0, 3424, "WAITING");
-        Order order2 = new Order(10, 22, date, "loc2", prod0, 2213, "WAITING");
-        Order order3 = new Order(15, 55, date, "loc3", prod0, 2534, "WAITING");
+//        Order order = new Order(5, 5, date, "testloc", prod0, 3424, "WAITING");
+//        Order order2 = new Order(10, 22, date, "loc2", prod0, 2213, "WAITING");
+//        Order order3 = new Order(15, 55, date, "loc3", prod0, 2534, "WAITING");
 
         //       Order order1 = new Order(1, 17052017, "Liqueurpaleis", "Vodka", 3, 15.00);
         //       Order order2 = new Order(2, 17052017, "Bierplaza", "Bier", 5, 12.50);
         //       Order order3 = new Order(3, 17052017, "Friettent", "Patat", 1, 2.50);
         //       Order order4 = new Order(4, 17052017, "Koffiehuis", "Latte Machiatto", 2, 10.00);
-        mOrderList.add(order);
-        mOrderList.add(order2);
-        mOrderList.add(order3);
+//        mOrderList.add(order);
+//        mOrderList.add(order2);
+//        mOrderList.add(order3);
         //      mOrderList.add(order2);
         //      mOrderList.add(order3);
         //      mOrderList.add(order4);
 
         // Force update listview
-        mOverviewAdapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), mOrderList);
+        adapter = new OverviewAdapter(getApplicationContext(), getLayoutInflater(), orders);
         ListView ListOverview = (ListView) findViewById(R.id.orderListview);
-        ListOverview.setAdapter(mOverviewAdapter);
-        this.mOverviewAdapter.notifyDataSetChanged();
+        ListOverview.setAdapter(adapter);
+        this.adapter.notifyDataSetChanged();
         ListOverview.setOnItemClickListener(this);
 
         //Setting up the toolbar
@@ -95,9 +103,26 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
 
     }
 
+    public void onOrdersAvailable(Order order) {
+        if (!orderNumbers.isEmpty()){
+            if (!orderNumbers.contains(order.getOrderNumber())){
+                orderNumbers.add(order.getOrderNumber());
+                orders.add(order);
+                Log.i("PRODUCTS", "  " + order.getProductsIDs());
+                adapter.notifyDataSetChanged();
+            } else
+                return;
+        } else {
+            orders.add(order);
+            orderNumbers.add(order.getOrderNumber());
+            adapter.notifyDataSetChanged();
+        }
+        //Log.i("PRODUCTS", "  " + order.getProducts());
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Order order = mOrderList.get(position);
+        Order order = orders.get(position);
         Intent intent = new Intent(getApplicationContext(), OrderOverviewDetail.class);
         intent.putExtra(ORDER, order);
         startActivity(intent);
