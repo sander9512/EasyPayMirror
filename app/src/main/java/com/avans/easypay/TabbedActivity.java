@@ -72,6 +72,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
 
         //adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), products);
 
