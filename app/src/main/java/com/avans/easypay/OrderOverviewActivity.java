@@ -23,16 +23,6 @@ import java.util.ArrayList;
 
 public class OrderOverviewActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         EasyPayAPIOrdersConnector.OnOrdersAvailable{
-    private ArrayList<Order> mOrderList = new ArrayList<>();
-    private OverviewAdapter adapter;
-    private ArrayList<Order> orders = new ArrayList<>();
-    private EasyPayAPIOrdersConnector get;
-    private ArrayList<Integer> orderNumbers = new ArrayList<>();
-
-
-    private OverviewAdapter   mOverviewAdapter;
-    public static final String ORDER = "order";
-
     private OrderOverviewAdapter adapter;
     private ArrayList<Order> orders = new ArrayList<>();
     private EasyPayAPIOrdersConnector get;
@@ -76,23 +66,6 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
             orderNumbers.add(order.getOrderNumber());
             adapter.notifyDataSetChanged();
         }
-    }
-
-    public void onOrdersAvailable(Order order) {
-        if (!orderNumbers.isEmpty()){
-            if (!orderNumbers.contains(order.getOrderNumber())){
-                orderNumbers.add(order.getOrderNumber());
-                orders.add(order);
-                Log.i("PRODUCTS", "  " + order.getProductsIDs());
-                adapter.notifyDataSetChanged();
-            } else
-                return;
-        } else {
-            orders.add(order);
-            orderNumbers.add(order.getOrderNumber());
-            adapter.notifyDataSetChanged();
-        }
-        //Log.i("PRODUCTS", "  " + order.getProducts());
     }
 
     @Override

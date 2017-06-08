@@ -3,8 +3,8 @@ package com.avans.easypay.ASyncTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.androiddevper3.testproductgeteroni.DomainModel.Customer;
-import com.androiddevper3.testproductgeteroni.DomainModel.Product;
+import com.avans.easypay.DomainModel.Customer;
+import com.avans.easypay.DomainModel.Product;
 
 import org.json.JSONArray;
 import org.json.JSONException;
