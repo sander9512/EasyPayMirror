@@ -1,10 +1,14 @@
 package com.avans.easypay;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,9 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.HCE.AccountStorage;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,7 +82,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Schoenzool", 3.20, 1));
         products.add(new Product("Oreo", 1.40, 2));
-        order = new Order(0, 4, new Date(), "Likeurpaleis", products, 8, "WAITING");
+        order = new Order(0, 4, new Date(), "Likeurpaleis", products, 4, "WAITING");
         //------------
 
         //add listener to cancel button
@@ -98,25 +106,6 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     @Override
     public void onResume() {
         super.onResume();
-//        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-//        if (!nfcAdapter.isEnabled()) {
-//            new AlertDialog.Builder(this).setCancelable(true).setMessage("NFC staat momenteel uit. Aanzetten?")
-//                    .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.dismiss();
-//                            Intent settingsIntent = new Intent(Settings.ACTION_SETTINGS);
-//                            startActivity(settingsIntent);
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.dismiss();
-//                            finish();
-//                        }
-//                    })
-//                    .create().show();
-//        }
     }
 
     //NFC phase 1/2
@@ -136,12 +125,13 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             @Override
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
-                Log.i(TAG, "FINISHED SENDING ORDER");
                 if (currentOrderStatus.equals("RECEIVED")) {
+                    Log.i(TAG, "FINISHED SENDING ORDER");
                     //give user feedback
                     messageOutput.setText(getResources().getString(R.string.instructions_scan2));
                     //send string 'PAID' to EasyPayKassa (phase 2/2)
                     completePayment();
+                    this.cancel();
                 } else {
                     this.start();
                 }
@@ -166,7 +156,13 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
                 if (currentOrderStatus.equals("PAID")) {
-                    Intent i = new Intent(ScanActivity.this, OrderOverviewDetail.class);
+                    this.cancel();
+
+                    //decrease balance in SQLite DB
+                    decreaseBalanceLocally();
+
+                    //start new activity
+                    Intent i = new Intent(ScanActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
                 } else {
@@ -211,12 +207,6 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Looper.prepare();
-                //calc price
-                int price = 0;
-                for (int i = 0; i < order.getProducts().size(); i++) {
-                    price += order.getProducts().get(i).getProductPrice();
-                }
 
                 //animate check mark image
                 scanImage1.setVisibility(View.GONE);
@@ -225,5 +215,23 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                 checkmarkImage.startAnimation(animationClockwise);
             }
         }, 500);
+    }
+
+    public void decreaseBalanceLocally() {
+        //calc price
+        float price = 0;
+        for (int i = 0; i < order.getProducts().size(); i++) {
+            price += order.getProducts().get(i).getProductPrice();
+        }
+
+        Log.i(TAG, "Calculated price = " + price);
+
+        //get current balance
+        DAOFactory factory = new SQLiteDAOFactory(getApplicationContext());
+        BalanceDAO balanceDAO = factory.createBalanceDAO();
+        float currentBalance = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
+        Log.i(TAG, "Current balance = " + currentBalance);
+        balanceDAO.insertData(new Balance(currentBalance - price, new Date()));
+        Log.i(TAG, "New balance = " + (currentBalance - price));
     }
 }
