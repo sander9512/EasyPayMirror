@@ -20,16 +20,19 @@ import android.widget.Toast;
 import com.avans.easypay.ASyncTasks.LoginTask;
 import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Customer;
+import com.avans.easypay.DomainModel.Location;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
 
-public class LoginActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable {
+public class LoginActivity extends AppCompatActivity implements LoginTask.OnCustomerAvailable,
+        EasyPayAPILocationConnector.OnLocationAvailable {
 
     private String TAG = this.getClass().getSimpleName();
 
@@ -55,8 +58,14 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private SharedPreferences customerPref;
     private SharedPreferences.Editor customerEdit;
 
+    private SharedPreferences locationPref;
+    private SharedPreferences.Editor locationEdit;
+
     public static final String PREFERENCECUSTOMER = "CUSTOMER";
     public static final String PREFERENCELOGIN = "LOGIN";
+    public static final String PREFERENCELOCATION = "LOCATION";
+
+    private EasyPayAPILocationConnector getLocations;
 
 
     @Override
@@ -76,6 +85,11 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
 
         customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
         customerEdit = customerPref.edit();
+
+        locationPref = getSharedPreferences(PREFERENCELOCATION, Context.MODE_PRIVATE);
+        locationEdit = locationPref.edit();
+
+        getLocations = new EasyPayAPILocationConnector(this);
 
         customerPref.getInt("ID", 0);
 
@@ -128,9 +142,6 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     public void onCustomerAvailable(Customer customer) {
         this.customer = customer;
 
-        //end ProgressDialog
-        pd.cancel();
-
         //LoginTask did not return a customer, so username = invalid
         if (customer == null) {
             Toasty.error(LoginActivity.this, "Gebruikersnaam bestaat niet.", Toast.LENGTH_LONG).show();
@@ -139,7 +150,6 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
             //username and password input is a valid customer
         } else if (username.equals(customer.getUsername()) && password.equals(customer.getPassword())) {
             compareOnlineWithLocalBalance();
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
             customerEdit.putInt("ID", customer.getCustomerId());
             customerEdit.putString("Username", customer.getUsername());
             customerEdit.putString("Password", customer.getPassword());
@@ -148,8 +158,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
             customerEdit.putString("LastName", customer.getLastname());
             customerEdit.putString("Bank", customer.getBankAccountNumber());
             customerEdit.commit();
-            startActivity(i);
-            finish();
+            getLocationSharedPreference();
 
             //username exists, but password is invalid
         } else {
@@ -161,6 +170,28 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     //start LoginTask (AsyncTask)
     public void startLoginTask() {
         new LoginTask(this).execute("https://easypayserver.herokuapp.com/api/klant/login/" + username);
+    }
+
+    public void getLocationSharedPreference(){
+
+        String URL = "https://easypayserver.herokuapp.com/api/locatie";
+        getLocations.execute(URL);
+    }
+
+    @Override
+    public void onLocationAvailable(ArrayList<Location> locations) {
+
+        for (int i = 0; i < locations.size(); i++) {
+            locationEdit.putString(locations.get(i).getId()+"", locations.get(i).getName());
+        }
+        locationEdit.commit();
+
+        //end ProgressDialog
+        pd.cancel();
+
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     public void compareOnlineWithLocalBalance() {

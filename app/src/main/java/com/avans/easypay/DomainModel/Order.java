@@ -17,6 +17,7 @@ public class Order implements Serializable{
     private ArrayList<Product> products;
     private ArrayList<Integer> productsIDs;
     private HashSet<Product> hashProducts;
+    private ArrayList<Integer> productsIDs;
 
     public Order(int orderId, int customerId, Date date, String location, ArrayList<Product> selectedProducts, int orderNumber, String status) {
         this.orderId = orderId;
@@ -112,6 +113,15 @@ public class Order implements Serializable{
     public void setHashProducts(HashSet<Product> hashProducts) {
         this.hashProducts = hashProducts;
     }
+
+    public ArrayList<Integer> getProductsIDs() {
+        return productsIDs;
+    }
+
+    public void setProductsIDs(ArrayList<Integer> productsIDs) {
+        this.productsIDs = productsIDs;
+    }
+
 
     @Override
     public String toString() {
