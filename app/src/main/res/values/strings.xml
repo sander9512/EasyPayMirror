@@ -101,4 +101,9 @@
     <string name="button_scan">Cancel</string>
     <string name="instructions_scan1">Houd uw telefoon tegen de kassa (stap 1/2)</string>
     <string name="instructions_scan2">Bestelling ontvangen. Scan nogmaals (stap 2/2)</string>
+    
+    <!--activity_customer_data-->
+    <string name="customer_data_achternaam">Achternaam:</string>
+    <string name="customer_data_saldo">Saldo:</string>
+    <string name="customer_data_klantID">KlantID:</string>
 </resources>
