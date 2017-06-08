@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avans.easypay.DomainModel.Product;
 import com.squareup.picasso.Picasso;
@@ -19,6 +20,8 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import es.dmoral.toasty.Toasty;
 
 public class ProductAdapter extends BaseAdapter {
     private Context context;
@@ -83,7 +86,7 @@ public class ProductAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        //placeholder code
+
          final Product p = productsList.get(position);
 
         //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
@@ -97,13 +100,20 @@ public class ProductAdapter extends BaseAdapter {
             viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int amount = p.getAmount();
-                    amount++;
-                    p.setAmount(amount);
-                    Log.i("ADDTEST", p.getProductName() +" " +  p.getAmount() +" " +  p.getProductId());
-                    viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
-                    hashSet.add(p);
-                    Log.i("chosenproducts: ", chosenProducts.toString());
+
+                    if (TabbedActivity.orderTotalPrice + p.getProductPrice()  <= 150) {
+                        int amount = p.getAmount();
+                        amount++;
+                        p.setAmount(amount);
+
+                        Log.i("ADDTEST", p.getProductName() +" " +  p.getAmount() +" " +  p.getProductId());
+
+                        viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+                        hashSet.add(p);
+                    }
+                    else {
+                        Toasty.error(context, "Maximaal bedrag is 150 euro", Toast.LENGTH_SHORT).show();
+                    }
                     Log.i("Add-Price-total", total.getPriceTotalHashSet() + " " +  total.getTotalHashSet());
                     listener.onTotalChangedHash(total.getPriceTotalHashSet(), total.getTotalHashSet(), hashSet);
                 }
