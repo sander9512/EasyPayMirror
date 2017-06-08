@@ -21,10 +21,10 @@ public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProduct
 
     private ListView listview_drinks;
     private ArrayList<ArrayList<Product>> products;
-    private ProductsTotal.OnTotalChanged totalListener = null;
+    private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
 
-    public void setTotalListener(ProductsTotal.OnTotalChanged totalListener){
+    public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
     }
 

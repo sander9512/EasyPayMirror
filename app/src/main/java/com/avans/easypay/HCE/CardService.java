@@ -33,7 +33,7 @@ public class CardService extends HostApduService {
         if (Arrays.equals(SELECT_APDU, commandApdu)) {
             String account = AccountStorage.GetAccount(this);
             byte[] accountBytes = account.getBytes();
-            Log.i(TAG, "Sending order number: " + account);
+//            Log.i(TAG, "Sending order number: " + account);
             return ConcatArrays(accountBytes, SELECT_OK_SW);
         } else {
             return UNKNOWN_CMD_SW;

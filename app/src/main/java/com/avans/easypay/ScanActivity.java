@@ -1,9 +1,14 @@
 package com.avans.easypay;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
+import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.HCE.AccountStorage;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
-import static com.avans.easypay.OverviewCurrentOrdersActivity.ORDER;
+import java.util.ArrayList;
+import java.util.Date;
+
 import es.dmoral.toasty.Toasty;
 
 
@@ -38,38 +50,101 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     private String URL = "https://easypayserver.herokuapp.com/api/bestelling/";
     private String currentOrderStatus = "";
 
+    private boolean orderReceived = false;
+    private boolean paymentReceived = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
+        //initialise elements
         messageOutput = (TextView) findViewById(R.id.message_textview);
-        Bundle bundle = getIntent().getExtras();
+        button = (Button) findViewById(R.id.button_scan);
+
+        //initialise scan images
         scanImage1 = (ImageView) findViewById(R.id.scan_indicator_imageview1);
         scanImage2 = (ImageView) findViewById(R.id.scan_indicator_imageview2);
-        //start infinite animation, until NFC succeeded
+        checkmarkImage = (ImageView) findViewById(R.id.checkmark_imageview);
+        //start infinite animation, until NFC succeeds
         Animation pulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.pulse);
         scanImage1.startAnimation(pulse);
         scanImage2.startAnimation(pulse);
-        checkmarkImage = (ImageView) findViewById(R.id.checkmark_imageview);
-        button = (Button) findViewById(R.id.button_scan);
+
+        //this is where intent data from previous activity should be called and inserted in a new Order object
+//        Bundle bundle = getIntent().getExtras();
+//        order = (Order) bundle.get(ORDER);
+//        order.setCustomerId(5);
+//        order.setOrderNumber(1235);
+//        Log.i("ORDER", order.toString());
+
+        //--TEST DATA--
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Schoenzool", 3.20, 1));
+        products.add(new Product("Oreo", 1.40, 2));
+        order = new Order(0, 4, new Date(), "Likeurpaleis", products, 4, "WAITING");
+        //------------
+
+        //add listener to cancel button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkMarkAnimFeedback();
+                //update database, so that the order has a status of 'CANCELED'
+                new EasyPayAPIPUTConnector().execute(URL + order.getOrderNumber());
+
+                //go back to MainActivity and close this activity
+                Intent i = new Intent(ScanActivity.this, MainActivity.class);
+                finish();
+                startActivity(i);
             }
         });
 
-        //this is where intent data from previous activity should be called and inserted in a new Order object
-        order = (Order) bundle.get(ORDER);
-        order.setCustomerId(5);
-        order.setOrderNumber(1235);
-        Log.i("ORDER", order.toString());
-        //final Order order = new Order(4, 4, 14, 8, "WAITING");
+        //send order number to EasyPayKassa (phase 1/2)
+        sendOrderNumber();
+    }
 
-        //HCE components
-        messageOutput.setText(getResources().getString(R.string.instructions_scan));
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    //NFC phase 1/2
+    public void sendOrderNumber() {
+        //send order number
+        Log.i(TAG, "Sending order number: " + order.getOrderNumber());
         AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
+
+
+
+        //check the status of the order payment every x seconds
+        new CountDownTimer(3000, 500) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Log.i(TAG, "TICK: " + millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
+                if (currentOrderStatus.equals("RECEIVED")) {
+                    Log.i(TAG, "FINISHED SENDING ORDER");
+                    //give user feedback
+                    messageOutput.setText(getResources().getString(R.string.instructions_scan2));
+                    //send string 'PAID' to EasyPayKassa (phase 2/2)
+                    completePayment();
+                    this.cancel();
+                } else {
+                    this.start();
+                }
+            }
+        }.start();
+    }
+
+    //NFC phase 2/2
+    public void completePayment() {
+        //sending string 'PAID'. When EasyPayKassa receives this string, it will handle the payment in the DB, as well as decreasing the customer balance.
+        AccountStorage.SetAccount(getApplicationContext(), "PAID");
 
         //check the status of the order payment every x seconds
         new CountDownTimer(3000, 500) {
@@ -83,48 +158,42 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
                 if (currentOrderStatus.equals("PAID")) {
-                    //start new activity after x seconds
-                    Intent i = new Intent(ScanActivity.this, LoginActivity.class);
+                    this.cancel();
+
+                    //decrease balance in SQLite DB
+                    decreaseBalanceLocally();
+
+                    //start new activity
+                    Intent i = new Intent(ScanActivity.this, MainActivity.class);
                     startActivity(i);
+                    finish();
                 } else {
                     this.start();
                 }
             }
         }.start();
+
+        NfcAdapter nfc = NfcAdapter.getDefaultAdapter(this);
+        nfc.setNdefPushMessage(null, this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
-//        if (!nfcAdapter.isEnabled()) {
-//            new AlertDialog.Builder(this).setCancelable(true).setMessage("NFC staat momenteel uit. Aanzetten?")
-//                    .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.dismiss();
-//                            Intent settingsIntent = new Intent(Settings.ACTION_SETTINGS);
-//                            startActivity(settingsIntent);
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.dismiss();
-//                            finish();
-//                        }
-//                    })
-//                    .create().show();
-//        }
-    }
-
+    //after NFC connection was made...
     @Override
     public void onStatusAvailable(String status) {
         this.currentOrderStatus = status;
-        if (currentOrderStatus.equals("PAID")) {
-            Toasty.success(this, "Bestelling is betaald", Toast.LENGTH_SHORT).show();
+        if (currentOrderStatus.equals("RECEIVED")) {
+            if (!orderReceived) {
+                Toasty.success(this, "Bestelling is ontvangen (1/2).", Toast.LENGTH_SHORT).show();
+                orderReceived = true;
+            }
 
             //show animation to give user feedback that the transaction is successful
-            checkMarkAnimFeedback();
+        } else if (currentOrderStatus.equals("PAID")) {
+            if (!paymentReceived) {
+                Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
+                checkMarkAnimFeedback();
+                paymentReceived = true;
+            }
         }
     }
 
@@ -143,6 +212,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 //animate check mark image
                 scanImage1.setVisibility(View.GONE);
                 scanImage2.setVisibility(View.GONE);
@@ -150,5 +220,23 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                 checkmarkImage.startAnimation(animationClockwise);
             }
         }, 500);
+    }
+
+    public void decreaseBalanceLocally() {
+        //calc price
+        float price = 0;
+        for (int i = 0; i < order.getProducts().size(); i++) {
+            price += order.getProducts().get(i).getProductPrice();
+        }
+
+        Log.i(TAG, "Calculated price = " + price);
+
+        //get current balance
+        DAOFactory factory = new SQLiteDAOFactory(getApplicationContext());
+        BalanceDAO balanceDAO = factory.createBalanceDAO();
+        float currentBalance = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount();
+        Log.i(TAG, "Current balance = " + currentBalance);
+        balanceDAO.insertData(new Balance(currentBalance - price, new Date()));
+        Log.i(TAG, "New balance = " + (currentBalance - price));
     }
 }

@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -57,15 +58,13 @@ public class MainActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€0.00");
-        }else{
+        } else {
             Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
         }
     }
-
-
 
     //OnClick
     public void orderButton(View v) {

@@ -82,6 +82,7 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
         ListView ListOverview = (ListView) findViewById(R.id.orderListview);
         ListOverview.setAdapter(adapter);
         this.adapter.notifyDataSetChanged();
+
         ListOverview.setOnItemClickListener(this);
 
         //Setting up the toolbar
