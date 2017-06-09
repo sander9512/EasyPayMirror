@@ -234,7 +234,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
             if (balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount() >= orderTotalPrice) {
                 startActivity(i);
             } else {
-                Toasty.error(this, "Niet genoeg saldo.", Toast.LENGTH_SHORT).show();
+                Toasty.error(this, "Niet voldoende saldo.", Toast.LENGTH_SHORT).show();
             }
         }
     }
