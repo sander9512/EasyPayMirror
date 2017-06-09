@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_weight="0.57">
 
         <TextView
             android:id="@+id/order_overview"
@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/orderLocation"
             android:layout_width="123dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="Locatie"
@@ -48,12 +48,11 @@
 
     <TextView
         android:id="@+id/order_subtotal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_weight=".008"
         android:text="Subtotaal: €"
         android:textSize="20sp"
         android:textStyle="bold" />
