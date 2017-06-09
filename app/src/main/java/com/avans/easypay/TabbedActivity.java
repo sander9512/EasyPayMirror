@@ -117,7 +117,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         int totalProducts = 0;
         double totalPrice = 0;
         Log.i("mergedProducts", "" + mergedHashSet.size());
-        
+
         Iterator<Product> iter = mergedHashSet.iterator();
 
         while (iter.hasNext()) {

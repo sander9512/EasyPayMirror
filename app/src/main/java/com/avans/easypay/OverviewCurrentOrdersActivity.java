@@ -53,11 +53,11 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         order_total.setText(total.getPriceTotal());
     }
 
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(getApplicationContext(), LocationActivity.class);
-        startActivity(i);
-    }
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent i = new Intent(getApplicationContext(), LocationActivity.class);
+//        startActivity(i);
+//    }
 
     public void scanBtn(View view) {
 
