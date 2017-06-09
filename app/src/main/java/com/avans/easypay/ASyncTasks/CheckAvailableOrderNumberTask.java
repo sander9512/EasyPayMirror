@@ -3,10 +3,6 @@ package com.avans.easypay.ASyncTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.avans.easypay.DomainModel.Balance;
-import com.avans.easypay.DomainModel.Customer;
-import com.avans.easypay.DomainModel.Product;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,19 +15,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
- * Created by TheJollyBest at 6/7/2017.
+ * Created by Felix on 10-5-2017.
  */
 
-public class ProductTask extends AsyncTask<String, Void, String> {
+public class CheckAvailableOrderNumberTask extends AsyncTask<String, Void, String> {
 
-    private static final String TAG = ProductTask.class.getSimpleName();
-    private OnProductsAvailable listener = null;
+    private static final String TAG = CheckAvailableOrderNumberTask.class.getSimpleName();
+    private OnOrderNumberAvailable listener = null;
 
-    public ProductTask(OnProductsAvailable listener) {
+    public CheckAvailableOrderNumberTask(OnOrderNumberAvailable listener) {
         this.listener = listener;
     }
 
@@ -41,9 +35,9 @@ public class ProductTask extends AsyncTask<String, Void, String> {
         InputStream inputStream = null;
         String response = "";
         int responseCode = -1;
-        String URL = params[0];
+        String orderURL = params[0];
         try {
-            URL url = new URL(URL);
+            URL url = new URL(orderURL);
             URLConnection urlConn = url.openConnection();
 
             if (!(urlConn instanceof HttpURLConnection)) {
@@ -85,32 +79,17 @@ public class ProductTask extends AsyncTask<String, Void, String> {
 
         try {
             json = new JSONObject(response);
-            System.out.println(""+json);
-
             JSONArray items = json.getJSONArray("items");
-            System.out.println(""+items);
+            JSONObject order = items.optJSONObject(0);
 
-           JSONObject productJson = items.optJSONObject(0);
+            if (order != null) {
+                int orderNumber = order.optInt("nextAvailableOrderNumber");
 
-            ArrayList<Product> products = new ArrayList<>();
-
-            if (productJson != null) {
-                String productName;
-                double productPrice;
-                int productId;
-
-                productName = productJson.optString("ProductNaam");
-                productPrice = productJson.optDouble("Prijs");
-                productId = productJson.optInt("ProductId");
-
-                Product product = new Product(productName,productPrice,productId);
-                products.add(product);
-
-                //call back with customer that was been searched for
-                listener.onProductsAvailable(product);
+                //call back with order number that was been searched for
+                listener.onOrderNumberAvailable(orderNumber);
             } else {
-                //return null if no customer was found
-                listener.onProductsAvailable(null);
+                //return null if no orderNumber was found
+                listener.onOrderNumberAvailable(0);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -143,8 +122,7 @@ public class ProductTask extends AsyncTask<String, Void, String> {
     }
 
     //call back interface
-    public interface OnProductsAvailable {
-        void onProductsAvailable(Product product);
+    public interface OnOrderNumberAvailable {
+        void onOrderNumberAvailable(int orderNumber);
     }
 }
-

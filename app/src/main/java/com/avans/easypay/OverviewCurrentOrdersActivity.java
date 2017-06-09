@@ -1,12 +1,16 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.avans.easypay.ASyncTasks.CheckAvailableOrderNumberTask;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 
@@ -16,13 +20,16 @@ import java.util.HashSet;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
 
-public class OverviewCurrentOrdersActivity extends AppCompatActivity {
+public class OverviewCurrentOrdersActivity extends AppCompatActivity implements CheckAvailableOrderNumberTask.OnOrderNumberAvailable {
     private CurrentOrderAdapter adapter;
     private ArrayList<Product> orderedProducts = new ArrayList<>();
     private HashSet<Product> hashSet;
     private ProductsTotal total;
     private Order order;
-    public static final String ORDER = "order";
+    public static final String ORDER = "ORDER";
+
+    private SharedPreferences customerPref;
+    public static final String PREFERENCECUSTOMER = "CUSTOMER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +44,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         hashSet = order.getHashProducts();
         orderedProducts.addAll(hashSet);
 
-//        orderedProducts = order.getProducts();
-        //dummydata
-//        Product p1 = new Product("Product 1", 2.50, 5, 1);
-//        Product p2 = new Product("Product 2", 4.50, 2, 2);
-//        Product p3 = new Product("Product 3", 7.50, 3, 3);
-//        Product p4 = new Product("Product 4", 1.50, 1, 4);
-
-//        orderedProducts.add(p1);
-//        orderedProducts.add(p2);
-//        orderedProducts.add(p3);
-//        orderedProducts.add(p4);
-
         total = new ProductsTotal(getApplicationContext(), orderedProducts);
-        //dummy order
-//        Order order = new Order(1, 5, "Friettent", orderedProducts);
 
         adapter = new CurrentOrderAdapter(getApplicationContext(), getLayoutInflater(), orderedProducts);
         currentOrder.setAdapter(adapter);
@@ -65,15 +58,49 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), LocationActivity.class);
         startActivity(i);
     }
+
     public void scanBtn(View view) {
-        Intent i = new Intent(getApplicationContext(), ScanActivity.class);
+
+        //construct this order further
+        String getOrderNumberURL = "https://easypayserver.herokuapp.com/api/bestelling/check/available/ordernumber";
+        new CheckAvailableOrderNumberTask(this).execute(getOrderNumberURL);
+
+        customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
+        order.setProducts(orderedProducts);
+        order.setCustomerId(customerPref.getInt("ID", 0));
+        order.setDate(new Date());
         order.setStatus("WAITING");
-        Date date = new Date();
-        order.setDate(date);
-        order.setOrderId(1);
-        i.putExtra(ORDER, order);
-        startActivity(i);
     }
 
+    @Override
+    public void onOrderNumberAvailable(int orderNumber) {
+        Log.i(this.getClass().getSimpleName(), orderNumber + "");
+        order.setOrderNumber(orderNumber);
+
+        //with this order number, loop through the products and add them to DB
+
+        for (int i = 0; i < order.getProducts().size(); i++) {
+            for (int j = 0; j < order.getProducts().get(i).getAmount(); j++) {
+
+                String unparsedCreateOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/create/" +
+                        order.getCustomerId() + "/" +
+                        order.getProducts().get(i).getProductId() + "/" +
+                        order.getStatus() + "/" +
+                        orderNumber + "/" +
+//                    order.getDate() + "/" +
+//                    order.getLocation();
+                        4; //dit is nog hardcoded 4. Een order moet namelijk een location id hebben.
+
+                String createOrderURL = unparsedCreateOrderURL.replace(" ", "%20");
+                new EasyPayAPIPUTConnector().execute(unparsedCreateOrderURL);
+                Log.i(this.getClass().getSimpleName(), "URL = " + createOrderURL);
+            }
+        }
+
+        Intent i = new Intent(getApplicationContext(), ScanActivity.class);
+        i.putExtra(ORDER, order);
+        Log.i(this.getClass().getSimpleName() + "order = ", order.toString());
+        startActivity(i);
+    }
 }
 
