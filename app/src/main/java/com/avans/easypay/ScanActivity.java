@@ -100,7 +100,6 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                                 new EasyPayAPIDELETEConnector().execute(deleteOrderURL);
 
                                 //cancel the timers
-                                completePaymentTimer.cancel();
                                 sendOrderTimer.cancel();
 
                                 //go back to MainActivity and close this activity

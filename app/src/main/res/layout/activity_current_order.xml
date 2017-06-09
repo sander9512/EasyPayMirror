@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_weight="1">
 
         <TextView
@@ -64,6 +65,8 @@
         android:layout_height="0dp"
         android:onClick="scanBtn"
         android:text="@string/button_text_oco"
+        android:background="@drawable/button"
+        android:layout_margin="@dimen/leftRightMain"
         android:layout_weight=".7"/>
 
 </LinearLayout>

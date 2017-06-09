@@ -17,6 +17,8 @@ import com.avans.easypay.DomainModel.Product;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
 
@@ -28,8 +30,9 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
     private Order order;
     public static final String ORDER = "ORDER";
 
-    private SharedPreferences customerPref;
+    private SharedPreferences customerPref, locationPref;
     public static final String PREFERENCECUSTOMER = "CUSTOMER";
+    public static final String PREFERENCELOCATION = "LOCATION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +54,10 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
 
         order_location.setText(order.getLocation());
         order_total.setText(total.getPriceTotal());
-    }
 
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent i = new Intent(getApplicationContext(), LocationActivity.class);
-//        startActivity(i);
-//    }
+        //get location shared preferences
+        locationPref = getSharedPreferences(PREFERENCELOCATION, Context.MODE_PRIVATE);
+    }
 
     public void scanBtn(View view) {
 
@@ -82,25 +82,34 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         for (int i = 0; i < order.getProducts().size(); i++) {
             for (int j = 0; j < order.getProducts().get(i).getAmount(); j++) {
 
-                String unparsedCreateOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/create/" +
+                String createOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/create/" +
                         order.getCustomerId() + "/" +
                         order.getProducts().get(i).getProductId() + "/" +
                         order.getStatus() + "/" +
                         orderNumber + "/" +
-//                    order.getDate() + "/" +
-//                    order.getLocation();
-                        4; //dit is nog hardcoded 4. Een order moet namelijk een location id hebben.
+                        getLocaitonId();
 
-                String createOrderURL = unparsedCreateOrderURL.replace(" ", "%20");
-                new EasyPayAPIPUTConnector().execute(unparsedCreateOrderURL);
+                //post all products from this order (with same order number) to DB
+                new EasyPayAPIPUTConnector().execute(createOrderURL);
                 Log.i(this.getClass().getSimpleName(), "URL = " + createOrderURL);
             }
         }
 
         Intent i = new Intent(getApplicationContext(), ScanActivity.class);
         i.putExtra(ORDER, order);
-        Log.i(this.getClass().getSimpleName() + "order = ", order.toString());
         startActivity(i);
+    }
+
+    public int getLocaitonId() {
+        Map<String, ?> allEntries = locationPref.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+            if (entry.getValue().equals(order.getLocation())) {
+                Log.i("Location = ", entry.getKey() + " | " + order.getLocation());
+                return Integer.parseInt(entry.getKey());
+            }
+        }
+        return -1;
     }
 }
 
