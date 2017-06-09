@@ -1,5 +1,6 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
@@ -30,6 +31,7 @@ import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimerTask;
 
 import es.dmoral.toasty.Toasty;
 
@@ -48,10 +50,15 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     private ImageView scanImage1, scanImage2, checkmarkImage;
     private Order order;
     private String URL = "https://easypayserver.herokuapp.com/api/bestelling/";
-    private String currentOrderStatus = "";
 
     private boolean orderReceived = false;
     private boolean paymentReceived = false;
+
+    private String currentStatus = "";
+
+    private Context context = this;
+
+    public CountDownTimer sendOrderTimer, completePaymentTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,31 +78,43 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         scanImage1.startAnimation(pulse);
         scanImage2.startAnimation(pulse);
 
-        //this is where intent data from previous activity should be called and inserted in a new Order object
-//        Bundle bundle = getIntent().getExtras();
-//        order = (Order) bundle.get(ORDER);
-//        order.setCustomerId(5);
-//        order.setOrderNumber(1235);
-//        Log.i("ORDER", order.toString());
-
-        //--TEST DATA--
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Schoenzool", 3.20, 1));
-        products.add(new Product("Oreo", 1.40, 2));
-        order = new Order(0, 4, new Date(), "Likeurpaleis", products, 4, "WAITING");
-        //------------
+//        this is where intent data from previous activity should be called and inserted in a new Order object
+        order = (Order) getIntent().getSerializableExtra("ORDER");
+        currentStatus = order.getStatus();
+        Log.i(this.getClass().getSimpleName() + "order = ", order.toString());
+        Log.i(this.getClass().getSimpleName(), order.getStatus() + "");
+        Log.i(this.getClass().getSimpleName(), currentStatus);
 
         //add listener to cancel button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //update database, so that the order has a status of 'CANCELED'
-                new EasyPayAPIPUTConnector().execute(URL + order.getOrderNumber());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Weet u zeker dat u de bestelling wilt annuleren?")
+                        .setTitle("Annulering bestelling")
+                        .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //update database, so that the order has a status of 'CANCELED'
+                                String deleteOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/delete/" + order.getOrderNumber();
+                                new EasyPayAPIDELETEConnector().execute(deleteOrderURL);
 
-                //go back to MainActivity and close this activity
-                Intent i = new Intent(ScanActivity.this, MainActivity.class);
-                finish();
-                startActivity(i);
+                                sendOrderTimer.cancel();
+
+                                //go back to MainActivity and close this activity
+                                Intent i = new Intent(ScanActivity.this, MainActivity.class);
+                                finish();
+                                startActivity(i);
+                            }
+                        })
+                        .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //does nothing other than closing the alert dialog
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -114,10 +133,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         Log.i(TAG, "Sending order number: " + order.getOrderNumber());
         AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
 
-
-
         //check the status of the order payment every x seconds
-        new CountDownTimer(3000, 500) {
+        sendOrderTimer = new CountDownTimer(3000, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -127,13 +144,13 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             @Override
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
-                if (currentOrderStatus.equals("RECEIVED")) {
+                if (currentStatus.equals("RECEIVED")) {
                     Log.i(TAG, "FINISHED SENDING ORDER");
                     //give user feedback
                     messageOutput.setText(getResources().getString(R.string.instructions_scan2));
                     //send string 'PAID' to EasyPayKassa (phase 2/2)
                     completePayment();
-                    this.cancel();
+                    sendOrderTimer.cancel();
                 } else {
                     this.start();
                 }
@@ -147,7 +164,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         AccountStorage.SetAccount(getApplicationContext(), "PAID");
 
         //check the status of the order payment every x seconds
-        new CountDownTimer(3000, 500) {
+        completePaymentTimer = new CountDownTimer(3000, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -157,7 +174,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             @Override
             public void onFinish() {
                 new CheckOrderStatusTask(ScanActivity.this).execute(URL + order.getOrderNumber());
-                if (currentOrderStatus.equals("PAID")) {
+                if (currentStatus.equals("PAID")) {
                     this.cancel();
 
                     //decrease balance in SQLite DB
@@ -167,6 +184,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                     Intent i = new Intent(ScanActivity.this, MainActivity.class);
                     startActivity(i);
                     finish();
+                    completePaymentTimer.cancel();
                 } else {
                     this.start();
                 }
@@ -180,15 +198,15 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     //after NFC connection was made...
     @Override
     public void onStatusAvailable(String status) {
-        this.currentOrderStatus = status;
-        if (currentOrderStatus.equals("RECEIVED")) {
+        currentStatus = status;
+        if (currentStatus.equals("RECEIVED")) {
             if (!orderReceived) {
                 Toasty.success(this, "Bestelling is ontvangen (1/2).", Toast.LENGTH_SHORT).show();
                 orderReceived = true;
             }
 
             //show animation to give user feedback that the transaction is successful
-        } else if (currentOrderStatus.equals("PAID")) {
+        } else if (currentStatus.equals("PAID")) {
             if (!paymentReceived) {
                 Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
                 checkMarkAnimFeedback();
