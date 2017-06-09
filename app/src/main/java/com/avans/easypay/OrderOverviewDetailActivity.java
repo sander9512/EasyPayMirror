@@ -198,10 +198,12 @@ public class OrderOverviewDetailActivity extends AppCompatActivity implements Ea
             case "PAID":
                 checkbox.setChecked(true);
                 checkbox.setVisibility(View.VISIBLE);
+                xCheckbox.setVisibility(View.INVISIBLE);
                 break;
             case "WAITING":
                 checkbox.setVisibility(View.VISIBLE);
                 checkbox.setChecked(false);
+                xCheckbox.setVisibility(View.INVISIBLE);
                 break;
             default:
                 xCheckbox.setVisibility(View.VISIBLE);
