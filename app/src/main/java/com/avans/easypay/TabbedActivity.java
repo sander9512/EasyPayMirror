@@ -80,7 +80,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         home.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(TabbedActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -116,15 +116,15 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         //Setting balance in toolbar
-        if (balanceDAO.selectData().size() == 0){
+        if (balanceDAO.selectData().size() == 0) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€0.00");
-        }else{
+        } else {
             Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
@@ -170,6 +170,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         totalProductsView.setText("Aantal items: " + totalProducts);
         totalPriceView.setText("€" + df.format(totalPrice));
         orderTotalPrice = totalPrice;
+
+
 
     }
 
@@ -227,10 +229,13 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         order.setHashProducts(mergedHashSet);
         i.putExtra(PRODUCTS, order);
         if (mergedHashSet.isEmpty()) {
-            Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
-        }
-       else {
-            startActivity(i);
+            Toasty.error(this, "Selecteer product(en).", Toast.LENGTH_SHORT).show();
+        } else {
+            if (balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).getAmount() >= orderTotalPrice) {
+                startActivity(i);
+            } else {
+                Toasty.error(this, "Niet genoeg saldo.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
