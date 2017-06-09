@@ -99,6 +99,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                                 String deleteOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/delete/" + order.getOrderNumber();
                                 new EasyPayAPIDELETEConnector().execute(deleteOrderURL);
 
+                                //cancel the timers
+                                completePaymentTimer.cancel();
                                 sendOrderTimer.cancel();
 
                                 //go back to MainActivity and close this activity
