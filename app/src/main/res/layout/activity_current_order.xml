@@ -14,14 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_weight="1">
+
+        android:layout_weight="0.57">
 
         <TextView
             android:id="@+id/order_overview"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_weight="0.15"
@@ -31,10 +31,11 @@
 
         <TextView
             android:id="@+id/orderLocation"
-            android:layout_width="123dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/fab_margin"
             android:text="Locatie"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -54,10 +55,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginStart="@dimen/fab_margin"
         android:layout_marginTop="5dp"
-        android:layout_weight=".008"
         android:text="Subtotaal: €"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/button_oco"
