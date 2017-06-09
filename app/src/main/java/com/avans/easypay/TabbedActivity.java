@@ -20,8 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -47,6 +51,8 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
     private ImageView home;
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView, category;
@@ -80,6 +86,9 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
             }
         });
 
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
+
         Bundle bundle = getIntent().getExtras();
         order = (Order) bundle.get(ORDER);
 
@@ -103,6 +112,23 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_drink_white_24dp);
         //ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
 
