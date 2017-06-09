@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import es.dmoral.toasty.Toasty;
 
@@ -116,6 +117,16 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         int totalProducts = 0;
         double totalPrice = 0;
         Log.i("mergedProducts", "" + mergedHashSet.size());
+        
+        Iterator<Product> iter = mergedHashSet.iterator();
+
+        while (iter.hasNext()) {
+            Product p = iter.next();
+
+            if (p.getAmount() == 0) {
+                iter.remove();
+            }
+        }
 
         for (Product product : mergedHashSet) {
             totalProducts += product.getAmount();
@@ -184,10 +195,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         if (mergedHashSet.isEmpty()) {
             Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
         }
-        //waarschijnlijk overbodig
-        if (orderTotalPrice > 150) {
-            Toasty.error(this, "Maximum bedrag is 150 euro, wijzig uw bestelling.", Toast.LENGTH_SHORT).show();
-        }else {
+       else {
             startActivity(i);
         }
     }
