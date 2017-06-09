@@ -37,13 +37,11 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
     private String TAG = this.getClass().getSimpleName();
 
     private TextView usernameInput, passwordInput;
-    private ImageView logo;
     private Customer customer;
 
     private CheckBox check;
 
     private String username, password;
-    private int loginDelay = 400;
 
     //DB objects
     private DAOFactory factory;
@@ -99,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         if (loginPref.getBoolean("Check", false)){
             usernameInput.setText(loginPref.getString("Username", ""));
             check.setChecked(true);
+            passwordInput.requestFocus();
         } else{
             usernameInput.setText("");
             check.setChecked(false);
