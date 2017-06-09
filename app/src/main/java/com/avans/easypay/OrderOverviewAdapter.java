@@ -70,6 +70,7 @@ public class OrderOverviewAdapter extends ArrayAdapter<Order> {
                 break;
             default:
                 xCheckbox.setVisibility(View.VISIBLE);
+                checkbox.setVisibility(View.INVISIBLE);
                 break;
         }
     }

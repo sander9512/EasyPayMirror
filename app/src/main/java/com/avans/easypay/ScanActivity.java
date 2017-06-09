@@ -96,8 +96,8 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //update database, so that the order has a status of 'CANCELED'
-                                String deleteOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/delete/" + order.getOrderNumber();
-                                new EasyPayAPIDELETEConnector().execute(deleteOrderURL);
+                                String cancelOrderURL = "https://easypayserver.herokuapp.com/api/bestelling/update/" + order.getOrderNumber() + "/CANCELED";
+                                new EasyPayAPIPUTConnector().execute(cancelOrderURL);
 
                                 //cancel the timers
                                 sendOrderTimer.cancel();

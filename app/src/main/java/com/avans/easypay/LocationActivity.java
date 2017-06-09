@@ -42,7 +42,7 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
         btn5 = (Button) findViewById(R.id.locatie_btn5);
         btn5.setOnClickListener(this);
 
-        loc1 = "Liqueurpaleis";
+        loc1 = "Likeurpaleis";
         loc2 = "Pizzahut";
         loc3 = "Bierplaza";
         loc4 = "Koffiehuis";

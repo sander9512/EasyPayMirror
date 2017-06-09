@@ -54,10 +54,6 @@ public class OrderOverviewDetailActivity extends AppCompatActivity implements Ea
 
     private boolean statusPaid = false;
 
-
-    //url to update order status
-    private String URL = "https://easypayserver.herokuapp.com/api/bestelling/update/";
-
     //ProgressDialog
     ProgressDialog pd;
 
@@ -209,19 +205,8 @@ public class OrderOverviewDetailActivity extends AppCompatActivity implements Ea
                 break;
             default:
                 xCheckbox.setVisibility(View.VISIBLE);
+                checkbox.setVisibility(View.INVISIBLE);
                 break;
-        }
-    }
-
-    public void updateCustomerBalance() {
-        if (!statusPaid) {
-            //update database, so that the customer balance is updated
-            String paymentURL = "https://easypayserver.herokuapp.com/api/klant/afrekening/" +
-                    order.getCustomerId() + "/" + price * 100;
-            new EasyPayAPIPUTConnector().execute(paymentURL);
-            Log.i(TAG, paymentURL);
-            Log.i(TAG, order.toString());
-            statusPaid = true;
         }
     }
 }
