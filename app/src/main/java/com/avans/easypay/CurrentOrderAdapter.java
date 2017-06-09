@@ -69,7 +69,7 @@ public class CurrentOrderAdapter extends BaseAdapter {
         String price = "€" + df.format(product.getProductPrice());
         price = price.replace(".", ",");
         viewHolder.purchasedProductName.setText(product.getProductName());
-        viewHolder.amount.setText(String.valueOf(product.getAmount()));
+        viewHolder.amount.setText(String.valueOf(product.getAmount()) + " x");
         viewHolder.price.setText(price);
 
 

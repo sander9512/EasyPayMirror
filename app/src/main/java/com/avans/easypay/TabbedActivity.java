@@ -55,6 +55,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private Order order;
     private HashSet<Product> hashSet = new HashSet<>();
     private HashSet<Product> mergedHashSet = new HashSet<>();
+    protected static double orderTotalPrice = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
 
         //adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), products);
 
@@ -122,6 +124,7 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         DecimalFormat df = new DecimalFormat("0.00##");
         totalProductsView.setText("Aantal items: " + totalProducts);
         totalPriceView.setText("€" + df.format(totalPrice));
+        orderTotalPrice = totalPrice;
 
     }
 
@@ -180,7 +183,11 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         i.putExtra(PRODUCTS, order);
         if (mergedHashSet.isEmpty()) {
             Toasty.error(this, "Selecteer product(en)", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        //waarschijnlijk overbodig
+        if (orderTotalPrice > 150) {
+            Toasty.error(this, "Maximum bedrag is 150 euro, wijzig uw bestelling.", Toast.LENGTH_SHORT).show();
+        }else {
             startActivity(i);
         }
     }

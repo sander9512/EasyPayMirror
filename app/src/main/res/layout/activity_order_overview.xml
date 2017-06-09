@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.avans.easypaykassa.OrderOverviewActivity">
 
     <include layout="@layout/header" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/leftRightMain"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="Ordernummer"/>
+            android:layout_weight="1"
+            android:text="#"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="Locatie"/>
+            android:layout_weight="3"
+            android:text="Locatie"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="Datum"/>
+            android:layout_weight="3"
+            android:text="Datum"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Status"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <ListView
-        android:id="@+id/orderListview"
-        android:clickable="true"
+        tools:listitem="@layout/order_overview_list_item"
+        android:id="@+id/orderOverviewListview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
