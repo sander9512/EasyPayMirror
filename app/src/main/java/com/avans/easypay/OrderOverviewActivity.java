@@ -11,8 +11,11 @@ import android.util.JsonWriter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.SQLite.*;
@@ -23,6 +26,9 @@ import java.util.ArrayList;
 
 public class OrderOverviewActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         EasyPayAPIOrdersConnector.OnOrdersAvailable{
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
+    private ImageView home;
     private OrderOverviewAdapter adapter;
     private ArrayList<Order> orders = new ArrayList<>();
     private EasyPayAPIOrdersConnector get;
@@ -34,6 +40,24 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_overview);
 
+
+        //Setting up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(OrderOverviewActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
 
         customerPref = getSharedPreferences("CUSTOMER", Context.MODE_PRIVATE);
 
@@ -50,6 +74,23 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
 
         //set listener(s)
         orderListview.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
     @Override

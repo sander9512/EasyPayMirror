@@ -17,8 +17,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +32,10 @@ import es.dmoral.toasty.Toasty;
 
 public class OrderOverviewDetailActivity extends AppCompatActivity implements EasyPayAPIConnector.OnProductAvailable,
         EasyPayAPIGETOrderConnector.OnOrdersAvailable {
+
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
+    private ImageView home;
 
     private String TAG = this.getClass().getSimpleName();
 
@@ -70,6 +78,24 @@ public class OrderOverviewDetailActivity extends AppCompatActivity implements Ea
 
         Log.i("DATE IN LONG", dateInMillis + "");
 
+        //Setting up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(OrderOverviewDetailActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
+
         //initialise views
         listview = (ListView) findViewById(R.id.order_detailed_list);
         total_price = (TextView) findViewById(R.id.order_price_detailed);
@@ -100,6 +126,24 @@ public class OrderOverviewDetailActivity extends AppCompatActivity implements Ea
         date.setText("");
     }
 
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
+    }
+    
     private void getOrder(int orderNumber) {
         //get order data from DB
         String URL = "https://easypayserver.herokuapp.com/api/bestelling/" + orderNumber;

@@ -1,6 +1,7 @@
 package com.avans.easypay;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +16,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -46,6 +52,9 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     /**
      * The {@link ViewPager} that will host the section contents.
      */
+    private DAOFactory factory;
+    private BalanceDAO balanceDAO;
+    private ImageView home;
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView, category;
     private ArrayList<Product> products;
@@ -63,8 +72,23 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Setting up the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(TabbedActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
 
         Bundle bundle = getIntent().getExtras();
         order = (Order) bundle.get(ORDER);
@@ -91,11 +115,21 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         //ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_tabbed, menu);
-        return true;
+    protected void onResume(){
+        super.onResume();
+
+        //Setting balance in toolbar
+        if (balanceDAO.selectData().size() == 0){
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€0.00");
+        }else{
+            Balance b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+            TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
+            balanceToolbar.setText("€" + String.format("%.2f", b.getAmount()));
+        }
     }
 
 
