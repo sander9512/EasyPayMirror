@@ -2,6 +2,7 @@ package com.avans.easypay;
 
 /**
  * Created by Sander on 5/2/2017.
+ * And me! aka TB. on 6/9/2017.
  */
         import android.os.Bundle;
         import android.support.v4.app.Fragment;
@@ -12,14 +13,16 @@ package com.avans.easypay;
         import android.widget.ListView;
         import android.widget.TextView;
 
+        import com.avans.easypay.ASyncTasks.AssortmentLocationTask;
+        import com.avans.easypay.ASyncTasks.ProductTask;
         import com.avans.easypay.DomainModel.Product;
 
         import java.util.ArrayList;
 
-public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProductAvailable {
+public class DrinksTab extends Fragment implements AssortmentLocationTask.OnProductIdAvailable, ProductTask.OnProductsAvailable {
     private ArrayList<Product> drinksList;
 
-    private ListView listview_drinks;
+    ListView listview_drinks;
     private ArrayList<ArrayList<Product>> products;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
@@ -33,7 +36,7 @@ public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProduct
                              Bundle savedInstanceState) {
         drinksList = new ArrayList<>();
         View rootView = inflater.inflate(R.layout.fragment_tab_drinks, container, false);
-        getProductItems();
+        startAssortmentConnectionTask(4);
         TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
         TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
@@ -48,21 +51,27 @@ public class DrinksTab extends Fragment implements EasyPayAPIConnector.OnProduct
 
         return rootView;
     }
+    private void startAssortmentConnectionTask(int lid) {
+        new AssortmentLocationTask(this).execute("https://easypayserver.herokuapp.com/api/assortiment/location/"+lid);
+    }
 
     @Override
-    public void onProductAvailable(Product product) {
-        Log.i("", "ProductAvailable: " + product);
-        drinksList.add(product);
-        Log.i("", "onProductAvailable: " + drinksList);
+    public void onProductIdAvailable(ArrayList<Integer> productIds) {
+        startProductConnectionTask(productIds,"drank");
+    }
+
+    //start ProductConnectionTask (AsyncTask)
+    private void startProductConnectionTask(ArrayList<Integer> pids, String category){
+        Log.d("Size",""+pids.size());
+        for(int i = 0; i < pids.size(); i++){
+            new ProductTask(this).execute("http://easypayserver.herokuapp.com/api/product/"+pids.get(i)+"/"+category);
+        }
+    }
+
+    @Override
+    public void onProductsAvailable(Product product){
+        this.drinksList.add(product);
         adapter.notifyDataSetChanged();
     }
-
-    public void getProductItems() {
-        String[] URL = {
-                "https://easypayserver.herokuapp.com/api/product/drank"
-                //bij andere locaties zal er iets met de endpoint moeten worden aangepast: "link/api/product/" + tabname
-        };
-
-        new EasyPayAPIConnector(this).execute(URL);
-    }
 }
+
