@@ -99,7 +99,7 @@ public class AssortmentLocationTask extends AsyncTask<String, Void, String> {
 
             ArrayList<Integer> productIds = new ArrayList<>();
 
-            if (jsonObjects.get(0) != null) {
+            if (jsonObjects != null) {
                 for(int i = 0; i < jsonObjects.size(); i++) {
                     System.out.println(jsonObjects.get(i).optInt("ProductId"));
                     productIds.add(jsonObjects.get(i).optInt("ProductId"));
