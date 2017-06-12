@@ -1,6 +1,8 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 
 import es.dmoral.toasty.Toasty;
 
@@ -57,15 +60,16 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
     private ImageView home;
     private ViewPager mViewPager;
     private TextView totalProductsView, totalPriceView, category;
-    private ArrayList<Product> products;
     protected static ArrayList<Product> mergedProducts;
-    protected static ProductAdapter adapter;
     public static final String PRODUCTS = "products";
     private final ProductsTotal.OnTotalChangedHash totalListener = this;
     private Order order;
     private HashSet<Product> hashSet = new HashSet<>();
     private HashSet<Product> mergedHashSet = new HashSet<>();
     protected static double orderTotalPrice = 0;
+    private int locationID = 0;
+    private SharedPreferences locationPref;
+    public static final String PREFERENCELOCATION = "LOCATION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +116,9 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_local_bar_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_local_dining_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_local_drink_white_24dp);
+        locationPref = getSharedPreferences(PREFERENCELOCATION, Context.MODE_PRIVATE);
         //ProductAdapter product_adapter = new ProductAdapter(this, getApplicationContext(), getLayoutInflater(), productList);
+        locationID = getLocationID();
     }
 
     @Override
@@ -142,6 +148,18 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getLocationID() {
+        Map<String, ?> allEntries = locationPref.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+            if (entry.getValue().equals(order.getLocation())) {
+                Log.i("Location = ", entry.getKey() + " | " + order.getLocation());
+                return Integer.parseInt(entry.getKey());
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -189,16 +207,19 @@ public class TabbedActivity extends AppCompatActivity implements ProductsTotal.O
                 case 0:
                     DrinksTab tab1 = new DrinksTab();
                     tab1.setTotalListener(totalListener);
+                    tab1.setLocationID(locationID);
                     //tab1.setProductAdapter(product_adapter);
                     return tab1;
                 case 1:
                     FoodTab tab2 = new FoodTab();
                     tab2.setTotalListener(totalListener);
+                    tab2.setLocationID(locationID);
                     //tab2.setFoodAdapter(food_adapter);
                     return tab2;
                 case 2:
                     SodaTab tab3 = new SodaTab();
                     tab3.setTotalListener(totalListener);
+                    tab3.setLocationID(locationID);
                     return tab3;
                 default:
                     return null;

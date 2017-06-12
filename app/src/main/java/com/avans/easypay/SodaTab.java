@@ -20,19 +20,23 @@ public class SodaTab extends Fragment implements AssortmentLocationTask.OnProduc
     private ArrayList<ArrayList<Product>> products;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
+    private int locationID;
 
     public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
+    }
+
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         sodaList = new ArrayList<Product>();
         View rootView = inflater.inflate(R.layout.fragment_tab_soda, container, false);
-        
-        //********ENABLE THIS IF THE PRODUCTS ARE IN THE DATABASE****
-//        startAssortmentConnectionTask(44);
-        //***********************************************************
+
+        //gebruik onderstaande AssortmentTask zodra DB assortiment aangevuld is.
+        //startAssortmentConnectionTask(locationID);
         listview_soda = (ListView) rootView.findViewById(R.id.sodaListView);
 
         adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, sodaList);

@@ -17,7 +17,6 @@ import com.avans.easypay.DomainModel.Product;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
@@ -87,7 +86,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
                         order.getProducts().get(i).getProductId() + "/" +
                         order.getStatus() + "/" +
                         orderNumber + "/" +
-                        getLocaitonId();
+                        getLocationID();
 
                 //post all products from this order (with same order number) to DB
                 new EasyPayAPIPUTConnector().execute(createOrderURL);
@@ -100,7 +99,7 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         startActivity(i);
     }
 
-    public int getLocaitonId() {
+    public int getLocationID() {
         Map<String, ?> allEntries = locationPref.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());

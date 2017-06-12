@@ -5,6 +5,8 @@ package com.avans.easypay;
  * And me! aka TB. on 6/9/2017.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,9 +29,14 @@ public class FoodTab extends Fragment implements AssortmentLocationTask.OnProduc
     ListView listview_food;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
+    private int locationID;
 
     public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
+    }
+
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
     @Override
@@ -37,6 +44,8 @@ public class FoodTab extends Fragment implements AssortmentLocationTask.OnProduc
         foodList = new ArrayList<>();
         View rootView = inflater.inflate(R.layout.fragment_tab_food, container, false);
         startAssortmentConnectionTask(44);
+        //gebruik onderstaande AssortmentTask zodra DB assortiment aangevuld is.
+        //startAssortmentConnectionTask(locationID);
         TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
         TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);

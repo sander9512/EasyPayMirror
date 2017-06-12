@@ -26,9 +26,14 @@ public class DrinksTab extends Fragment implements AssortmentLocationTask.OnProd
     private ArrayList<ArrayList<Product>> products;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
+    private int locationID;
 
     public void setTotalListener(ProductsTotal.OnTotalChangedHash totalListener){
         this.totalListener = totalListener;
+    }
+
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
     @Override
@@ -37,6 +42,8 @@ public class DrinksTab extends Fragment implements AssortmentLocationTask.OnProd
         drinksList = new ArrayList<>();
         View rootView = inflater.inflate(R.layout.fragment_tab_drinks, container, false);
         startAssortmentConnectionTask(4);
+        //gebruik onderstaande AssortmentTask zodra DB assortiment aangevuld is.
+        //startAssortmentConnectionTask(locationID);
         TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
         TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
         listview_drinks = (ListView) rootView.findViewById(R.id.drinksListView);
