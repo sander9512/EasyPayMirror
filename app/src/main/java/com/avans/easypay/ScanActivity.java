@@ -7,8 +7,6 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Looper;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,15 +21,12 @@ import android.widget.Toast;
 import com.avans.easypay.ASyncTasks.CheckOrderStatusTask;
 import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
-import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.HCE.AccountStorage;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimerTask;
 
 import es.dmoral.toasty.Toasty;
 
@@ -44,7 +39,6 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 
     private String TAG = this.getClass().getSimpleName();
 
-    private Button button;
     private TextView messageOutput;
 
     private ImageView scanImage1, scanImage2, checkmarkImage;
@@ -67,7 +61,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 
         //initialise elements
         messageOutput = (TextView) findViewById(R.id.message_textview);
-        button = (Button) findViewById(R.id.button_scan);
+        Button button = (Button) findViewById(R.id.button_scan);
 
         //initialise scan images
         scanImage1 = (ImageView) findViewById(R.id.scan_indicator_imageview1);
@@ -132,7 +126,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
     public void sendOrderNumber() {
         //send order number
         Log.i(TAG, "Sending order number: " + order.getOrderNumber());
-        AccountStorage.SetAccount(getApplicationContext(), "" + order.getOrderNumber());
+        AccountStorage.SetAccount(getApplicationContext(), Integer.toString(order.getOrderNumber()));
 
         //check the status of the order payment every x seconds
         sendOrderTimer = new CountDownTimer(3000, 500) {
@@ -169,7 +163,7 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
 
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.i(TAG, millisUntilFinished + "");
+                Log.i(TAG, Long.toString(millisUntilFinished));
             }
 
             @Override
@@ -207,12 +201,10 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
             }
 
             //show animation to give user feedback that the transaction is successful
-        } else if (currentStatus.equals("PAID")) {
-            if (!paymentReceived) {
-                Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
-                checkMarkAnimFeedback();
-                paymentReceived = true;
-            }
+        } else if (currentStatus.equals("PAID") && !paymentReceived) {
+            Toasty.success(this, "Bestelling is betaald (2/2).", Toast.LENGTH_SHORT).show();
+            checkMarkAnimFeedback();
+            paymentReceived = true;
         }
     }
 
