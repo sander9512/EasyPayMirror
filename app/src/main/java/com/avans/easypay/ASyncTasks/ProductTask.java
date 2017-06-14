@@ -3,8 +3,6 @@ package com.avans.easypay.ASyncTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.avans.easypay.DomainModel.Balance;
-import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.DomainModel.Product;
 
 import org.json.JSONArray;
@@ -20,7 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by TheJollyBest at 6/7/2017.

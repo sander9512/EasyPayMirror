@@ -3,12 +3,9 @@ package com.avans.easypay;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.JsonWriter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -17,9 +14,9 @@ import android.widget.TextView;
 
 import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Order;
-import com.avans.easypay.DomainModel.Product;
-import com.avans.easypay.SQLite.*;
-
+import com.avans.easypay.SQLite.BalanceDAO;
+import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.util.ArrayList;
 

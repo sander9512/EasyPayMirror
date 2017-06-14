@@ -1,14 +1,10 @@
 package com.avans.easypay.ASyncTasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.avans.easypay.DomainModel.Balance;
 import com.avans.easypay.DomainModel.Customer;
-import com.avans.easypay.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

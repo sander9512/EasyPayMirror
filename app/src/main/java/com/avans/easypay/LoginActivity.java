@@ -4,16 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -213,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.OnCust
         Log.i(this.getClass().getSimpleName(), "Local balance = " + localBalance + " | | Online balance = " + onlineBalance);
 
         //check whether local and online balance are the same. if not, update local DB
-        if (localBalance != onlineBalance) {
+        if (localBalance - onlineBalance < 0.1 || onlineBalance - localBalance < 0.1) {
             Log.i(TAG, "Online balance and local balance are different. Updating local DB!");
 //            Log.i(TAG, "Before: " + balanceDAO.selectData().get(balanceDAO.selectData().size() - 1).toString());
             balanceDAO.insertData(customer.getBalance());

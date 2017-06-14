@@ -7,10 +7,10 @@ package com.avans.easypay.SQLite;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.avans.easypay.DomainModel.Order;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,11 +26,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
-
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.avans.easypay.DomainModel.Order;
 
 public class EasyPayAPIOrdersConnector extends AsyncTask<String, Void, String> {
 

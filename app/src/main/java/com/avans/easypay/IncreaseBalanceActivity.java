@@ -3,7 +3,6 @@ package com.avans.easypay;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +19,6 @@ import com.avans.easypay.InputFilter.DecimalDigitsInputFilter;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 

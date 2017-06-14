@@ -4,20 +4,21 @@ package com.avans.easypay;
  * Created by Sander on 5/2/2017.
  * And me! aka TB. on 6/9/2017.
  */
-        import android.os.Bundle;
-        import android.support.v4.app.Fragment;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ListView;
-        import android.widget.TextView;
 
-        import com.avans.easypay.ASyncTasks.AssortmentLocationTask;
-        import com.avans.easypay.ASyncTasks.ProductTask;
-        import com.avans.easypay.DomainModel.Product;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
 
-        import java.util.ArrayList;
+import com.avans.easypay.ASyncTasks.AssortmentLocationTask;
+import com.avans.easypay.ASyncTasks.ProductTask;
+import com.avans.easypay.DomainModel.Product;
+
+import java.util.ArrayList;
 
 public class DrinksTab extends Fragment implements AssortmentLocationTask.OnProductIdAvailable, ProductTask.OnProductsAvailable {
     private ArrayList<Product> drinksList;

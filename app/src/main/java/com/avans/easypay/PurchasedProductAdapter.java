@@ -12,9 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import com.avans.easypay.DomainModel.Product;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sander on 5/2/2017.

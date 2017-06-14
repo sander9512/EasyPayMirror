@@ -3,9 +3,6 @@ package com.avans.easypay.ASyncTasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.avans.easypay.DomainModel.Customer;
-import com.avans.easypay.DomainModel.Product;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +11,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by TheJollyBest at 6/7/2017.
@@ -85,32 +80,29 @@ public class AssortmentLocationTask extends AsyncTask<String, Void, String> {
 
         try {
             json = new JSONObject(response);
-            System.out.println(""+json);
+            System.out.println("" + json);
 
             JSONArray items = json.getJSONArray("items");
-            System.out.println(""+items);
+            System.out.println("" + items);
 
             ArrayList<JSONObject> jsonObjects = new ArrayList<>();
 
-            for(int i = 0; i < items.length(); i++){
+            for (int i = 0; i < items.length(); i++) {
                 jsonObjects.add(items.optJSONObject(i));
                 System.out.println(items.optJSONObject(i));
             }
 
             ArrayList<Integer> productIds = new ArrayList<>();
 
-            if (jsonObjects != null) {
-                for(int i = 0; i < jsonObjects.size(); i++) {
-                    System.out.println(jsonObjects.get(i).optInt("ProductId"));
-                    productIds.add(jsonObjects.get(i).optInt("ProductId"));
-                }
 
-                //call back with productid's that was searched for
-                listener.onProductIdAvailable(productIds);
-            } else {
-                //return null if no products were found
-                listener.onProductIdAvailable(null);
+            for (int i = 0; i < jsonObjects.size(); i++) {
+                System.out.println(jsonObjects.get(i).optInt("ProductId"));
+                productIds.add(jsonObjects.get(i).optInt("ProductId"));
             }
+
+            //call back with productid's that was searched for
+            listener.onProductIdAvailable(productIds);
+
         } catch (JSONException e) {
             e.printStackTrace();
 

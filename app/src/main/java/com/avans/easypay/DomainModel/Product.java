@@ -1,7 +1,5 @@
 package com.avans.easypay.DomainModel;
 
-import android.media.Image;
-
 import java.io.Serializable;
 
 /**
