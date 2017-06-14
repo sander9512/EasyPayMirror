@@ -80,23 +80,23 @@ public class AssortmentLocationTask extends AsyncTask<String, Void, String> {
 
         try {
             json = new JSONObject(response);
-            System.out.println("" + json);
+            Log.i(TAG, json.toString());
 
             JSONArray items = json.getJSONArray("items");
-            System.out.println("" + items);
+            Log.i(TAG, items.toString());
 
             ArrayList<JSONObject> jsonObjects = new ArrayList<>();
 
             for (int i = 0; i < items.length(); i++) {
                 jsonObjects.add(items.optJSONObject(i));
-                System.out.println(items.optJSONObject(i));
+                Log.i(TAG, items.optJSONObject(i).toString());
             }
 
             ArrayList<Integer> productIds = new ArrayList<>();
 
 
             for (int i = 0; i < jsonObjects.size(); i++) {
-                System.out.println(jsonObjects.get(i).optInt("ProductId"));
+                Log.i(TAG, Integer.toString(jsonObjects.get(i).optInt("ProductId")));
                 productIds.add(jsonObjects.get(i).optInt("ProductId"));
             }
 

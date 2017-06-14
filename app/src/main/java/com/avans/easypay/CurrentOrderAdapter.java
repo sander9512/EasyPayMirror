@@ -19,16 +19,16 @@ import java.util.ArrayList;
  */
 
 public class CurrentOrderAdapter extends BaseAdapter {
+
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Product> currentList;
+
     public CurrentOrderAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> orderList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.currentList = orderList;
-
-
-    } 
+    }
 
     @Override
     public int getCount() {

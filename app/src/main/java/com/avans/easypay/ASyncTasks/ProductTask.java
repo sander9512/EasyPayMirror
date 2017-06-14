@@ -82,10 +82,10 @@ public class ProductTask extends AsyncTask<String, Void, String> {
 
         try {
             json = new JSONObject(response);
-            System.out.println(""+json);
+            Log.i(TAG, json.toString());
 
             JSONArray items = json.getJSONArray("items");
-            System.out.println(""+items);
+            Log.i(TAG, items.toString());
 
            JSONObject productJson = items.optJSONObject(0);
 

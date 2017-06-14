@@ -20,33 +20,22 @@ import es.dmoral.toasty.Toasty;
 
 public class BalanceActivity extends AppCompatActivity {
 
-    private DAOFactory factory;
     private BalanceDAO balanceDAO;
-    private ImageView home;
     private TextView balance;
 
-    private Balance b;
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
 
-        factory = new SQLiteDAOFactory(getApplicationContext());
+        DAOFactory factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
-
-        if(balanceDAO.selectData().size() == 0){
-            Log.i("BALANCE", "No balance yet");
-        }
-        else{
-            b = balanceDAO.selectData().get(balanceDAO.selectData().size() - 1);
-        }
-
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        home = (ImageView) findViewById(R.id.home);
+        ImageView home = (ImageView) findViewById(R.id.home);
         home.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,7 +81,7 @@ public class BalanceActivity extends AppCompatActivity {
         super.onResume();
 
         //Setting balance in toolbar
-        if (balanceDAO.selectData().size() == 0){
+        if (balanceDAO.selectData().isEmpty()){
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€0.00");
