@@ -1,9 +1,13 @@
 package com.avans.easypay;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +17,11 @@ import com.avans.easypay.DomainModel.Customer;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +58,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //READING THE PREVIOUSLY CREATED FILE
+        try {
+            File file = getFileStreamPath("error_file");
+            if (file.exists()) {
+                Log.d("Hey","IT EXISTS");
+                //Check if there is a internet connection
+                ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
+                if(activeNetwork != null) {
+                    //If there is a internet connection
+                    FileInputStream fis = openFileInput("error_file");
+                    InputStreamReader inputStreamReader = new InputStreamReader(fis);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    while ( (receiveString = bufferedReader.readLine()) != null ) {
+                        stringBuilder.append(receiveString);
+                    }
+
+                    fis.close();
+                    String data = stringBuilder.toString();
+
+                    //Send the data to the database
+                    Log.d("We have a","connection");
+                    EasyPayAPIPUTConnector put = new EasyPayAPIPUTConnector();
+                    String url = "https://dashboard.heroku.com/api/error/add_error/" + data;
+                    put.execute(url);
+
+                    //DELETING THE CACHE
+                    deleteFile("error_file");
+                }
+            } else{
+                Log.d("Aw","IT DOESNT EXIST");
+            }
+
+
+        } catch(Exception e){
+            Log.d("Sh*t hit the fis",""+e);
+        }
     }
 
     @Override
