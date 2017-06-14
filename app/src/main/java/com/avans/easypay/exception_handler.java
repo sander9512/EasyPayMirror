@@ -1,7 +1,6 @@
-package com.avans.easypaykassa;
+package com.avans.easypay;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
