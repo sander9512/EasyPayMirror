@@ -36,10 +36,10 @@ import es.dmoral.toasty.Toasty;
 
 public class UserDataActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView firstnameText, lastnameText, usernameText, passwordText;
+    private TextView passwordText;
     private EditText emailInput, bankNumberInput, newPassInput1, newPassInput2;
     private Button passwordEditBtn, emailEditBtn, confirmPassBtn, cancelPassBtn;
-    private ImageView bankNumberEditBtn, home;
+    private ImageView bankNumberEditBtn;
 
     private LinearLayout newPassLayout;
 
@@ -49,12 +49,12 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
 
     private String currentEmail, currentBankNumber;
 
-    private DAOFactory factory;
     private BalanceDAO balanceDAO;
 
     private EasyPayAPIPUTConnector putRequest;
     private EasyPayAPIDELETEConnector deleteRequest;
 
+    private final String updateCustomerURL = "https://easypayserver.herokuapp.com/api/klant/id=";
     Customer customer;
 
     SharedPreferences customerPref;
@@ -75,14 +75,14 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                 , customerPref.getString("Password", ""), customerPref.getString("Email", "")
                 , customerPref.getString("FirstName", ""), customerPref.getString("LastName", "")
                 , customerPref.getString("Bank", ""));
-        factory = new SQLiteDAOFactory(getApplicationContext());
+        DAOFactory factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
 
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        home = (ImageView) findViewById(R.id.home);
+        ImageView home = (ImageView) findViewById(R.id.home);
         home.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -94,9 +94,9 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         });
 
         //initialise xml elements
-        firstnameText = (TextView) findViewById(R.id.firstname_textview);
-        lastnameText = (TextView) findViewById(R.id.lastname_textview);
-        usernameText = (TextView) findViewById(R.id.username_textview);
+        TextView firstnameText = (TextView) findViewById(R.id.firstname_textview);
+        TextView lastnameText = (TextView) findViewById(R.id.lastname_textview);
+        TextView usernameText = (TextView) findViewById(R.id.username_textview);
         passwordText = (TextView) findViewById(R.id.password_textview);
         emailInput = (EditText) findViewById(R.id.email_edittext);
         bankNumberInput = (EditText) findViewById(R.id.banknumber_edittext);
@@ -162,7 +162,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         super.onResume();
 
         //Setting balance in toolbar
-        if (balanceDAO.selectData().size() == 0){
+        if (balanceDAO.selectData().isEmpty()){
             Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
             TextView balanceToolbar = (TextView) toolbar.findViewById(R.id.toolbar_balance);
             balanceToolbar.setText("€0.00");
@@ -174,7 +174,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void deleteAcc(View v){
+    public void deleteAcc(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Weet u zeker dat uw account verwijderd moet worden?")
                 .setTitle("Verwijdering account");
@@ -193,7 +193,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
         builder.setNegativeButton("Nee", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                //this does nothing, but remove the Alert Dialog.
             }
         });
 
@@ -244,7 +244,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                         passLength--;
                     }
                     putRequest = new EasyPayAPIPUTConnector();
-                    putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                    putRequest.execute(updateCustomerURL
                             + customer.getCustomerId()+"/wachtwoord="+newPassInput1.getText());
                     customerEdit.putString("Password", newPassInput1.getText().toString());
                     customerEdit.commit();
@@ -295,8 +295,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     if (!currentEmail.equals(emailInput.getText().toString().trim())) {
                         if (validEmail(emailInput.getText().toString().trim())){
                             putRequest = new EasyPayAPIPUTConnector();
-                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
-                                    + customer.getCustomerId()+"/email="+emailInput.getText());
+                            putRequest.execute(updateCustomerURL +
+                                    customer.getCustomerId()+"/email="+emailInput.getText());
                             customerEdit.putString("Email", emailInput.getText().toString());
                             customerEdit.commit();
                             Toasty.success(this, "Email gewijzigd.", Toast.LENGTH_LONG).show();
@@ -332,7 +332,7 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     if (!currentBankNumber.equals(bankNumberInput.getText().toString().trim())) {
                         if (validIBAN(bankNumberInput.getText().toString().trim())){
                             putRequest = new EasyPayAPIPUTConnector();
-                            putRequest.execute("https://easypayserver.herokuapp.com/api/klant/id="
+                            putRequest.execute(updateCustomerURL
                                     + customer.getCustomerId()+"/bank="+bankNumberInput.getText());
                             customerEdit.putString("Bank", bankNumberInput.getText().toString());
                             customerEdit.commit();
@@ -350,6 +350,8 @@ public class UserDataActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
                 break;
+            default:
+                //default does nothing.
         }
     }
 }
