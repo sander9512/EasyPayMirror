@@ -245,7 +245,9 @@ public class ScanActivity extends AppCompatActivity implements CheckOrderStatusT
         //calc price
         float price = 0;
         for (int i = 0; i < order.getProducts().size(); i++) {
-            price += order.getProducts().get(i).getProductPrice();
+            for (int j = 0; j < order.getProducts().get(i).getAmount(); j++) {
+                price += order.getProducts().get(i).getProductPrice();
+            }
         }
 
         Log.i(TAG, "Calculated price = " + price);
