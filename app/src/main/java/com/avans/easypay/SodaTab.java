@@ -14,10 +14,9 @@ import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
 
-public class SodaTab extends Fragment implements AssortmentLocationTask.OnProductIdAvailable, ProductTask.OnProductsAvailable {
+public class SodaTab extends Fragment implements ProductTask.OnProductAvailable {
     private ArrayList<Product> sodaList;
     ListView listview_soda;
-    private ArrayList<ArrayList<Product>> products;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
     private ProductAdapter adapter;
     private int locationID;
@@ -34,9 +33,8 @@ public class SodaTab extends Fragment implements AssortmentLocationTask.OnProduc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         sodaList = new ArrayList<Product>();
         View rootView = inflater.inflate(R.layout.fragment_tab_soda, container, false);
-
-        //gebruik onderstaande AssortmentTask zodra DB assortiment aangevuld is.
-        //startAssortmentConnectionTask(locationID);
+        startProductConnectionTask(locationID);
+        Log.i("Locatie", " " + locationID);
         listview_soda = (ListView) rootView.findViewById(R.id.sodaListView);
 
         adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, sodaList);
@@ -45,26 +43,14 @@ public class SodaTab extends Fragment implements AssortmentLocationTask.OnProduc
         return rootView;
     }
 
-    private void startAssortmentConnectionTask(int lid) {
-        new AssortmentLocationTask(this).execute("https://easypayserver.herokuapp.com/api/assortiment/location/"+lid);
+    public void startProductConnectionTask(int locationID) {
+        new ProductTask(this).execute("http://easypayserver.herokuapp.com/api/product/view/Frisdrank/" + locationID);
     }
 
     @Override
-    public void onProductIdAvailable(ArrayList<Integer> productIds) {
-        startProductConnectionTask(productIds,"frisdrank");
-    }
-
-    //start ProductConnectionTask (AsyncTask)
-    private void startProductConnectionTask(ArrayList<Integer> pids, String category){
-        Log.d("Size",""+pids.size());
-        for(int i = 0; i < pids.size(); i++){
-            new ProductTask(this).execute("http://easypayserver.herokuapp.com/api/product/"+pids.get(i)+"/"+category);
-        }
-    }
-
-    @Override
-    public void onProductsAvailable(Product product){
+    public void onProductAvailable(Product product){
         this.sodaList.add(product);
+        System.out.println("productslist" + sodaList.toString());
         adapter.notifyDataSetChanged();
     }
 }

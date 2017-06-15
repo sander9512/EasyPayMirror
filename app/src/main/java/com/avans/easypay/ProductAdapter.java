@@ -24,7 +24,6 @@ public class ProductAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Product> productsList;
-    private ArrayList<ArrayList<Product>> products = new ArrayList<>();
     private ArrayList<Product> chosenProducts = new ArrayList<>();
     private HashSet<Product> hashSet = new HashSet<>();
 
@@ -37,11 +36,6 @@ public class ProductAdapter extends BaseAdapter {
         this.layoutInflater = layoutInflater;
         this.productsList = productsList;
         this.listener = listener;
-    System.out.println("prodList size: "+productsList.size());
-        for (int i = 0; i < productsList.size(); i++) {
-
-            products.add(new ArrayList<Product>());
-        }
         this.total = new ProductsTotal(context, hashSet);
 
 
