@@ -25,22 +25,26 @@ import java.util.ArrayList;
 
 public class ProductTask extends AsyncTask<String, Void, String> {
 
+    //tag to use when information is logged, shows class name
     private static final String TAG = ProductTask.class.getSimpleName();
-    private OnProductsAvailable listener = null;
+    //call back interface
+    private OnProductAvailable listener = null;
 
-    public ProductTask(OnProductsAvailable listener) {
+    public ProductTask(OnProductAvailable listener) {
         this.listener = listener;
     }
 
     @Override
     protected String doInBackground(String... params) {
-
+        //create string of bytes
         InputStream inputStream = null;
+        //result we will return
         String response = "";
         int responseCode = -1;
-        String URL = params[0];
+        //create URL object with given URL as parameter in .execute()
+        String productUrl = params[0];
         try {
-            URL url = new URL(URL);
+            URL url = new URL(productUrl);
             URLConnection urlConn = url.openConnection();
 
             if (!(urlConn instanceof HttpURLConnection)) {
@@ -56,6 +60,7 @@ public class ProductTask extends AsyncTask<String, Void, String> {
             //request connection using given URL
             httpConn.connect();
 
+            //check if succeeded
             responseCode = httpConn.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpConn.getInputStream();
@@ -74,40 +79,37 @@ public class ProductTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         //check if response is valid
-        if (response == null || response.equals("")) {
+        if (response == null || response == "") {
+            Log.e(TAG, "onPostExecute received empty response" + response);
             return;
         }
 
+        //JSON parsing
         JSONObject json;
 
         try {
+            //entire JSON file in JSONObject
             json = new JSONObject(response);
-            Log.i(TAG, json.toString());
 
+            //get all items
             JSONArray items = json.getJSONArray("items");
-            Log.i(TAG, items.toString());
+            for (int i = 0; i < items.length(); i++) {
+                //get first product
+                JSONObject product = items.getJSONObject(i);
+                String productName = product.optString("ProductNaam");
+                Double productPrice = product.getDouble("Prijs");
+                int productId = product.getInt("ProductId");
 
-           JSONObject productJson = items.optJSONObject(0);
+                //get URL Array
+//                JSONArray images = product.getJSONArray("im");
+//
+//                JSONObject largeImage = images.getJSONObject(0);
+//                String imageUrl = largeImage.getString("url");
 
-            ArrayList<Product> products = new ArrayList<>();
-
-            if (productJson != null) {
-                String productName;
-                double productPrice;
-                int productId;
-
-                productName = productJson.optString("ProductNaam");
-                productPrice = productJson.optDouble("Prijs");
-                productId = productJson.optInt("ProductId");
-
-                Product product = new Product(productName,productPrice,productId);
-                products.add(product);
-
-                //call back with customer that was been searched for
-                listener.onProductsAvailable(product);
-            } else {
-                //return null if no customer was found
-                listener.onProductsAvailable(null);
+                //create Product object
+                Product p = new Product(productName, productPrice, productId);
+                //call back with newly created product
+                listener.onProductAvailable(p);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -140,8 +142,7 @@ public class ProductTask extends AsyncTask<String, Void, String> {
     }
 
     //call back interface
-    public interface OnProductsAvailable {
-        void onProductsAvailable(Product product);
+    public interface OnProductAvailable {
+        void onProductAvailable(Product product);
     }
 }
-

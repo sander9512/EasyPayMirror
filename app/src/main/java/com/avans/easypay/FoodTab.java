@@ -20,7 +20,7 @@ import com.avans.easypay.DomainModel.Product;
 
 import java.util.ArrayList;
 
-public class FoodTab extends Fragment implements AssortmentLocationTask.OnProductIdAvailable, ProductTask.OnProductsAvailable {
+public class FoodTab extends Fragment implements ProductTask.OnProductAvailable {
     private ArrayList<Product> foodList;
     ListView listview_food;
     private ProductsTotal.OnTotalChangedHash totalListener = null;
@@ -39,11 +39,7 @@ public class FoodTab extends Fragment implements AssortmentLocationTask.OnProduc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         foodList = new ArrayList<>();
         View rootView = inflater.inflate(R.layout.fragment_tab_food, container, false);
-        startAssortmentConnectionTask(44);
-        //gebruik onderstaande AssortmentTask zodra DB assortiment aangevuld is.
-        //startAssortmentConnectionTask(locationID);
-        TextView amount_products = (TextView) rootView.findViewById(R.id.products_amount_textview);
-        TextView total_price = (TextView) rootView.findViewById(R.id.subtotal);
+        startProductConnectionTask(locationID);
         listview_food = (ListView) rootView.findViewById(R.id.foodListView);
 
         adapter = new ProductAdapter(totalListener, this.getActivity(), inflater, foodList);
@@ -51,26 +47,16 @@ public class FoodTab extends Fragment implements AssortmentLocationTask.OnProduc
 
         return rootView;
     }
-    private void startAssortmentConnectionTask(int lid) {
-        new AssortmentLocationTask(this).execute("https://easypayserver.herokuapp.com/api/assortiment/location/"+lid);
+
+
+    public void startProductConnectionTask(int locationID) {
+        new ProductTask(this).execute("http://easypayserver.herokuapp.com/api/product/view/Eten/" + locationID);
     }
 
     @Override
-    public void onProductIdAvailable(ArrayList<Integer> productIds) {
-        startProductConnectionTask(productIds,"eten");
-    }
-
-    //start ProductConnectionTask (AsyncTask)
-    private void startProductConnectionTask(ArrayList<Integer> pids, String category){
-        Log.d("Size",""+pids.size());
-        for(int i = 0; i < pids.size(); i++){
-            new ProductTask(this).execute("http://easypayserver.herokuapp.com/api/product/"+pids.get(i)+"/"+category);
-        }
-    }
-
-    @Override
-    public void onProductsAvailable(Product product){
+    public void onProductAvailable(Product product){
         this.foodList.add(product);
+        System.out.println("productslist" + foodList.toString());
         adapter.notifyDataSetChanged();
     }
 
