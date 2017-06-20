@@ -17,6 +17,7 @@ import com.avans.easypay.DomainModel.Order;
 import com.avans.easypay.DomainModel.Product;
 import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
+import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +53,9 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         TextView order_total = (TextView) findViewById(R.id.order_subtotal);
         hashSet = order.getHashProducts();
         orderedProducts.addAll(hashSet);
+
+        factory = new SQLiteDAOFactory(getApplicationContext());
+        balanceDAO = factory.createBalanceDAO();
 
         total = new ProductsTotal(getApplicationContext(), orderedProducts);
 
