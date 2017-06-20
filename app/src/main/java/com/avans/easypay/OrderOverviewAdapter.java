@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Felix on 9-3-2017.
+ * Created by Felix on 3-6-2017.
  */
 
 public class OrderOverviewAdapter extends ArrayAdapter<Order> {

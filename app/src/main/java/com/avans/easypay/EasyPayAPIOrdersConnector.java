@@ -150,8 +150,6 @@ public class EasyPayAPIOrdersConnector extends AsyncTask<String, Void, String> {
     public Date parseDate(String unparsedDate) {
         DateTimeZone dtz = DateTimeZone.forID("Europe/London");
         DateTime dt = ISODateTimeFormat.dateTime().parseDateTime(unparsedDate);
-//        Log.i("TIMEFORMATTING", "PARSED = " + dt+"");
-        Log.i("TIMEFORMATTING", "DATE = " + dt.toDate()+"");
         return dt.toDate();
     }
 
