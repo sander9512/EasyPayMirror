@@ -33,7 +33,7 @@ public class exception_handler implements Thread.UncaughtExceptionHandler {
                 if(activeNetwork != null) {
                     Log.d("We have a","connection");
                     EasyPayAPIPUTConnector put = new EasyPayAPIPUTConnector();
-                    String url = "https://dashboard.heroku.com/api/error/add_error/" + android.os.Build.VERSION.SDK + "/" + android.os.Build.DEVICE + "/"
+                    String url = "https://easypayserver.herokuapp.com/api/error/add_error/" + android.os.Build.VERSION.SDK + "/" + android.os.Build.DEVICE + "/"
                             + android.os.Build.MODEL + "/" + android.os.Build.PRODUCT + "/" + e;
                     put.execute(url);
                 } else {
