@@ -34,7 +34,7 @@ public class OrderOverviewAdapter extends ArrayAdapter<Order> {
     @Override public View getView(int position, View convertView, ViewGroup parent) {
         Order order = getItem(position);
 
-        long dateInMillis = order.getDate().getTime() + new Double(2.16e+7).longValue();
+        long dateInMillis = order.getDate().getTime() + (new Double(2.16e+7).longValue() - (14400000));
         Date date = new Date(dateInMillis);
 
         //create an order item
