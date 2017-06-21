@@ -21,6 +21,15 @@ public class ProductsTotal {
         this.products = products;
 
     }
+
+    public ProductsTotal(ArrayList<Product> products){
+        this.products = products;
+    }
+
+    public ProductsTotal(HashSet<Product> hashProducts) {
+        this.hashProducts = hashProducts;
+    }
+
     public ProductsTotal(Context context, HashSet<Product> hashProducts) {
         this.hashProducts = hashProducts;
     }
@@ -64,23 +73,21 @@ public class ProductsTotal {
         return total + " Producten";
     }
 
-//    public double getPriceTotalDouble() {
-//
-//        double d = 0;
-//
-//        for (ArrayList<Product> specificProducts : products) {
-//
-//            for (Product product : specificProducts) {
-//
-//                Product p;
-//
-//                p = product;
-//                d += p.getProductPrice();
-//            }
-//        }
-//
-//        return d;
-//    }
+    public double getPriceTotalDouble() {
+
+        double d = 0;
+
+            for (Product product : products) {
+
+                Product p;
+
+                p = product;
+                d += p.getProductPrice();
+            }
+
+
+        return d;
+    }
 
     public double getPriceTotalHashSet() {
 
