@@ -57,7 +57,7 @@ public class exception_handler implements Thread.UncaughtExceptionHandler {
         try {
             Thread.sleep(4000); //Let the toast display before the app "crashes"
         } catch (InterruptedException z) {
-            //ignored
+            Log.d("Exception: ",""+z);
         }
         System.exit(1);
     }
