@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import java.io.FileOutputStream;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by TB on 5/22/2017.
  */
@@ -50,7 +52,7 @@ public class exception_handler implements Thread.UncaughtExceptionHandler {
                     }
                 }
                 Looper.prepare();
-                Toast.makeText(context, "We zijn een fout tegengekomen, excuses voor het ongemak.", Toast.LENGTH_LONG).show();
+                Toasty.error(context, "We zijn een fout tegengekomen, excuses voor het ongemak.", Toast.LENGTH_LONG).show();
                 Looper.loop();
             }
         }.start();
