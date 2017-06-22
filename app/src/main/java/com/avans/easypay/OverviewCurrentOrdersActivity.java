@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,6 +68,17 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
 
         //get location shared preferences
         locationPref = getSharedPreferences(PREFERENCELOCATION, Context.MODE_PRIVATE);
+
+        //set toolbar buttons
+        ImageView home = (ImageView) findViewById(R.id.home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OverviewCurrentOrdersActivity.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

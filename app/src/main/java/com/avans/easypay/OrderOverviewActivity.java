@@ -113,7 +113,7 @@ public class OrderOverviewActivity extends AppCompatActivity implements AdapterV
         Intent i = new Intent(this, OrderOverviewDetailActivity.class);
         i.putExtra("order", order);
         //convert Date to milliseconds and add to intent
-        long dateInMillis = order.getDate().getTime() + new Double(2.16e+7).longValue();
+        long dateInMillis = order.getDate().getTime() + new Double(2.16e+7).longValue() - (3600000 * 6);
         i.putExtra("dateInMillis", dateInMillis);
         startActivity(i);
     }
