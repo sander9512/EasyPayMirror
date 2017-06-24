@@ -1,48 +1,62 @@
 package com.avans.easypay;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avans.easypay.DomainModel.Product;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 
-/**
- * Created by Gabrielle on 23-05-17.
- */
+import es.dmoral.toasty.Toasty;
 
 public class CurrentOrderAdapter extends BaseAdapter {
-
     private Context context;
     private LayoutInflater layoutInflater;
-    private ArrayList<Product> currentList;
+    private ArrayList<Product> productsList;
+    private ArrayList<Product> chosenProducts = new ArrayList<>();
+    private HashSet<Product> hashSet = new HashSet<>();
 
-    public CurrentOrderAdapter(Context context, LayoutInflater layoutInflater, ArrayList<Product> orderList) {
+    private ProductsTotal.OnTotalChangedHash listener;
+
+    private ProductsTotal total;
+
+    public CurrentOrderAdapter(ProductsTotal.OnTotalChangedHash listener,Context context, LayoutInflater layoutInflater, ArrayList<Product> productsList) {
         this.context = context;
         this.layoutInflater = layoutInflater;
-        this.currentList = orderList;
+        this.productsList = productsList;
+        this.listener = listener;
+        hashSet.addAll(productsList);
+        this.total = new ProductsTotal(context, hashSet);
+
+
     }
+
+
 
     @Override
     public int getCount() {
-        return currentList.size();
+        return productsList.size();
     }
 
     @Override
-    public Product getItem(int position) {
-        return this.currentList.get(position);
+    public Object getItem(int position) {
+        return productsList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return  position;
+        return position;
     }
 
     @Override
@@ -50,37 +64,85 @@ public class CurrentOrderAdapter extends BaseAdapter {
         final ViewHolder viewHolder;
 
         if(convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.listview_order_row, null);
+            convertView = layoutInflater.inflate(R.layout.listview_product_row, null);
 
             viewHolder = new ViewHolder();
-            viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_order_image);
-            viewHolder.purchasedProductName = (TextView) convertView.findViewById(R.id.product_order_name);
-            viewHolder.price = (TextView) convertView.findViewById(R.id.product_order_price);
-            viewHolder.amount = (TextView) convertView.findViewById(R.id.product_amount_order);
+            viewHolder.productImage = (ImageView) convertView.findViewById(R.id.product_image);
+            viewHolder.productName = (TextView) convertView.findViewById(R.id.product_name);
+            viewHolder.productPrice = (TextView) convertView.findViewById(R.id.product_price);
+            viewHolder.productAmount = (TextView) convertView.findViewById(R.id.product_amount_row);
+            // viewHolder.productSpinner = (Spinner) convertView.findViewById(R.id.product_spinner);
+            viewHolder.removeBtn = (ImageButton) convertView.findViewById(R.id.product_remove_button);
+            viewHolder.addBtn = (ImageButton) convertView.findViewById(R.id.product_add_button);
+
             convertView.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final Product product = currentList.get(position);
 
-        Picasso.with(convertView.getContext()).load(product.getFullImageUrl()).into(viewHolder.productImage);
+        final Product p = productsList.get(position);
+
+        //Picasso.with(getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
+        Picasso.with(convertView.getContext()).load(p.getFullImageUrl()).into(viewHolder.productImage);
         DecimalFormat df = new DecimalFormat("0.00##");
-        String price = "€" + df.format(product.getProductPrice());
+        String price = "€" + df.format(p.getProductPrice());
         price = price.replace(".", ",");
-        viewHolder.purchasedProductName.setText(product.getProductName());
-        viewHolder.amount.setText(String.valueOf(product.getAmount()) + " x");
-        viewHolder.price.setText(price);
+        viewHolder.productName.setText(p.getProductName());
+        viewHolder.productPrice.setText(price);
+        viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+        viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (OverviewCurrentOrdersActivity.orderTotalPrice + p.getProductPrice()  <= 150) {
+                    int amount = p.getAmount();
+                    amount++;
+                    p.setAmount(amount);
 
+                    Log.i("ADDTEST", p.getProductName() +" " +  p.getAmount() +" " +  p.getProductId());
+
+                    viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+                    hashSet.add(p);
+                }
+                else {
+                    Toasty.error(context, "Maximaal bedrag is 150 euro", Toast.LENGTH_SHORT).show();
+                }
+                Log.i("Add-Price-total", total.getPriceTotalHashSet() + " " +  total.getTotalHashSet());
+                listener.onTotalChangedHash(total.getPriceTotalHashSet(), total.getTotalHashSet(), hashSet);
+            }
+        });
+        viewHolder.removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int amountRemove = p.getAmount();
+                Log.i("AMOUNT", "" + p.getAmount());
+                if(p.getAmount() > 0) {
+                    amountRemove--;
+                    p.setAmount(amountRemove);
+                    Log.i("REMOVETEST", p.getProductName() +" " +  p.getAmount() + " " +  p.getProductId());
+                    hashSet.add(p);
+                }
+                if (p.getAmount() == 0) {
+                    hashSet.remove(p);
+                }
+                viewHolder.productAmount.setText(String.valueOf(p.getAmount()));
+                Log.i("chosenproducts: ", chosenProducts.toString());
+                Log.i("Remove-Price-total", total.getPriceTotalHashSet() + " " +  total.getTotalHashSet());
+                listener.onTotalChangedHash(total.getPriceTotalHashSet(), total.getTotalHashSet(), hashSet);
+            }
+        });
         return convertView;
     }
 
 
-    private static class ViewHolder {
-        private TextView purchasedProductName, price;
-        private TextView amount;
-        private ImageView productImage;
 
+    private static class ViewHolder {
+        private ImageView productImage;
+        private TextView productName, productPrice, productAmount;
+        private ImageButton removeBtn, addBtn;
+
+    }
 }
-}
+
+

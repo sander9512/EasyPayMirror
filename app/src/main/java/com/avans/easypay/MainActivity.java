@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        exception_handler eh = new exception_handler(this);
-        Thread.setDefaultUncaughtExceptionHandler(eh);
+        //exception_handler eh = new exception_handler(this);
+        //Thread.setDefaultUncaughtExceptionHandler(eh);
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();

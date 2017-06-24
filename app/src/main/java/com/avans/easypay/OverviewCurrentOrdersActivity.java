@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avans.easypay.ASyncTasks.CheckAvailableOrderNumberTask;
 import com.avans.easypay.DomainModel.Balance;
@@ -20,23 +21,30 @@ import com.avans.easypay.SQLite.BalanceDAO;
 import com.avans.easypay.SQLite.DAOFactory;
 import com.avans.easypay.SQLite.SQLiteDAOFactory;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+
+import es.dmoral.toasty.Toasty;
 
 import static com.avans.easypay.TabbedActivity.PRODUCTS;
 
-public class OverviewCurrentOrdersActivity extends AppCompatActivity implements CheckAvailableOrderNumberTask.OnOrderNumberAvailable {
+public class OverviewCurrentOrdersActivity extends AppCompatActivity implements CheckAvailableOrderNumberTask.OnOrderNumberAvailable, ProductsTotal.OnTotalChangedHash {
     private CurrentOrderAdapter adapter;
     private ArrayList<Product> orderedProducts = new ArrayList<>();
     private HashSet<Product> hashSet;
     private ProductsTotal total;
     private Order order;
     public static final String ORDER = "ORDER";
+    protected static double orderTotalPrice = 0;
+    private HashSet<Product> mergedHashSet = new HashSet<>();
 
     private DAOFactory factory;
     private BalanceDAO balanceDAO;
+    private TextView order_total;
 
     private SharedPreferences customerPref, locationPref;
     public static final String PREFERENCECUSTOMER = "CUSTOMER";
@@ -51,21 +59,21 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         order = (Order) bundle.get(PRODUCTS);
         ListView currentOrder = (ListView) findViewById(R.id.oco_OrdersList);
         TextView order_location = (TextView) findViewById(R.id.orderLocation);
-        TextView order_total = (TextView) findViewById(R.id.order_subtotal);
+        order_total = (TextView) findViewById(R.id.order_subtotal);
         hashSet = order.getHashProducts();
         orderedProducts.addAll(hashSet);
 
         factory = new SQLiteDAOFactory(getApplicationContext());
         balanceDAO = factory.createBalanceDAO();
-
         total = new ProductsTotal(getApplicationContext(), orderedProducts);
 
-        adapter = new CurrentOrderAdapter(getApplicationContext(), getLayoutInflater(), orderedProducts);
+        adapter = new CurrentOrderAdapter(this, getApplicationContext(), getLayoutInflater(), orderedProducts);
         currentOrder.setAdapter(adapter);
 
         order_location.setText(order.getLocation());
         order_total.setText(total.getPriceTotal());
 
+        orderTotalPrice = total.getPriceTotalDouble();
         //get location shared preferences
         locationPref = getSharedPreferences(PREFERENCELOCATION, Context.MODE_PRIVATE);
 
@@ -100,15 +108,21 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
 
     public void scanBtn(View view) {
 
-        //construct this order further
-        String getOrderNumberURL = "https://easypayserver.herokuapp.com/api/bestelling/check/available/ordernumber";
-        new CheckAvailableOrderNumberTask(this).execute(getOrderNumberURL);
+        if(orderTotalPrice ==0) {
+            Toasty.error(this, "Bestelling is leeg.", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        } else {
 
-        customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
-        order.setProducts(orderedProducts);
-        order.setCustomerId(customerPref.getInt("ID", 0));
-        order.setDate(new Date());
-        order.setStatus("WAITING");
+            //construct this order further
+            String getOrderNumberURL = "https://easypayserver.herokuapp.com/api/bestelling/check/available/ordernumber";
+            new CheckAvailableOrderNumberTask(this).execute(getOrderNumberURL);
+
+            customerPref = getSharedPreferences(PREFERENCECUSTOMER, Context.MODE_PRIVATE);
+            order.setProducts(orderedProducts);
+            order.setCustomerId(customerPref.getInt("ID", 0));
+            order.setDate(new Date());
+            order.setStatus("WAITING");
+        }
     }
 
     @Override
@@ -150,5 +164,32 @@ public class OverviewCurrentOrdersActivity extends AppCompatActivity implements 
         }
         return -1;
     }
-}
 
+    @Override
+    public void onTotalChangedHash(double priceTotal, int total, HashSet<Product> products) {
+        this.hashSet = products;
+        mergedHashSet.addAll(hashSet);
+        double totalPrice = 0;
+        Log.i("mergedProducts", "" + mergedHashSet.size());
+
+        Iterator<Product> iter = mergedHashSet.iterator();
+
+        while (iter.hasNext()) {
+            Product p = iter.next();
+
+            if (p.getAmount() == 0) {
+                iter.remove();
+            }
+        }
+
+        for (Product product : mergedHashSet) {
+            totalPrice += product.getProductPrice() * product.getAmount();
+        }
+        DecimalFormat df = new DecimalFormat("0.00##");
+        order_total.setText("Subtotaal: €" + df.format(totalPrice));
+        orderTotalPrice = totalPrice;
+        orderedProducts.clear();
+        orderedProducts.addAll(mergedHashSet);
+        adapter.notifyDataSetChanged();
+    }
+}
